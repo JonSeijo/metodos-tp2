@@ -1,6 +1,6 @@
 #include "MetodoPotencia.h"
 
-parAuto MetodoPotencia::obtenerDominante(Matriz &B, vector<double> x0, int iters) {
+parAutov MetodoPotencia::obtenerDominante(Matriz &B, vector<double> x0, int iters) {
     autovector v = x0;
     for (int i = 0; i < iters; i++) {
         vector<double> nv = B.multiplicarPorVector(v);

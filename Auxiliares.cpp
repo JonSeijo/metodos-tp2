@@ -1,5 +1,17 @@
 #include "Auxiliares.h"
 
+void debug(vector<double> &v, string texto) {
+    cout << texto << " ";
+    for (int i = 0; i < (int)v.size(); i++) {
+        cout << fixed << setprecision(8) << v[i] << " ";
+    }
+    cout << "\n";
+}
+
+void debug(double d, string texto) {
+    cout << texto << " " << d << "\n";
+}
+
 double productoPunto(const vector<double> &v1, const vector<double> &v2) {
     if (v1.size() != v2.size()) {
         cerr << "PRODUCTO PUNTO MAL DEFINIDO\n";

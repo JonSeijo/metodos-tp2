@@ -9,11 +9,11 @@ using namespace std;
 
 typedef double autovalor;
 typedef vector<double> autovector;
-typedef pair<autovalor, autovector> parAuto;
+typedef pair<autovalor, autovector> parAutov;
 
 class MetodoPotencia {
     public:
-        pair<autovalor, autovector> obtenerDominante(
+        parAutov obtenerDominante(
             Matriz &B, vector<double> x0, int iters
         );
 
