@@ -12,7 +12,13 @@ class Matriz {
         Matriz(int _cantFilas, int _cantCols);
         Matriz (vector<vector<double> > _m);
 
+        // Representa k* (v1 * v2^t)
+        Matriz(vector<double> v1, vector<double> v2, double k=1);
+
         vector<double> multiplicarPorVector(vector<double> x);
+
+        int cantFilas();
+        int cantCols();
 
     private:
         int filas, columnas;

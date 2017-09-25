@@ -17,6 +17,20 @@ Matriz::Matriz(vector<vector<double>> _m) {
     this->columnas = filas != 0 ? m[0].size() : 0;
 }
 
+// Representa k* (v1 * v2^t). k=1 por defecto.
+Matriz::Matriz(vector<double> v1, vector<double> v2, double k) {
+    this->filas = v1.size();
+    this->columnas = v2.size();
+    m.resize(this->filas, vector<double>(this->columnas));
+
+    for (int f = 0; f < filas; f++) {
+        for (int c = 0; c < columnas; c++) {
+            m[f][c] = k * v1[f] * v2[c];
+        }
+    }
+}
+
+
 // Devuelve un vector con el producto
 vector<double> Matriz::multiplicarPorVector(vector<double> x) {
     if (columnas != x.size()) {
@@ -34,4 +48,12 @@ vector<double> Matriz::multiplicarPorVector(vector<double> x) {
     }
 
     return rta;
+}
+
+int Matriz::cantCols() {
+    return columnas;
+}
+
+int Matriz::cantFilas() {
+    return filas;
 }
