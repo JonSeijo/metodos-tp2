@@ -40,8 +40,12 @@ vector<parAutov> MetodoPotencia::deflacion(Matriz B, int alpha) {
 
     // Implementacion de metodo de deflacion, devuelve alpha autovectores
     for (int i = 0; i < alpha; i++) {
-        parAutov autov_i = obtenerDominante(B, vectorAleatorio(tamMatriz, randomUniforme, gen));
-        rta[i] = autov_i;
+        rta[i] = obtenerDominante(B, vectorAleatorio(tamMatriz, randomUniforme, gen));
+
+        autovalor lambda_anterior = rta[i].first;
+        autovector v_anterior = rta[i].second;
+
+        B = B.resta( Matriz(v_anterior, v_anterior, lambda_anterior) );
     }
 
     return rta;

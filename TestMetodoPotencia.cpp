@@ -6,7 +6,7 @@ int main() {
     MetodoPotencia metodoPotencia;
 
     // Los autovalores son 4, 2, 1
-    // Los autovectores son (1, 0, -1), (1, -1, -1), (1, 0, -2)  (OJO, ESTOS SIN NORMALIZAR)
+    // Los autovectores (SIN NORMALLIZAR) son (1, 0, -1), (1, -1, -1), (1, 0, -2)
     Matriz matrizTest({
         {7, 2, 3},
         {0, 2, 0},
@@ -15,7 +15,10 @@ int main() {
 
     auto valores = metodoPotencia.deflacion(matrizTest, 3);
 
-    for (auto valor : valores) {
-        cout << valor.first << " ";
+    // Debug
+    cout << "autovalores:  ";
+    for (int i = 0; i < (int)valores.size(); i++) {
+        cout << valores[i].first << "  ";
     }
+    cout << "\n";
 }
