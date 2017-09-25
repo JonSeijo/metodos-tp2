@@ -1,5 +1,9 @@
+# Ejecutables
 metodoPotencia
 main
+
+# Tests
+pruebas/
 
 # Prerequisites
 *.d
