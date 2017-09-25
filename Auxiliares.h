@@ -17,5 +17,6 @@ double Norma2(const vector<double> &v);
 // Devuelve un nuevo vector multiplicado por la ce
 vector<double> multiplicarPorCte(const vector<double> &v, double cte);
 
+vector<double> vectorAleatorio(int tam, std::uniform_real_distribution<double> &distribucion, std::mt19937 &generador);
 
 #endif

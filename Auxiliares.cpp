@@ -38,3 +38,11 @@ vector<double> multiplicarPorCte(const vector<double> &v, double cte) {
     }
     return rta;
 }
+
+vector<double> vectorAleatorio(int tam, std::uniform_real_distribution<double> &distribucion, std::mt19937 &generador) {
+    vector<double> rta(tam);
+    for (int i = 0; i < tam; i++) {
+        rta[i] = distribucion(generador);
+    }
+    return rta;
+}
