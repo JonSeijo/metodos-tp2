@@ -30,6 +30,19 @@ Matriz::Matriz(vector<double> v1, vector<double> v2, double k) {
     }
 }
 
+Matriz Matriz::resta(Matriz m2) {
+    if (m2.cantFilas() != filas || m2.cantCols() != columnas) {
+        cerr << "ERROR - Matriz::resta: No puedo restas dos matrices de diferente tamaño\n";
+    }
+
+    Matriz mrta(filas, columnas);
+    for (int f = 0; f < filas; f++) {
+        for (int c = 0; c < columnas; c++) {
+            mrta.asignar(f, c, m[f][c] - m2.elemento(f, c));
+        }
+    }
+    return mrta;
+}
 
 // Devuelve un vector con el producto
 vector<double> Matriz::multiplicarPorVector(vector<double> x) {
@@ -48,6 +61,20 @@ vector<double> Matriz::multiplicarPorVector(vector<double> x) {
     }
 
     return rta;
+}
+
+double Matriz::elemento(int f, int c) {
+    if (f >= filas || c >= columnas) {
+        cerr << "ERROR: Matriz::elemento: no puedo acceder a elemento inexistente\n";
+    }
+    return m[f][c];
+}
+
+void Matriz::asignar(int f, int c, double valor) {
+    if (f >= filas || c >= columnas) {
+        cerr << "ERROR: Matriz::asignar: no puedo acceder a elemento inexistente\n";
+    }
+    m[f][c] = valor;
 }
 
 int Matriz::cantCols() {

@@ -17,6 +17,11 @@ class Matriz {
 
         vector<double> multiplicarPorVector(vector<double> x);
 
+        Matriz resta(Matriz m2);
+
+        double elemento(int f, int c);
+        void asignar(int f, int c, double valor);
+
         int cantFilas();
         int cantCols();
 
