@@ -1,8 +1,45 @@
 #include "ImageHandler.h"
 
-ImageHandler::ImageHandler(string _path) {
-    pathToFile = _path;
-    cout << "path: " <<  pathToFile << "\n";
+// 784 pixels por defecto
+ImageHandler::ImageHandler(string _filePath, int pixels) {
+    pathToFile = _filePath;
+    ifstream file(_filePath);
+
+    // El header no me interesa
+    string header;
+    getline(file, header);
+
+    cantImagenes = 0;
+
+    while (file.good()) {
+
+        // Guardo el label correspondiente
+        string label;
+        getline(file, label, ',');
+
+        // Importante para terminar bien las iteraciones
+        if (label.size() == 0) {
+            break;
+        }
+
+        labels.push_back(stoi(label));
+
+        string lineaDato;
+        vector<double> imagen(pixels, 0);
+
+        string dato;
+        for (int p = 0; p < pixels-1; p++) {
+            getline(file, dato, ',');
+            imagen[p] = stoi(dato);
+        }
+        // Ultimo pixel aparte pues csv no termina con ','
+        getline(file, dato, '\n');
+        imagen[pixels-1] = stoi(dato);
+
+        imagenes.push_back(imagen);
+        cantImagenes++;
+        // cout << "Cargando imagen: " << cantImagenes << "\n";
+    }
 }
 
 vector<double> ImageHandler::getImagen(int i) {
