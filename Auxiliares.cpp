@@ -1,9 +1,9 @@
 #include "Auxiliares.h"
 
-void debug(vector<double> &v, string texto) {
+void debug(vector<double> &v, string texto, int precision) {
     cout << texto << " ";
     for (int i = 0; i < (int)v.size(); i++) {
-        cout << fixed << setprecision(8) << v[i] << " ";
+        cout << fixed << setprecision(precision) << v[i] << " ";
     }
     cout << "\n";
 }

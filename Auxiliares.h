@@ -7,7 +7,7 @@ using namespace std;
 
 const double EPSILON = 1e-9;
 
-void debug(vector<double> &v, string texto="");
+void debug(vector<double> &v, string texto="", int precision=8);
 void debug(double d, string texto="");
 
 double productoPunto(const vector<double> &v1, const vector<double> &v2);

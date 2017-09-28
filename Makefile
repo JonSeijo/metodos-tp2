@@ -5,8 +5,8 @@ all: main
 main:
 	g++ -std=c++11 Main.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp Covarianza.cpp -o main
 
-test_image_handler:
-	g++ -std=c++11 TestImageLoad.cpp ImageHandler.cpp -o test_image_handler
+test_image_handler: TestImageLoad.cpp ImageHandler.cpp ImageHandler.h Auxiliares.cpp Auxiliares.h
+	g++ -std=c++11 TestImageLoad.cpp ImageHandler.cpp Auxiliares.cpp -o test_image_handler
 
 test_potencia:
 	g++ -std=c++11 TestMetodoPotencia.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o metodoPotencia
