@@ -55,3 +55,14 @@ int ImageHandler::getLabel(int i) {
     }
     return this->labels[i];
 }
+
+void ImageHandler::printImage(int i) {
+    vector<double> imagen = getImagen(i);
+    cout << "\n\n\nLabel: " << getLabel(i) << "\n";
+    for (int i = 0; i < 28; i++) {
+        for (int j = 0; j < 28; j++) {
+            cout << (imagen[j + 28*i] != 0 ? "1" : " ") << " ";
+        }
+        cout << "\n";
+    }
+}
