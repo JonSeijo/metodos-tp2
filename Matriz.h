@@ -28,6 +28,33 @@ class Matriz {
     private:
         int filas, columnas;
         vector<vector<double> > m;
+
+        void mostrar(std::ostream& os) const{
+            os << std::endl;
+            if(filas == 0 || columnas == 0){
+                os << "[]" << std::endl;
+                return;
+            }
+
+            for(int i = 0; i < filas; i++){
+                for(int j = 0; j < columnas; j++){
+                    os << (m[i][j] >= 0 ? " " : "");
+                    //os << std::fixed << std::setprecision(4) << m[i][j] << " ";
+                    if (m[i][j] == 0) {
+                        os << "   ";
+                    } else {
+                        os << std::fixed << std::setprecision(4) << m[i][j] << (m[i][j] > 9 ? " " : "  " );
+                    }
+                }
+                os << std::endl;
+            }
+            os << std::endl;
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const Matriz &c){
+            c.mostrar(os);
+            return os;
+        };
 };
 
 #endif

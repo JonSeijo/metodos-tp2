@@ -40,7 +40,7 @@ private:
 
 
 
-}
+};
 
 
 #endif /* KNN_H_ */
