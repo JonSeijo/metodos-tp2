@@ -1,3 +1,11 @@
+# Ejecutables
+test_image_handler
+metodoPotencia
+main
+
+# Tests
+pruebas/
+
 # Prerequisites
 *.d
 
