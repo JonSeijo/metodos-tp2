@@ -34,13 +34,13 @@ private:
 	vector<int> groups_; //lista de grupos, groups[i] tiene el grupo al que pertenece la imagen i.
 	vector<vector<double> > images_; //lista de vectores de R^m.
 
-	bool comp (const imageDiff &i,const imageDiff &j) { return (i.diff<j.diff); }
+
 
 	double getDifference(const vector<double> &a,const vector<double> &b);
 
 
 
-}
+};
 
 
 #endif /* KNN_H_ */

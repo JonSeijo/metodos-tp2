@@ -31,6 +31,7 @@
 		return x;
 	}
 
+	bool comp (const imageDiff &i,const imageDiff &j) { return (i.diff<j.diff); }
 
 	int KNN::getGroupOf(vector<double> &image, int k){
 
@@ -52,22 +53,11 @@
 		//Creo el vector de grupos, se que son 10, del 0 al 9.
 		vector<int> groups(10,0);
 
-		cout<<"Grupos iniciales"<<endl;
-		for(int i=0;i<10;i++){
-			cout<<groups[i]<<", ";
-		}
-		cout<<endl;
-		cout<<"Conteo de grupos"<<endl;
-
 		//Cuento la cantidad de incidencias de cada grupo en los K mas cercanos
 		for(int i=0; i<k ; i++){
 			groups[differences[i].group]++;
 		}
 
-		for(int i=0;i<10;i++){
-			cout<<groups[i]<<", ";
-		}
-		cout<<endl;
 		//Busco el grupo que mas incidencia tubo en los primeros K.
 		int bestGroup;
 		for(int i=0;i<groups.size();i++){
