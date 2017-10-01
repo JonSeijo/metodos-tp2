@@ -1,9 +1,10 @@
 all: main
 
-
-#kNN no compila, arreglar eso y después meter kNN.cpp acá abajo
-main:
+main: Main.cpp MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h Covarianza.cpp Covarianza.h
 	g++ -std=c++11 Main.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp Covarianza.cpp -o main
+
+knn_test: kNNTest.cpp kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h
+	g++ -std=c++11 kNNTest.cpp kNN.cpp ImageHandler.cpp -O2 -o knn_test
 
 test_image_handler: TestImageLoad.cpp ImageHandler.cpp ImageHandler.h Auxiliares.cpp Auxiliares.h
 	g++ -std=c++11 TestImageLoad.cpp ImageHandler.cpp Auxiliares.cpp -o test_image_handler
@@ -16,4 +17,4 @@ test_cov:
 
 clean:
 	rm -f *.o
-	rm -f metodoPotencia cov main test_image_handler
+	rm -f metodoPotencia cov main test_image_handler knn_test
