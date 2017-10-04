@@ -1,7 +1,7 @@
 #include "ImageHandler.h"
 
 // 784 pixels por defecto
-ImageHandler::ImageHandler(string _filePath, int pixels) {
+ImageHandler::ImageHandler(string _filePath, bool training, int pixels) {
     pathToFile = _filePath;
     ifstream file(_filePath);
 
@@ -13,25 +13,39 @@ ImageHandler::ImageHandler(string _filePath, int pixels) {
 
     while (file.good()) {
 
-        // Guardo el label correspondiente
-        string label;
-        getline(file, label, ',');
+        if (training) {
+            // Guardo el label correspondiente
+            string label;
+            getline(file, label, ',');
 
-        // Importante para terminar bien las iteraciones
-        if (label.size() == 0) {
-            break;
+            // Importante para terminar bien las iteraciones
+            if (label.size() == 0) {
+                break;
+            }
+            labels.push_back(stoi(label));
         }
-
-        labels.push_back(stoi(label));
 
         string lineaDato;
         vector<double> imagen(pixels, 0);
 
+        bool salir = false;
         string dato;
         for (int p = 0; p < pixels-1; p++) {
             getline(file, dato, ',');
+
+            // Importante para terminar las iteraciones
+            if (dato.size() == 0) {
+                salir = true;
+                break;
+            }
+
             imagen[p] = stoi(dato);
         }
+
+        if (salir) {
+            break;
+        }
+
         // Ultimo pixel aparte pues csv no termina con ','
         getline(file, dato, '\n');
         imagen[pixels-1] = stoi(dato);
