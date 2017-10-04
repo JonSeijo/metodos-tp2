@@ -10,6 +10,8 @@ using std::ifstream;
 using std::cout;
 using std::endl;
 using std::map;
+using std::pair;
+using std::priority_queue;
 
 typedef struct {
 	int group;
@@ -25,8 +27,8 @@ public:
 
 	void train(vector<int> groups, vector<vector<double> > images);
 
-	vector<int> getGroups();
-	vector<vector<double> > getImages();
+	const vector<int> &getGroups();
+	const vector<vector<double> > &getImages();
 
 	int getGroupOf(vector<double>&, int);
 
@@ -34,13 +36,7 @@ private:
 	vector<int> groups_; //lista de grupos, groups[i] tiene el grupo al que pertenece la imagen i.
 	vector<vector<double> > images_; //lista de vectores de R^m.
 
-
-
 	double getDifference(const vector<double> &a,const vector<double> &b);
-
-
-
 };
-
 
 #endif /* KNN_H_ */
