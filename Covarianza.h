@@ -12,20 +12,20 @@ class MatrizCovarianza{
 
 	public:
         // Vector de vectores que se pasa por referencia, se puede cambiar.
-        MatrizCovarianza(vector<vector<double> >& v);
+        MatrizCovarianza(Matriz &v);
 
         //Devuelve V traspuesta (LOS AUTOVECTORES ESTÁN COMO FILAS)y un vector de los autovalores que irían en la diagonal, eso no se si es
         //necesario, podría sacarse
         pair<Matriz, vector<autovalor> > Diagonalizar(int alpha);
 
-    private:
         Matriz cov;
+    private:
 
-        vector<double> calcularMedia(vector<vector<double> >& v);
+        vector<double> calcularMedia(Matriz &v);
         vector<double> media;
 
-        void restarMedia(vector<vector<double> >& v);
-        Matriz producto_traspuesta_orig(vector<vector<double> >& v);
+        void restarMedia(Matriz &v);
+        Matriz producto_traspuesta_orig(Matriz &v);
 
         friend std::ostream& operator<<(std::ostream& os, const MatrizCovarianza &c){
             c.mostrar(os);

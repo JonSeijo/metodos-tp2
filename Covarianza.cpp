@@ -3,8 +3,10 @@
 
 
 
-MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
-    if(v.size() == 0 || v[0].size() == 0) {
+// MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
+MatrizCovarianza::MatrizCovarianza(Matriz& datos) {
+    // if(v.size() == 0 || v[0].size() == 0) {
+    if(datos.cantFilas() == 0 || datos.cantCols() == 0) {
         throw std::runtime_error("Constructor covarianza: Vector no valido");
     }
 /*
@@ -14,62 +16,86 @@ MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
         }
     }
 */
-    this-> media = calcularMedia(v);
+    this-> media = calcularMedia(datos);
 
-    //El vector de vectores se modifica y en cada posición se le resta la media correspondiente
-    restarMedia(v);
-    cov = producto_traspuesta_orig(v);
+    // La matriz se modifica y en cada posición se le resta la media correspondiente
+    this->restarMedia(datos);
+
+    this->cov = producto_traspuesta_orig(datos);
 }
 
-vector<double> MatrizCovarianza::calcularMedia(vector<vector<double> >& v){
-	vector<double> sumaTemporal(v[0].size());
 
-	//Sumo todas las columnas
-	for(int j = 0; j < (int)v[0].size(); j++){
-		sumaTemporal[j] = v[0][j];
-	}
+vector<double> MatrizCovarianza::calcularMedia(Matriz &v){
+	// vector<double> sumaTemporal(v[0].size(), 0);
+	vector<double> sumaTemporal(v.cantCols(), 0);
 
-	for(int i = 1; i < (int)v.size(); i++){
-		for(int j = 0; j < (int)v.size(); j++){
-			sumaTemporal[j] += v[i][j];
+	for(int i = 0; i < v.cantFilas(); i++){
+		for(int j = 0; j < v.cantCols(); j++){
+			sumaTemporal[j] += v.elemento(i, j);
 		}
 	}
 	//Divido por cantidad de filas (datos) y devuelvo
-	dividirPorCte(sumaTemporal, (double)v.size());
+	dividirPorCte(sumaTemporal, (double)v.cantFilas());
 	return sumaTemporal;
 }
 
-void MatrizCovarianza::restarMedia(vector<vector<double> >& v){
+
+void MatrizCovarianza::restarMedia(Matriz &v){
 	//Resto la media que le corresponde a cada columna
-	for(int i = 0; i < (int)v.size(); i++){
-		for(int j = 0; j < (int)v[0].size(); j++){
-			v[i][j] -= this->media[j];
+	for(int i = 0; i < v.cantFilas(); i++){
+		for(int j = 0; j < v.cantCols(); j++){
+			v.asignar(i, j, v.elemento(i, j) - this->media[j]);
 		}
 	}
 }
 
-Matriz MatrizCovarianza::producto_traspuesta_orig(vector<vector<double> >& v){
-	Matriz result = Matriz(v[0].size(), v[0].size());
+
+Matriz MatrizCovarianza::producto_traspuesta_orig(Matriz &v){
+
+	int tam = v.cantCols();
+	Matriz result(tam, tam);
+
 	//Para no tener que copiar, trasponer y demás hago un producto interno
 	//entre todas las columnas de la matriz original
 	// ((A^t)*A)(i,j) = <Columna_i(A), Columna_j(A)>
 	//Como se que el resultado va a ser una matriz simétrica, calculo de la diagonal para abajo
 	// y después copio el resto
-	for(unsigned int i = 0; i < v[0].size(); i++){
-		for(unsigned int j = 0; j <= i; j++){
-			//Recorrer por columnas hace llorar a la caché
-			result.asignar(i, j, v[0][i] * v[0][j]);
-			for(unsigned int k = 1; k < v.size(); k++){
-				result.asignar(i, j, result.elemento(i, j) + v[k][i] * v[k][j]);
+
+
+
+	//	TENGAN FE CIEGA, LO DE ABAJO HACE LO MISMO PERO ES EL DOBLE DE EFICIENTE
+
+	// for(int i = 0; i < v.cantCols(); i++){
+	// 	// cout << "i: " << i << "\n";
+	// 	for(int j = 0; j <= i; j++){
+	// 		//Recorrer por columnas hace llorar a la caché
+	// 		result.asignar(i, j, v.elemento(0, i) * v.elemento(0, j));
+	// 		for(int k = 1; k < v.cantFilas(); k++){
+	// 			result.asignar(i, j, result.elemento(i, j) + v.elemento(k, i) * v.elemento(k, j));
+	// 		}
+	// 		//divido por n-1 a cada elemento
+	// 		result.asignar(i, j, result.elemento(i, j)/(double)(v.cantFilas()-1));
+	// 	}
+	// }
+
+
+	// Trasponer y hacerlo de esta manera resulta el doble de eficiente por magia de caché.
+	// El costo del trasponer inicial se amortiza enseguida.
+	Matriz tras = v.traspuesta();
+	for(int i = 0; i < tras.cantFilas(); i++) {
+		for(int j = i; j < tras.cantFilas(); j++) {
+			for(int k = 0; k < tras.cantCols(); k++) {
+				result.asignar(i, j, result.elemento(i, j) + tras.elemento(i, k) * tras.elemento(j, k));
 			}
 			//divido por n-1 a cada elemento
-			result.asignar(i, j, result.elemento(i, j)/(float)(v.size()-1));
+			result.asignar(i, j, result.elemento(i, j)/(double)(v.cantFilas()-1));
 		}
 	}
-	//Copia de los elementos arriba de la diagonal
-	for(unsigned int i = 0; i < result.cantFilas(); i++){
-		for(unsigned int j = 0; j < i; j++){
-			result.asignar(j, i, result.elemento(i, j));
+
+	// Copia de los elementos arriba de la diagonal
+	for(int i = 0; i < result.cantFilas(); i++){
+		for(int j = 0; j < i; j++){
+			result.asignar(i, j, result.elemento(j, i));
 		}
 	}
 
@@ -93,7 +119,5 @@ pair<Matriz, vector<autovalor> > MatrizCovarianza::Diagonalizar(int alpha){
 	}
 
 	return make_pair(Matriz(Vect), D);
-
-
 }
 
