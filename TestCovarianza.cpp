@@ -6,14 +6,18 @@ int main(){
 	vector<double> v3 = {2, 3};
 	//vector<double> v4 = {0, 1};
 
-	vector<vector<double> > v = {v1, v2, v3};
+	Matriz v({
+		v1,
+		v2,
+		v3
+	});
 
 	MatrizCovarianza MX = MatrizCovarianza(v);
+	cout << MX.cov << "\n";
+
 	pair<Matriz, vector<autovalor> > p = MX.Diagonalizar(2);
 
 	std::cout << "Matriz V:" << std::endl;
-
-
 	std::cout << p.first << std::endl;
 
 	std::cout << "Vector diag:\n" << std::endl;
@@ -27,12 +31,6 @@ int main(){
 		}
 	}
 	std::cout << std::endl;
-
-
-
-
-
-
 
 	return 0;
 }

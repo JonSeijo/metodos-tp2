@@ -8,7 +8,7 @@ Matriz::Matriz() {
 Matriz::Matriz(int _cantFilas, int _cantCols) {
     this->filas = _cantFilas;
     this->columnas = _cantCols;
-    this->m = vector<vector<double> > (_cantFilas, vector<double> (_cantCols, 0));
+    this->m.resize(_cantFilas, vector<double> (_cantCols, 0));
 }
 
 Matriz::Matriz(vector<vector<double>> _m) {
@@ -45,7 +45,7 @@ Matriz Matriz::resta(Matriz m2) {
 }
 
 // Devuelve un vector con el producto
-vector<double> Matriz::multiplicarPorVector(vector<double> x) {
+vector<double> Matriz::multiplicarPorVector(const vector<double> &x) {
     if (columnas != x.size()) {
         cerr << "MALAS DIMENSIONES: PRODUCTO POR VECTOR INDEFINIDO\n";
     }
@@ -65,7 +65,9 @@ vector<double> Matriz::multiplicarPorVector(vector<double> x) {
 
 double Matriz::elemento(int f, int c) {
     if (f >= filas || c >= columnas) {
-        cerr << "ERROR: Matriz::elemento: no puedo acceder a elemento inexistente\n";
+        cerr << "ERROR: Matriz::elemento: no puedo acceder a elemento inexistente:  " << f << " " << c << "\n";
+        cerr << "Mi tamaño es:  " << filas << " " << columnas << "\n";
+        exit (EXIT_FAILURE);
     }
     return m[f][c];
 }
@@ -73,9 +75,23 @@ double Matriz::elemento(int f, int c) {
 void Matriz::asignar(int f, int c, double valor) {
     if (f >= filas || c >= columnas) {
         cerr << "ERROR: Matriz::asignar: no puedo acceder a elemento inexistente\n";
+        cerr << "Mi tamaño es:  " << filas << " " << columnas << "\n";
+        exit (EXIT_FAILURE);
     }
     m[f][c] = valor;
 }
+
+//La matriz original se mantiene, y retorna otra (que es la traspuesta de la original)
+Matriz Matriz::traspuesta() {
+    vector<vector<double> > coeficientes(columnas, vector<double>(filas, 0));
+    for(int c = 0; c < columnas; c++){
+        for(int f = 0; f < filas; f++){
+            coeficientes[c][f] = this->m[f][c];
+        }
+    }
+    return Matriz(coeficientes);
+}
+
 
 int Matriz::cantCols() {
     return columnas;

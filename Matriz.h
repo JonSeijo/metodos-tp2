@@ -15,9 +15,10 @@ class Matriz {
         // Representa k* (v1 * v2^t)
         Matriz(vector<double> v1, vector<double> v2, double k=1);
 
-        vector<double> multiplicarPorVector(vector<double> x);
+        vector<double> multiplicarPorVector(const vector<double> &x);
 
         Matriz resta(Matriz m2);
+        Matriz traspuesta();
 
         double elemento(int f, int c);
         void asignar(int f, int c, double valor);
@@ -38,13 +39,13 @@ class Matriz {
 
             for(int i = 0; i < filas; i++){
                 for(int j = 0; j < columnas; j++){
-                    os << (m[i][j] >= 0 ? " " : "");
+                    // os << (m[i][j] >= 0 ? " " : "");
                     //os << std::fixed << std::setprecision(4) << m[i][j] << " ";
-                    if (m[i][j] == 0) {
-                        os << "   ";
-                    } else {
+                    // if (m[i][j] == 0) {
+                        // os << "   ";
+                    // } else {
                         os << std::fixed << std::setprecision(4) << m[i][j] << (m[i][j] > 9 ? " " : "  " );
-                    }
+                    // }
                 }
                 os << std::endl;
             }
