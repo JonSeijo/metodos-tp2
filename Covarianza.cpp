@@ -2,6 +2,25 @@
 #include "MetodoPotencia.h"
 
 
+
+MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
+    if(v.size() == 0 || v[0].size() == 0) {
+        throw std::runtime_error("Constructor covarianza: Vector no valido");
+    }
+/*
+    for(unsigned int i = 0; i < v.size(); i++){
+        if(v[i].size() != v[0].size()){
+            throw std::runtime_error("Sub-vectores de distintos tamanios");
+        }
+    }
+*/
+    this-> media = calcularMedia(v);
+
+    //El vector de vectores se modifica y en cada posición se le resta la media correspondiente
+    restarMedia(v);
+    cov = producto_traspuesta_orig(v);
+}
+
 vector<double> MatrizCovarianza::media(vector<vector<double> >& v){
 	vector<double> sumaTemporal(v[0].size());
 	

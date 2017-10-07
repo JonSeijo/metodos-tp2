@@ -12,21 +12,7 @@ class MatrizCovarianza{
 
 	public:
         // Vector de vectores que se pasa por referencia, se puede cambiar.
-        MatrizCovarianza(vector<vector<double> >& v){
-            if(v.size() == 0 || v[0].size() == 0){
-                throw std::runtime_error("Constructor covarianza: Vector no valido");
-            }
-     /*
-            for(unsigned int i = 0; i < v.size(); i++){
-                if(v[i].size() != v[0].size()){
-                    throw std::runtime_error("Sub-vectores de distintos tamanios");
-                }
-            }
-     */  
-            //El vector de vectores se modifica y en cada posición se le resta la media correspondiente
-            restarMedia(v);
-            cov = producto_traspuesta_orig(v);
-        };
+        MatrizCovarianza(vector<vector<double> >& v);
 
         //Devuelve V traspuesta (LOS AUTOVECTORES ESTÁN COMO FILAS)y un vector de los autovalores que irían en la diagonal, eso no se si es
         //necesario, podría sacarse
