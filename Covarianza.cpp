@@ -3,23 +3,23 @@
 
 // MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
 MatrizCovarianza::MatrizCovarianza(Matriz& datos) {
-    // if(v.size() == 0 || v[0].size() == 0) {
-    if(datos.cantFilas() == 0 || datos.cantCols() == 0) {
-        throw std::runtime_error("Constructor covarianza: Vector no valido");
-    }
+	// if(v.size() == 0 || v[0].size() == 0) {
+	if(datos.cantFilas() == 0 || datos.cantCols() == 0) {
+		throw std::runtime_error("Constructor covarianza: Vector no valido");
+	}
 /*
-    for(unsigned int i = 0; i < v.size(); i++){
-        if(v[i].size() != v[0].size()){
-            throw std::runtime_error("Sub-vectores de distintos tamanios");
-        }
-    }
+	for(unsigned int i = 0; i < v.size(); i++){
+		if(v[i].size() != v[0].size()){
+			throw std::runtime_error("Sub-vectores de distintos tamanios");
+		}
+	}
 */
-    this-> media = calcularMedia(datos);
+	this-> media = calcularMedia(datos);
 
-    // La matriz se modifica y en cada posición se le resta la media correspondiente
-    this->restarMedia(datos);
+	// La matriz se modifica y en cada posición se le resta la media correspondiente
+	this->restarMedia(datos);
 
-    this->cov = producto_traspuesta_orig(datos);
+	this->cov = producto_traspuesta_orig(datos);
 }
 
 
@@ -61,21 +61,21 @@ Matriz MatrizCovarianza::producto_traspuesta_orig(Matriz &v){
 
 
 
-	//	TENGAN FE CIEGA, LO DE ABAJO HACE LO MISMO PERO ES EL DOBLE DE EFICIENTE
-
-	// for(int i = 0; i < v.cantCols(); i++){
-	// 	// cout << "i: " << i << "\n";
-	// 	for(int j = 0; j <= i; j++){
-	// 		//Recorrer por columnas hace llorar a la caché
-	// 		result.asignar(i, j, v.elemento(0, i) * v.elemento(0, j));
-	// 		for(int k = 1; k < v.cantFilas(); k++){
-	// 			result.asignar(i, j, result.elemento(i, j) + v.elemento(k, i) * v.elemento(k, j));
-	// 		}
-	// 		//divido por n-1 a cada elemento
-	// 		result.asignar(i, j, result.elemento(i, j)/(double)(v.cantFilas()-1));
-	// 	}
-	// }
-
+	//  TENGAN FE CIEGA, LO DE ABAJO HACE LO MISMO PERO ES EL DOBLE DE EFICIENTE
+	/*
+	for(int i = 0; i < v.cantCols(); i++){
+	 // cout << "i: " << i << "\n";
+	 for(int j = 0; j <= i; j++){
+		 //Recorrer por columnas hace llorar a la caché
+		 result.asignar(i, j, v.elemento(0, i) * v.elemento(0, j));
+		 for(int k = 1; k < v.cantFilas(); k++){
+			 result.asignar(i, j, result.elemento(i, j) + v.elemento(k, i) * v.elemento(k, j));
+		 }
+		 //divido por n-1 a cada elemento
+		 result.asignar(i, j, result.elemento(i, j)/(double)(v.cantFilas()-1));
+	 }
+	}
+	*/
 
 	// Trasponer y hacerlo de esta manera resulta el doble de eficiente por magia de caché.
 	// El costo del trasponer inicial se amortiza enseguida.
@@ -85,22 +85,14 @@ Matriz MatrizCovarianza::producto_traspuesta_orig(Matriz &v){
 
 	for(int i = 0; i < cantTrasFilas; i++) {
 		for(int j = i; j < cantTrasFilas; j++) {
-
 			double prodFila = 0;
-
 			for(int k = 0; k < cantTrasCols; k++) {
-				// prodFila += tras.elemento(i, k) * tras.elemento(j, k);
 				prodFila += tras.m[i][k] * tras.m[j][k];
 			}
 			//divido por n-1 a cada elemento
 			prodFila /= (double)(v.cantFilas()-1);
-
-			// result.asignar(i, j, prodFila);
 			result.m[i][j] = prodFila;
-
-			// Simetria
-			// result.asignar(j, i, prodFila);
-			result.m[j][i] = prodFila;
+			result.m[j][i] = prodFila; // Simetria
 		}
 	}
 
