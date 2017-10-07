@@ -63,6 +63,20 @@ vector<double> Matriz::multiplicarPorVector(const vector<double> &x) {
     return rta;
 }
 
+void Matriz::multiplicarPorVector(const vector<double> &x, vector<double> &rta) {
+    if (columnas != x.size() || filas != rta.size()) {
+        cerr << "MALAS DIMENSIONES: PRODUCTO POR VECTOR INDEFINIDO\n";
+        cerr << "rta.size: " << rta.size() << "\n";
+    }
+    for (int f = 0; f < filas; f++) {
+        double suma = 0;
+        for (int i = 0; i < columnas; i++) {
+            suma += m[f][i] * x[i];
+        }
+        rta[f] = suma;
+    }
+}
+
 double Matriz::elemento(int f, int c) {
     if (f >= filas || c >= columnas) {
         cerr << "ERROR: Matriz::elemento: no puedo acceder a elemento inexistente:  " << f << " " << c << "\n";

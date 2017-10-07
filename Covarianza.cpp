@@ -1,8 +1,6 @@
 #include "Covarianza.h"
 #include "MetodoPotencia.h"
 
-
-
 // MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
 MatrizCovarianza::MatrizCovarianza(Matriz& datos) {
     // if(v.size() == 0 || v[0].size() == 0) {
@@ -82,20 +80,27 @@ Matriz MatrizCovarianza::producto_traspuesta_orig(Matriz &v){
 	// Trasponer y hacerlo de esta manera resulta el doble de eficiente por magia de caché.
 	// El costo del trasponer inicial se amortiza enseguida.
 	Matriz tras = v.traspuesta();
-	for(int i = 0; i < tras.cantFilas(); i++) {
-		for(int j = i; j < tras.cantFilas(); j++) {
-			for(int k = 0; k < tras.cantCols(); k++) {
-				result.asignar(i, j, result.elemento(i, j) + tras.elemento(i, k) * tras.elemento(j, k));
+	int cantTrasCols = tras.cantCols();
+	int cantTrasFilas = tras.cantFilas();
+
+	for(int i = 0; i < cantTrasFilas; i++) {
+		for(int j = i; j < cantTrasFilas; j++) {
+
+			double prodFila = 0;
+
+			for(int k = 0; k < cantTrasCols; k++) {
+				// prodFila += tras.elemento(i, k) * tras.elemento(j, k);
+				prodFila += tras.m[i][k] * tras.m[j][k];
 			}
 			//divido por n-1 a cada elemento
-			result.asignar(i, j, result.elemento(i, j)/(double)(v.cantFilas()-1));
-		}
-	}
+			prodFila /= (double)(v.cantFilas()-1);
 
-	// Copia de los elementos arriba de la diagonal
-	for(int i = 0; i < result.cantFilas(); i++){
-		for(int j = 0; j < i; j++){
-			result.asignar(i, j, result.elemento(j, i));
+			// result.asignar(i, j, prodFila);
+			result.m[i][j] = prodFila;
+
+			// Simetria
+			// result.asignar(j, i, prodFila);
+			result.m[j][i] = prodFila;
 		}
 	}
 

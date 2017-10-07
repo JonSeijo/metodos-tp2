@@ -16,6 +16,7 @@ class Matriz {
         Matriz(vector<double> v1, vector<double> v2, double k=1);
 
         vector<double> multiplicarPorVector(const vector<double> &x);
+        void multiplicarPorVector(const vector<double> &x, vector<double> &rta);
 
         Matriz resta(Matriz m2);
         Matriz traspuesta();
@@ -26,9 +27,10 @@ class Matriz {
         int cantFilas();
         int cantCols();
 
+        vector<vector<double> > m;
+
     private:
         int filas, columnas;
-        vector<vector<double> > m;
 
         void mostrar(std::ostream& os) const{
             os << std::endl;
