@@ -1,7 +1,7 @@
 all: main
 
-main: Main.cpp MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h Covarianza.cpp Covarianza.h
-	g++ -std=c++11 Main.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp Covarianza.cpp -o main
+main: Main.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
+	g++ -std=c++11 Main.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o main
 
 knn_test: kNNTest.cpp kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h
 	g++ -std=c++11 kNNTest.cpp kNN.cpp ImageHandler.cpp -O2 -o knn_test
