@@ -21,31 +21,29 @@ MatrizCovarianza::MatrizCovarianza(vector<vector<double> >& v) {
     cov = producto_traspuesta_orig(v);
 }
 
-vector<double> MatrizCovarianza::media(vector<vector<double> >& v){
+vector<double> MatrizCovarianza::calcularMedia(vector<vector<double> >& v){
 	vector<double> sumaTemporal(v[0].size());
-	
+
 	//Sumo todas las columnas
-	for(unsigned int j = 0; j < v[0].size(); j++){
+	for(int j = 0; j < (int)v[0].size(); j++){
 		sumaTemporal[j] = v[0][j];
 	}
 
-	for(unsigned int i = 1; i < v.size(); i++){
-		for(unsigned int j = 0; j < v.size(); j++){
+	for(int i = 1; i < (int)v.size(); i++){
+		for(int j = 0; j < (int)v.size(); j++){
 			sumaTemporal[j] += v[i][j];
 		}
 	}
 	//Divido por cantidad de filas (datos) y devuelvo
-	dividirPorCte(sumaTemporal, (float)v.size());
+	dividirPorCte(sumaTemporal, (double)v.size());
 	return sumaTemporal;
 }
 
 void MatrizCovarianza::restarMedia(vector<vector<double> >& v){
-	vector<double> med = this->media(v);
-
 	//Resto la media que le corresponde a cada columna
-	for(unsigned int i = 0; i < v.size(); i++){
-		for(unsigned int j = 0; j < v[0].size(); j++){
-			v[i][j] -= med[j];
+	for(int i = 0; i < (int)v.size(); i++){
+		for(int j = 0; j < (int)v[0].size(); j++){
+			v[i][j] -= this->media[j];
 		}
 	}
 }
@@ -55,7 +53,7 @@ Matriz MatrizCovarianza::producto_traspuesta_orig(vector<vector<double> >& v){
 	//Para no tener que copiar, trasponer y demás hago un producto interno
 	//entre todas las columnas de la matriz original
 	// ((A^t)*A)(i,j) = <Columna_i(A), Columna_j(A)>
-	//Como se que el resultado va a ser una matriz simétrica, calculo de la diagonal para abajo 
+	//Como se que el resultado va a ser una matriz simétrica, calculo de la diagonal para abajo
 	// y después copio el resto
 	for(unsigned int i = 0; i < v[0].size(); i++){
 		for(unsigned int j = 0; j <= i; j++){

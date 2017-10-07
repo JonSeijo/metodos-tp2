@@ -18,12 +18,12 @@ class MatrizCovarianza{
         //necesario, podría sacarse
         pair<Matriz, vector<autovalor> > Diagonalizar(int alpha);
 
-
-
     private:
         Matriz cov;
 
-        vector<double> media(vector<vector<double> >& v);
+        vector<double> calcularMedia(vector<vector<double> >& v);
+        vector<double> media;
+
         void restarMedia(vector<vector<double> >& v);
         Matriz producto_traspuesta_orig(vector<vector<double> >& v);
 
