@@ -6,7 +6,7 @@ PSA::PSA(Matriz &X, int alpha) {
 
     tam = X.cantFilas();
 
-    cout << "PSA: Empezando a calcular la matriz de covarianza..\n";
+    cout << "PSA: Calculando la matriz de covarianza..\n";
     MatrizCovarianza MX(X);
 
     media = MX.media;

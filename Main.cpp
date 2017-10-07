@@ -46,4 +46,58 @@ int main() {
     }
 
 
+    for (int foldATestear = 0; foldATestear < K_kfold; foldATestear++) {
+        //  foldATestear será el fold a testear (increible), el resto se entrena.
+
+        // Junto todos los datos que voy a utilizar para entrenar, excepto foldATestear
+        vector<int> labelsDato;
+        vector<imagen> imagenesDato;
+        int cantImagenesEntrenamiento = 0;
+
+        for (int f = 0; f < K_kfold; f++) {
+            if (f == foldATestear) {
+                continue;
+            }
+
+            for (int j = 0; j < (int)folds_imagenes[f].size(); j++) {
+                imagenesDato.push_back(folds_imagenes[f][j]);
+                labelsDato.push_back(folds_labels[f][j]);
+                cantImagenesEntrenamiento++;
+            }
+        }
+
+        // Ya tengo los datos del fold listos para entrenarlos con el metodo elegido
+        Matriz matrizDatos(imagenesDato);
+        PSA psa(matrizDatos, alpha);
+
+        vector<vector<double> > datosConvertidos(cantImagenesEntrenamiento, vector<double>(alpha, 0));
+
+        cout << "Aplicando transformaciones a los datos..\n";
+        for (int i = 0; i < (int)imagenesDato.size(); i++) {
+            psa.Transformar(imagenesDato[i], datosConvertidos[i]);
+        }
+
+        KNN knnador;
+        knnador.train(labelsDato, datosConvertidos);
+
+        // Ahora voy a testear los el foldATestear
+
+        // @TODO: RECOPILAR ESTADISTICAS, DIFERENCIADAS POR CLASE Y TIRARLAS EN UN CSV PARA DESPUES EXPERIMENTAR
+        int errados = 0;
+
+        cout << "Aplicando knn.\n";
+        for (int j = 0; j < (int)folds_imagenes[foldATestear].size(); j++) {
+            imagen convertida = vector<double>(alpha, 0);
+            psa.Transformar(folds_imagenes[foldATestear][j], convertida);
+
+            int labelObtenida = knnador.getGroupOf(convertida, k_knn);
+
+            if (labelObtenida != folds_labels[foldATestear][j]) {
+                errados++;
+            }
+
+        }
+
+        cout << "\n\nFold numero: " << foldATestear << "    errados: " << errados << "\n\n";
+    }
 }
