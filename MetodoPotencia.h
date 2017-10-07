@@ -14,7 +14,7 @@ typedef pair<autovalor, autovector> parAutov;
 class MetodoPotencia {
     public:
         // 40 iteraciones para converger es un poco arbitrario pero parece suficiente. Experimentar con esto.
-        MetodoPotencia(int _iteracionesConvergencia=40);
+        MetodoPotencia(int _iteracionesConvergencia=100);
 
         parAutov obtenerDominante(Matriz &B, vector<double> x0);
         vector<parAutov> deflacion(Matriz B, int alpha);

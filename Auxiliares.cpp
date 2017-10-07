@@ -40,6 +40,9 @@ vector<double> multiplicarPorCte(const vector<double> &v, double cte) {
 }
 
 void dividirPorCte(vector<double> &v, double cte){
+    if (abs(cte) < 1e-9) {
+        cerr << "PERO QUE HACES INFELIZ COMO VAS A DIVIDIR POR CERO\n";
+    }
     for(unsigned int i = 0; i < v.size(); i++){
         v[i] /= cte;
     }
