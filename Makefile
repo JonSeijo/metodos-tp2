@@ -12,6 +12,9 @@ test_image_handler: TestImageLoad.cpp ImageHandler.cpp ImageHandler.h Auxiliares
 test_potencia:
 	g++ -std=c++11 TestMetodoPotencia.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o metodoPotencia
 
+psa_test: PSATest.cpp Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
+	g++ -std=c++11 PSATest.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o psa_test
+
 test_cov:
 	g++ -std=c++11 TestCovarianza.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o cov
 
