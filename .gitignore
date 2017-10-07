@@ -1,4 +1,6 @@
 # Ejecutables
+cov
+psa_test
 knn_test
 test_image_handler
 metodoPotencia
