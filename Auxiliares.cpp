@@ -25,6 +25,16 @@ double productoPunto(const vector<double> &v1, const vector<double> &v2) {
     return suma;
 }
 
+void restarVector(vector<double> &v, vector<double> &cte) {
+    if (v.size() != cte.size()) {
+        cerr << "restarVector : No puedo restar dos vectores de distinto tamaño\n";
+    }
+
+    for (int i = 0; i < v.size(); i++) {
+        v[i] -= cte[i];
+    }
+}
+
 double Norma2(const vector<double> &v) {
     return sqrt(productoPunto(v, v));
 }

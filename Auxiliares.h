@@ -17,6 +17,8 @@ double Norma2(const vector<double> &v);
 // Devuelve un nuevo vector multiplicado por la ce
 vector<double> multiplicarPorCte(const vector<double> &v, double cte);
 
+void restarVector(vector<double> &v, vector<double> &cte);
+
 // Modifica el vector dividiendo en cada posición por una constante
 void dividirPorCte(vector<double> &v, double cte);
 

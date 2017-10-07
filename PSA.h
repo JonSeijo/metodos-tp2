@@ -12,11 +12,15 @@ class PSA {
         // alpha: El alpha de PSAs
         // PSA(vector<vector<double> > X, int alpha);
         PSA(Matriz &X, int alpha);
-        vector<double> Transformar(const vector<double> &x);
+        // vector<double> Transformar(const vector<double> &x);
+        void Transformar(const vector<double> &x, vector<double> &rta);
 
     private:
         // Matriz V del cambio de base
         pair<Matriz, vector<autovalor> > V;
+
+        vector<double> media;
+        int tam;
 };
 
 

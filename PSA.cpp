@@ -1,13 +1,27 @@
 #include "PSA.h"
+#include "Auxiliares.h"
 
 // PSA::PSA(vector<vector<double> > X, int alpha) {
 PSA::PSA(Matriz &X, int alpha) {
+
+    tam = X.cantFilas();
+
     cout << "PSA: Empezando a calcular la matriz de covarianza..\n";
     MatrizCovarianza MX(X);
+
+    media = MX.media;
+
     cout << "PSA: Diagonalizando..\n";
     this->V = MX.Diagonalizar(alpha);
 }
 
-vector<double> PSA::Transformar(const vector<double> &x) {
-    return (this->V.first).multiplicarPorVector(x);
+void PSA::Transformar(const vector<double> &orig, vector<double> &rta) {
+
+    vector<double> x(orig);
+
+    // Restar media y dividir por sqrt(n-1)
+    restarVector(x, media);
+    dividirPorCte(x, sqrt(tam - 1));
+
+    (this->V.first).multiplicarPorVector(x, rta);
 }
