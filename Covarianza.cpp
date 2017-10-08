@@ -5,7 +5,8 @@
 MatrizCovarianza::MatrizCovarianza(Matriz& datos) {
 	// if(v.size() == 0 || v[0].size() == 0) {
 	if(datos.cantFilas() == 0 || datos.cantCols() == 0) {
-		throw std::runtime_error("Constructor covarianza: Vector no valido");
+		cerr << "Constructor covarianza: Vector no valido. " << datos.cantFilas() << " " << datos.cantCols() << "\n";
+		exit (EXIT_FAILURE);
 	}
 /*
 	for(unsigned int i = 0; i < v.size(); i++){

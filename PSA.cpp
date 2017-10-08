@@ -6,12 +6,12 @@ PSA::PSA(Matriz &X, int alpha) {
 
     tam = X.cantFilas();
 
-    cout << "PSA: Calculando la matriz de covarianza..\n";
+    // cout << "PSA: Calculando la matriz de covarianza..\n";
     MatrizCovarianza MX(X);
 
     media = MX.media;
 
-    cout << "PSA: Diagonalizando..\n";
+    // cout << "PSA: Diagonalizando..\n";
     this->V = MX.Diagonalizar(alpha);
 }
 

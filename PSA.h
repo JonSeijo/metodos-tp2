@@ -15,9 +15,10 @@ class PSA {
         // vector<double> Transformar(const vector<double> &x);
         void Transformar(const vector<double> &x, vector<double> &rta);
 
-    private:
         // Matriz V del cambio de base
         pair<Matriz, vector<autovalor> > V;
+
+    private:
 
         vector<double> media;
         int tam;
