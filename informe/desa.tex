@@ -27,13 +27,36 @@
 
 
 
-\section{Deflacion y metodo de la potencia}
+\section{Deflación y método de la potencia}
 
-\todo[inline]{Que es, por que funciona}
+Cómo habíamos mencionado, para poder diagonalizar la matriz de covarianza necesitamos conseguir los autovalores y autovectores. Conseguir los autovalores de la manera tradicional implica encontrar las raíces de un polinomio de grado 784, y no es algo que estemos dispuestos a intentar. Utilizaremos entonces el método iterativo conocido como \textit{Método de la potencia}.
+\begin{algorithm}
+    \caption{Método de la potencia (Matriz $B$, Vector $x_0$, Int $iters$)}
+    \begin{algorithmic}[h]
+        \State{$v \gets x_0$}
+        \For{$i \gets 1$ to $iters$}
+            \State{$v \gets \frac{Bv}{\norm{Bv}}$} \\
+        \EndFor
+        \State  $\lambda \gets \frac{v^tBv}{v^tv}$
+        \State return $(\lambda, v)$
 
-\todo[inline]{IMPORTANTE: ¿Por que podemos aplicarlo en nuestra matriz? ¿Como sabemos que converge y que da todo bonito?}
+    \end{algorithmic}
+\end{algorithm}
 
-\todo[inline]{Criterio de convergencia, cant de iteraciones}
+Podemos estar seguros de que los autovalores son números reales positivos, pues la matriz de covarianza es una matriz simétrica. Además, también por ser simétrica sabemos que vamos a poder conseguir una base de autovectores ortonormales, que es exactamente lo que necesitamos. \\
+
+Con el método de la potencia conseguimos únicamente el autovalor dominante (y un autovector correspondiente). Como queremos conseguir una base, extendemos el método de la potencia utilizando el método de deflación. Esto funciona por la siguiente observación:
+
+$$ B - \lambda v_1 {v_1}^{t} \text{\hspace{1cm}tiene los mismos autovalores que B (excepto $\lambda$).} $$
+
+Por lo tanto, cuando apliquemos el método de la potencia en la matriz resultante, el autovalor que conseguiremos será distinto del $\lambda$ obtenido inicialmente. \\
+
+Otro detalle es que el vector inicial $x_0$ es elegido aleatoriamente. Si bien es posible en teoría que con un cierto $x_0$ el método no converja, en la práctica eso no sucede. En primer lugar, hay muy pocas probabilidades de tomarlo, y en segundo lugar, los errores de precisión juegan a nuestro favor, ya que con una mínima desviación el $x_0$ deja de ser problemático. \\
+
+\todo[inline]{El último factor a tener en cuenta es la cantidad de iteraciones para la convergencia. Para que pasen los tests de la cátedra es necesario hacer más de 1200 iteraciones. Sin embargo, como veremos en la sección de experimentación, con una cantidad muchísimo menor de iteraciones la accuaracy no se modifica, por lo que vamos a tomar EQUIS iteraciones para optimizar el tiempo de ejecución.\\
+ Criterio de convergencia, cant de iteraciones. IDEA: Experimento con un cierto set de datos (pequeño). dejar todo fijo e ir cambiando la cantidad de iteraciones y ver como varia el accuaracy y el tiempo.}
+
+
 
 
 
