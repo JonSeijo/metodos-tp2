@@ -27,19 +27,20 @@ $ $\newline
 
 Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variabels por copias. Además, para tomar los $k$ de menor norma utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente del tamaño de $n$, mientras que $k$ en general es pequeño.\\
 
-Aqui algunas de las alternativas consideradas para la elección de los $k$ menores, con $n$: cantidad de imágenes:
+Aquí algunas de las alternativas consideradas para la elección de los $k$ menores, con $n$: cantidad de imágenes.
+
 \begin{enumerate}
 \item $O$($n * k$) : Realizar $k$ pasadas tomando el mínimo en cada una.
 \item $O$($n * log(n)$) : Ordenar todos y tomar los primeros $k$.
 \item $O$($n * log(k)$) : Tomar los $k$ menores con un min-heap.
 \end{enumerate}
 
-Si fijamos por ejemplo $k = 25$ y $n = 42000$ (n maximo), podemos realizar la siguiente comparación:
+Si fijamos por ejemplo $k = 25$ y $n = 42000$ (n maximo), podemos realizar el siguiente cuadro:
 
 \begin{center}
     \begin{tabular}{| c | c |}
     \hline
-    Complejidad   &  Cantidad de operaciones estimada \\ \hline
+    Complejidad   &  Cantidad de comparaciones estimada \\ \hline
 
     $O$($n * k$)            & 1050000  \\ \hline
     $O$($n * log(n)$)       & 644700  \\ \hline
@@ -47,9 +48,13 @@ Si fijamos por ejemplo $k = 25$ y $n = 42000$ (n maximo), podemos realizar la si
     \end{tabular}
 \end{center}
 
-\todo[inline]{TODO: Estaria bueno en la experimentacion hacer una medicion de tiempos.}
+Aunque quizá un millón de comparaciones no parece excesivo, es importante aclarar que cada comparación consiste en ver componente a componente las diferencias entre vectores, dónde cada vector tiene 728 componentes. Además, esto es para el caso de clasificar una única imagen. Si queremos clasificar muchas imágenes deberíamos repetir el procedimiento para cada una de ellas, y si consideramos que la base de Kaggle tiene más de 20000 imágenes para clasificar, optimizar el método no es algo menor. \\
 
-\todo[inline]{Cuales son los posibles problemas que traeria? Dimensionalidad. Aclarar que corroboraremos esto en la seccion de experimentacion}
+
+\todo[inline]{TODO: Estaria bueno en la experimentacion hacer una medicion de tiempos entre posibles implementaciones de knn.}
+
+Tendría mucho sentido explorar algún método que reduzca el costo de las comparaciones. En la siguiente sección presentaremos un método que analiza sólo las componentes principales de nuestros vectores en vez de las 728 ya mencionadas. En la sección de experimentación realizaremos comparaciones entre ambos métodos. \\
+
 
 \section{PSA}
 
