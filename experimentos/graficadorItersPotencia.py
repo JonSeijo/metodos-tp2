@@ -18,7 +18,7 @@ import numpy as np
 def crear_lista_dataframes(datos, tope=None):
     print("Creando dataframes..")
     return [
-        (datos.groupby('iters')['tiempo'].mean() / 1000000000)[:tope],
+        (datos.groupby('iters')['tiempo'].median() / 1000000000)[:tope],
         ] + [
             (datos.groupby('iters')[str(i)].mean())[:tope] for i in range(11)
         ]
@@ -39,13 +39,13 @@ T_ACC_TOTAL = (11, "Accuracy total para distinta cantidad de iteraciones.", "Acc
 
 # Elegir al menos uno de cada uno!
 
-tipo = T_ACC_TOTAL
+tipo = T_TIEMPO
 titulo = "Método de la potencia.\n"
 
 # mostrar_optimo = False
 logy = False
 
-data_iters = pd.read_csv('iterPotencias.csv')
+data_iters = pd.read_csv('iterPotenciasv2.csv')
 
 data = [
     crear_lista_dataframes(data_iters)
@@ -56,7 +56,14 @@ plt.clf()
 plt.text(20, 0.96, r'Exact value = ' + str(0.928377))
 
 print("Plotteando..")
+
+
+# Punteado
+# plot_grafo = data[0][tipo[0]].plot(fontsize = 13, figsize=(11,8), logy=logy, linestyle="", color=colores[0], marker='o')
+
+# Linea
 plot_grafo = data[0][tipo[0]].plot(fontsize = 13, figsize=(11,8), logy=logy, color=colores[0])
+
 plot_grafo.set_title(titulo + tipo[1], fontsize = 15)
 plot_grafo.set_ylabel(tipo[2], size = 14)
 
@@ -67,8 +74,8 @@ plot_grafo.set_ylabel(tipo[2], size = 14)
 plot_grafo.set_xlabel("Iteraciones del método de la potencia", size = 14)
 
 
-plt.ylim([0,1.3])
-plt.xlim([0,360])
+# plt.ylim([0,1.3])
+plt.xlim([0,305])
 plt.show()
 
 

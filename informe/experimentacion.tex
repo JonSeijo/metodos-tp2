@@ -30,11 +30,16 @@ El siguiente experimento fue realizado tomando 10000 muestras de entrenamiento, 
 }
 $ $\newline
 
-Como podemos ver, la accuracy se mantiene constante, con la excepción de las cercanías de 10 iteraciones dónde aún son demasiado pocas. Consideramos que no es necesario tomar una cantidad de iteraciones demasiado alta, ya que con aproximadamente 50 parece ser más que suficiente. Es lógico pensar que a mayor cantidad de iteraciones, más tarda nuestro sistema en entrenar. Veamos: \\
+Como podemos ver, la accuracy se mantiene constante, con la excepción de las cercanías de 10 iteraciones dónde aún son demasiado pocas. Consideramos que no es necesario tomar una cantidad de iteraciones demasiado alta, ya que con aproximadamente 50 parece ser más que suficiente. Es lógico pensar que a mayor cantidad de iteraciones, más tarda nuestro sistema en entrenar. Veamos si el incremento es significativo: \\
 
-\todo[inline]{Gráfico de tiempo con aumento de iteraciones - construccion en proceso - }
+{\centering
+    \includegraphics[scale=0.60]{informe/imagenes/potencia/tiempoPorIters.pdf} \\
+    \captionof{figure}{Tiempo por cantidad de iteraciones. \\
+    Todas las variables fijas \\ }
+}
+$ $\newline
 
-$ $ \newline
+La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50.
 
 
 \subsection{TODO:}
