@@ -13,7 +13,7 @@ typedef pair<autovalor, autovector> parAutov;
 
 class MetodoPotencia {
     public:
-        MetodoPotencia(int _iteracionesConvergencia=1200);
+        MetodoPotencia(int _iteracionesConvergencia=50);
 
         parAutov obtenerDominante(Matriz &B, vector<double> x0);
         vector<parAutov> deflacion(Matriz B, int alpha);
