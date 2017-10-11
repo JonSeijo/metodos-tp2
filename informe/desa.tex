@@ -1,8 +1,21 @@
-\section{kNN}
+\section{Vecinos más cercanos}
 
-\todo[inline]{Como esta representada nuestra informacion}
+% \todo[inline]{Como esta representada nuestra informacion}
+% Todas las imágenes de nuestro set de datos tiene una dimensión de 28x28 píxeles (En total 784 píxeles). Al cargar una imagen, la guardaremos como un vector de 784 coordenadas. Y BLAH
 
-\todo[inline]{Que es knn}
+Nuestro problema consiste en tomar una imagen de un dígito manuscrito, y decidir cuál es el dígito que representa. Escrituras de un mismo dígito para distintas personas pueden ser muy diferentes entre sí, e incluso en ocasiones puede ser complicado para un ser humano distinguirlos. \\
+
+{\centering
+    \includegraphics[scale=0.40]{informe/imagenes/knn/muestraVariaciones.png} \\
+    \captionof{figure}{Algunas muestras diferentes para los mismos dígitos. \\
+    (Fuente de imagen: Clase de laboratorio) \\ }
+}
+$ $\newline
+
+El primer método que presentaremos para resolver este problema, es el método de \textit{k-Vecinos más cercanos}, o en inglés \textit{k-Nearest Neighbors}. De ahora en más utilizaremos indistintamente el nombre \textbf{kNN} por sus sigles en inglés. \\
+
+Tenemos diez categorias posibles (los dígitos 0-9) y un conjunto de imágenes para las cuáles conocemos el dígito que representan. Llamaremos a este conjunto de imágenes el \textit{conjunto de datos etiquetados}. Dado un nuevo dato \textbf{sin etiquetar}, queremos decidir a qué categoría pertenece. La forma más natural para clasificarlo, es compararlo con nuestros datos conocidos y elegir la categoría a la cuál más se \textit{parezca}. \textit{kNN} es una implementación y una generalización de esta idea. \\
+
 
 \todo[inline]{Por que nos sirve en nuestro problema? como lo usamos?}
 
@@ -59,7 +72,7 @@ El último factor a tener en cuenta es la cantidad de iteraciones para la conver
 
 A lo largo de la experimentación, entrenaremos nuestro sistema con un cierto conjunto de datos y luego clasificaremos muestras. Como queremos saber qué tan bien o qué tan mal funciona nuestra sistema, estas muestras estarán etiquetadas para poder comparar el grupo real con el grupo predicho. \\
 
-Dado que nuestra base de información es, si bien extensa, limitada, surge la pregunta de cómo elegir cuáles datos entrenar y cuáles clasificar. Más aún, si tomamos siempre los mismos datos como entrenamiento, los mejores parámetros que obtengamos serán para ese set de datos en particular, y esto no es algo deseable (el problema mencionado es conocido como \textit{overfitting}). Para resolver estas problemáticas, utilizaremos la técnica de \textit{K-Fold Cross Validation}. \\
+Dado que nuestra base de información es, si bien extensa, limitada, surge la pregunta de cómo elegir cuáles datos entrenar y cuáles clasificar. Más aún, si tomamos siempre los mismos datos, los mejores parámetros que obtengamos serán para ese set de datos en particular, y esto no es algo deseable (el problema mencionado es conocido como \textit{overfitting}). Para resolver estas problemáticas, utilizaremos la técnica de \textit{K-Fold Cross Validation}. \\
 
 El método consiste en particionar nuestro espacio de muestras en $K$ grupos (a partir de ahora, \textit{folds}) y utilizar $K - 1$ folds como datos de entrenamiendo y el fold restante para testeo. Fijados $K$ y los demás parámetros necesarios para nuestro entrenamiento, ejecutaremos el método $K$ veces, donde en cada iteración se varía cuál es el fold que se utilizará para testear. Al finalizar cada iteración se obtendrá un valor correspondiente a cierta métrica (por ejemplo $accuaracy$) y el resultado final será el promedio de todas las iteraciones. \\
 
