@@ -11,7 +11,7 @@ class PSA {
         // X: matriz de datos
         // alpha: El alpha de PSAs
         // PSA(vector<vector<double> > X, int alpha);
-        PSA(Matriz &X, int alpha);
+        PSA(Matriz &X, int alpha, int itersMetodoPotencia);
         // vector<double> Transformar(const vector<double> &x);
         void Transformar(const vector<double> &x, vector<double> &rta);
 

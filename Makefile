@@ -1,7 +1,10 @@
 all: main
 
 main: Main.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
-	g++ -std=c++11 Main.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o main
+	g++ -std=c++11 -O2 Main.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o main
+
+exp_iters: ExperimentadorIters.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
+	g++ -std=c++11 -O2 ExperimentadorIters.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o exp_iters
 
 main_test: MainTester.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
 	g++ -std=c++11 MainTester.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o main_test
@@ -23,4 +26,4 @@ test_cov:
 
 clean:
 	rm -f *.o
-	rm -f metodoPotencia cov main test_image_handler knn_test
+	rm -f metodoPotencia cov main test_image_handler knn_test exp_iters

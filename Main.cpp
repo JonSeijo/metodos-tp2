@@ -15,14 +15,17 @@ int main() {
     // @TODO: Hacer que sean parametros del ejecutable
     int tipo = TIPO_KNN_PSA;
 
-    int k_knn = 10;
+    int k_knn = 15;
     int K_kfold = 4;
-    int alpha = 10;
+    int alpha = 20;
+
+    int itersMetodoPotencia = 50;
+
     string filepathTrain = "data/train.csv";
     string filepathTest = "data/test.csv";
 
     // Lo mejor seria que considere las 42000;
-    int cantImagenesTrain = 10000;
+    int cantImagenesTrain = 6000;
 
     // Carga y handle de imagenes de training
     ImageHandler imageTrainHandler(filepathTrain);
@@ -68,7 +71,7 @@ int main() {
 
         // Ya tengo los datos del fold listos para entrenarlos con el metodo elegido
         Matriz matrizDatos(imagenesDato);
-        PSA psa(matrizDatos, alpha);
+        PSA psa(matrizDatos, alpha, itersMetodoPotencia);
 
         vector<vector<double> > datosConvertidos(cantImagenesEntrenamiento, vector<double>(alpha, 0));
 

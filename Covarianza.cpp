@@ -100,14 +100,14 @@ Matriz MatrizCovarianza::producto_traspuesta_orig(Matriz &v){
 	return result;
 }
 
-pair<Matriz, vector<autovalor> > MatrizCovarianza::Diagonalizar(int alpha){
+pair<Matriz, vector<autovalor> > MatrizCovarianza::Diagonalizar(int alpha, int itersMetodoPotencia){
 	if(alpha > this->cov.cantFilas()){
 		throw std::runtime_error("Alpha muy grande");
 	}
 
 	vector<vector<double> > Vect(alpha);
 	vector<autovalor> D(alpha);
-	MetodoPotencia m;
+	MetodoPotencia m(itersMetodoPotencia);
 
 	vector<parAutov> result = m.deflacion(this->cov, alpha);
 

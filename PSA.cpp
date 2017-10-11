@@ -2,7 +2,7 @@
 #include "Auxiliares.h"
 
 // PSA::PSA(vector<vector<double> > X, int alpha) {
-PSA::PSA(Matriz &X, int alpha) {
+PSA::PSA(Matriz &X, int alpha, int itersMetodoPotencia) {
 
     tam = X.cantFilas();
 
@@ -12,7 +12,7 @@ PSA::PSA(Matriz &X, int alpha) {
     media = MX.media;
 
     // cout << "PSA: Diagonalizando..\n";
-    this->V = MX.Diagonalizar(alpha);
+    this->V = MX.Diagonalizar(alpha, itersMetodoPotencia);
 }
 
 void PSA::Transformar(const vector<double> &orig, vector<double> &rta) {

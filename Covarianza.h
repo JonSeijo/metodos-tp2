@@ -16,7 +16,7 @@ class MatrizCovarianza{
 
         //Devuelve V traspuesta (LOS AUTOVECTORES ESTÁN COMO FILAS)y un vector de los autovalores que irían en la diagonal, eso no se si es
         //necesario, podría sacarse
-        pair<Matriz, vector<autovalor> > Diagonalizar(int alpha);
+        pair<Matriz, vector<autovalor> > Diagonalizar(int alpha, int itersMetodoPotencia);
 
         Matriz cov;
         vector<double> media;
