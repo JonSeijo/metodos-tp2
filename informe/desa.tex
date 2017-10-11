@@ -12,19 +12,44 @@ Nuestro problema consiste en tomar una imagen de un dígito manuscrito, y decidi
 }
 $ $\newline
 
-El primer método que presentaremos para resolver este problema, es el método de \textit{k-Vecinos más cercanos}, o en inglés \textit{k-Nearest Neighbors}. De ahora en más utilizaremos indistintamente el nombre \textbf{kNN} por sus sigles en inglés. \\
+El primer método que presentaremos para resolver este problema, es el método de \textit{k-Vecinos más cercanos}, o en inglés \textit{k-Nearest Neighbors}. De ahora en más utilizaremos indistintamente el nombre \textbf{kNN} por sus siglas en inglés. \\
 
 Tenemos diez categorias posibles (los dígitos 0-9) y un conjunto de imágenes para las cuáles conocemos el dígito que representan. Llamaremos a este conjunto de imágenes el \textit{conjunto de datos etiquetados}. Dado un nuevo dato \textbf{sin etiquetar}, queremos decidir a qué categoría pertenece. La forma más natural para clasificarlo, es compararlo con nuestros datos conocidos y elegir la categoría a la cuál más se \textit{parezca}. \textit{kNN} es una implementación y una generalización de esta idea. \\
 
+Dado que nuestras imágenes son en realidad vectores en $\mathbb{R}^{784}$ (pues sus dimensiones son 28x28 píxels), utilizaremos la diferencia en norma entre dos vectores para cuantificar qué tan \textit{parecidas} son dos imágenes. Dicho de otro modo, consideramos que dos imágenes son parecidas cuando los vectores que las representan son cercanos en norma. \\
 
-\todo[inline]{Por que nos sirve en nuestro problema? como lo usamos?}
+La idea fundamental es que grupos de imágenes similares estarán cercanas entre sí, por lo que al querer identificar una imagen desconocida, nos basta con ver cuál es la categoría de las imagenes cercanas. Dado que existe la posibilidad de \textit{outliers}, o que la imagen caiga cerca del límite entre dos grupos, no tomaremos la única imagen mas cercana sino que consideraremos el conjunto de las \textit{k} más cercanas. \\
 
 \todo[inline]{Usar alguna imagen ilustrativa}
 
-\todo[inline]{Implementacion, quiza hablar sobre optimizaciones y estructuras, minheap y eso}
+
+$ $\newline
+
+Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variabels por copias. Además, para tomar los $k$ de menor norma utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente del tamaño de $n$, mientras que $k$ en general es pequeño.\\
+
+Aqui algunas de las alternativas consideradas para la elección de los $k$ menores, con $n$: cantidad de imágenes:
+\begin{enumerate}
+\item $O$($n * k$) : Realizar $k$ pasadas tomando el mínimo en cada una.
+\item $O$($n * log(n)$) : Ordenar todos y tomar los primeros $k$.
+\item $O$($n * log(k)$) : Tomar los $k$ menores con un min-heap.
+\end{enumerate}
+
+Si fijamos por ejemplo $k = 25$ y $n = 42000$ (n maximo), podemos realizar la siguiente comparación:
+
+\begin{center}
+    \begin{tabular}{| c | c |}
+    \hline
+    Complejidad   &  Cantidad de operaciones estimada \\ \hline
+
+    $O$($n * k$)            & 1050000  \\ \hline
+    $O$($n * log(n)$)       & 644700  \\ \hline
+    $O$($n * log(k)$)       & 194880   \\ \hline
+    \end{tabular}
+\end{center}
+
+\todo[inline]{TODO: Estaria bueno en la experimentacion hacer una medicion de tiempos.}
 
 \todo[inline]{Cuales son los posibles problemas que traeria? Dimensionalidad. Aclarar que corroboraremos esto en la seccion de experimentacion}
-
 
 \section{PSA}
 
