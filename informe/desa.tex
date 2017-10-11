@@ -53,9 +53,7 @@ Por lo tanto, cuando apliquemos el método de la potencia en la matriz resultant
 
 Otro detalle es que el vector inicial $x_0$ es elegido aleatoriamente. Si bien es posible en teoría que con un cierto $x_0$ el método no converja, en la práctica eso no sucede. En primer lugar, hay muy pocas probabilidades de tomarlo, y en segundo lugar, los errores de precisión juegan a nuestro favor, ya que con una mínima desviación el $x_0$ deja de ser problemático. \\
 
-\todo[inline]{El último factor a tener en cuenta es la cantidad de iteraciones para la convergencia. Para que pasen los tests de la cátedra es necesario hacer más de 1200 iteraciones. Sin embargo, como veremos en la sección de experimentación, con una cantidad muchísimo menor de iteraciones la accuaracy no se modifica, por lo que vamos a tomar EQUIS iteraciones para optimizar el tiempo de ejecución.\\
- Criterio de convergencia, cant de iteraciones. IDEA: Experimento con un cierto set de datos (pequeño). dejar todo fijo e ir cambiando la cantidad de iteraciones y ver como varia el accuaracy y el tiempo.}
-
+El último factor a tener en cuenta es la cantidad de iteraciones para la convergencia. Para que pasen los tests de la cátedra es necesario hacer más de 1000 iteraciones. Sin embargo, como veremos en la sección de experimentación, con una cantidad muchísimo menor de iteraciones el accuaracy obtenido no se modifica, por lo que tomaremos una cantidad mucho menor de iteraciones para optimizar el tiempo de ejecución. \\
 
 \section{K-Fold Cross Validation}
 

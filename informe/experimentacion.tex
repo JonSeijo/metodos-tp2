@@ -1,5 +1,31 @@
 \section{Resultados finales y experimentación}
-\subsection{Resultados}
+
+\subsection{Preliminares}
+
+\todo[inline] {Acá explicar que son las diferentes variables que tiene nuestro sistema, alpha, k, K, iters}
+\todo[inline] {Explicar medidas que usamos, accuracy, quiza precision/recall}
+
+\subsection{Método de potencia}
+
+Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias para el método de la potencia, ya que es algo necesario para todas las mediciones que hagamos. Como adelantamos, para que pasen los tests de la cátedra son necesarias mas de 1000 iteraciones, sin embargo, veremos que con muchas menos iteraciones nuestro accuracy no se modifica. \\
+
+El siguiente experimento fue realizado tomando 10000 muestras de entrenamiento, dejando completamente fijas todas las variables excepto la cantidad de iteraciones. Lo único que intentamos determinar es la cantidad de iteraciones para las cuales la accuracy llega a su máximo. \\
+
+{\centering
+    \includegraphics[scale=0.60]{informe/imagenes/potencia/accuracyPorIters.pdf} \\
+    \captionof{figure}{Accuracy por cantidad de iteraciones. \\
+    Todas las variables fijas \\ }
+}
+$ $\newline
+
+Como podemos ver, la accuracy se mantiene constante, con la excepción de las cercanías de 10 iteraciones dónde aún son demasiado pocas. Consideramos que no es necesario tomar una cantidad de iteraciones demasiado alta, ya que con aproximadamente 50 parece ser más que suficiente. Es lógico pensar que a mayor cantidad de iteraciones, más tarda nuestro sistema en entrenar. Veamos: \\
+
+\todo[inline]{Gráfico de tiempo con aumento de iteraciones - construccion en proceso - }
+
+$ $ \newline
+
+
+\subsection{TODO:}
 
 \todo[inline]{Experimentacion con knn variando los k-knn y los K-folds, para encontrar el mejor parametro posible}
 
