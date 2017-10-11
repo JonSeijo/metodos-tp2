@@ -11,6 +11,7 @@ test_image_handler
 metodoPotencia
 main
 main_test
+exp_iters
 
 # Tests
 pruebas/

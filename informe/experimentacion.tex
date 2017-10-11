@@ -2,10 +2,22 @@
 
 \subsection{Preliminares}
 
-\todo[inline] {Acá explicar que son las diferentes variables que tiene nuestro sistema, alpha, k, K, iters}
+Dado que el objetivo general será tratar de estimar los mejores parámetros para nuestro sistema, haremos listado y una breve descripción de ellos.
+
+\begin{itemize}
+\item \textit{iters}: Cantidad de veces que itera el método de la potencia. Cuántas más iteraciones se hagan, mayor será la aproximación al autovalor real, pues en teoría el valor debería obtenerse en el límite.
+
+\item \textit{k\_kNN}: Cantidad de vecinos a considerar en el método de los $k$ vecinos más cercanos (\textit{kNN}).
+
+\item \textit{K\_kfold}: Cantidad de grupos (\textit{folds}) en el que vamos a dividir nuestro set de datos en los experimentos, para la aplicación de \textit{K-fold cross validation}
+
+\item \textit{alpha ($\alpha$)}: Cantidad de dimensiones consideradas para el análisis de componentes principales (\textit{PSA}).
+
+\end{itemize}
+
 \todo[inline] {Explicar medidas que usamos, accuracy, quiza precision/recall}
 
-\subsection{Método de potencia}
+\subsection{Método de la potencia}
 
 Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias para el método de la potencia, ya que es algo necesario para todas las mediciones que hagamos. Como adelantamos, para que pasen los tests de la cátedra son necesarias mas de 1000 iteraciones, sin embargo, veremos que con muchas menos iteraciones nuestro accuracy no se modifica. \\
 
