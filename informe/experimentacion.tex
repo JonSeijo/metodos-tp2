@@ -39,7 +39,33 @@ Como podemos ver, la accuracy se mantiene constante, con la excepción de las ce
 }
 $ $\newline
 
-La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50.
+La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
+
+
+\todo[inline]{Graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien}
+
+
+Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida que vamos variando el \textit{k}. \\
+
+Dado que nuestros vectores viven en $\mathbb{R}^{784}$, esperamos que los resultados aplicando kNN (sin reducir dimensiones) sean malom por problemas con la \textit{maldición de la dimensión}. Además, no estamos considerando el espacio de muestras completo, por lo que esperamos que los resultados sean aún peores. \\
+
+Sorprendentemente, lo que sucedió es todo lo contrario a lo que esperábamos, y con kNN obtuvimos (en promedio) precisiones de 0.95. \\
+
+La mayoría de las clases se comportan de manera similar, salvo algunas excepciones que veremos más adelante. Veamos por ejemplo la clase del 0, que fue la \textit{mejor} clase.
+
+{\centering
+    \includegraphics[scale=0.55]{informe/imagenes/knn/precisionClase0.pdf} \\
+    \captionof{figure}{Clasificación para clase 0, sólo kNN.\\Precision, Recall y F1, variando k.\\}
+}
+$ $\newline
+
+Dado que la mayoría de los gráficos son similares, sólo graficaremos a continuación aquellas clases que más se diferencian.
+
+{\centering
+    \includegraphics[scale=0.70]{informe/imagenes/knn/precisionClase1257.pdf} \\
+    \captionof{figure}{Clasificación para clases 1, 2, 5 y 7, sólo kNN\\Valores de Precision, Recall y F1, variando k.\\}
+}
+$ $\newline
 
 
 \subsection{TODO:}
