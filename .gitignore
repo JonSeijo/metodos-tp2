@@ -12,6 +12,7 @@ metodoPotencia
 main
 main_test
 exp_iters
+exp_knn
 
 # Tests
 pruebas/
