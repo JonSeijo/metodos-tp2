@@ -14,8 +14,30 @@ Dado que el objetivo general será tratar de estimar los mejores parámetros par
 \item \textit{alpha ($\alpha$)}: Cantidad de dimensiones consideradas para el análisis de componentes principales (\textit{PSA}).
 
 \end{itemize}
+$ $\newline
+Las métricas que utilizaremos para analizar las clasificaciones son las siguientes:
 
-\todo[inline] {Explicar medidas que usamos, accuracy, quiza precision/recall}
+\begin{itemize}
+
+    \item \textit{accuracy}: Imágenes bien clasificadas por sobre el total.
+
+    \item \textit{tp}: True Positive.
+
+    \item \textit{fp}: False Positive.
+
+    \item \textit{fn}: False Negative.
+
+    \item \textit{precision}: $\frac{tp}{tp + fp}$. De las imágenes que marcamos como clase \textit{i}, cuántas eran \textit{i} realmente.
+
+    \item \textit{recall}:  $\frac{tp}{tp + fn}$. De las imágenes que eran realmente de clase \textit{i}, cuántas marcamos como \textit{i}.
+
+    \item \textit{F1}: $2 * \frac{precision * recall}{precision + recall}$. Es un punto medio entre Precision y Recall.
+
+\end{itemize}
+
+
+
+Dado que tenemos 10 clases diferentes para la clasificación, cuando calculemos los valores de Precision/Recall lo haremos para cada una de las clases en particular. Nos interesa que nuestro sistema sea bueno en ambas, por lo que a la hora de elegir valores optimos nos centraremos en el F1. \\
 
 \subsection{Método de la potencia}
 
@@ -24,7 +46,7 @@ Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias
 El siguiente experimento fue realizado tomando 10000 muestras de entrenamiento, dejando completamente fijas todas las variables excepto la cantidad de iteraciones. Lo único que intentamos determinar es la cantidad de iteraciones para las cuales la accuracy llega a su máximo. \\
 
 {\centering
-    \includegraphics[scale=0.60]{informe/imagenes/potencia/accuracyPorIters.pdf} \\
+    \includegraphics[scale=0.55]{informe/imagenes/potencia/accuracyPorIters.pdf} \\
     \captionof{figure}{Accuracy por cantidad de iteraciones. \\
     Todas las variables fijas \\ }
 }
@@ -33,7 +55,7 @@ $ $\newline
 Como podemos ver, la accuracy se mantiene constante, con la excepción de las cercanías de 10 iteraciones dónde aún son demasiado pocas. Consideramos que no es necesario tomar una cantidad de iteraciones demasiado alta, ya que con aproximadamente 50 parece ser más que suficiente. Es lógico pensar que a mayor cantidad de iteraciones, más tarda nuestro sistema en entrenar. Veamos si el incremento es significativo: \\
 
 {\centering
-    \includegraphics[scale=0.60]{informe/imagenes/potencia/tiempoPorIters.pdf} \\
+    \includegraphics[scale=0.55]{informe/imagenes/potencia/tiempoPorIters.pdf} \\
     \captionof{figure}{Tiempo por cantidad de iteraciones. \\
     Todas las variables fijas \\ }
 }
@@ -41,9 +63,9 @@ $ $\newline
 
 La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
 
+\subsection{kNN}
 
-\todo[inline]{Graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien}
-
+\todo[inline]{Quiza, graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien. Creo igual que conviene hacerlo en la comparacion con psa y ya, sino es info repetida-}
 
 Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida que vamos variando el \textit{k}. \\
 
@@ -79,7 +101,7 @@ El objetivo de el experimento era tratar de estimar el mejor \textit{k} para kNN
     \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c |}
     \hline
     Clase   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9  \\ \hline
-    k       & 1 & 1 & 1 & 3 & 4 & 6 & 1 & 4 & 4 & 4  \\ \hline
+    max_k       & 1 & 1 & 1 & 3 & 4 & 6 & 1 & 4 & 4 & 4  \\ \hline
     \end{tabular}
 \end{center}
 
