@@ -67,6 +67,23 @@ Dado que la mayoría de los gráficos son similares, sólo graficaremos a contin
 }
 $ $\newline
 
+Lo primero que observamos es lo que nos sorprendió: todos comienzan con un Precision/Recall de aproximadamente 0.95, lo cual es un valor muy alto. Parece ser que pese a los problemas de dimensionalidad y del tamaño de la muestra, kNN se comporta bastante bien. Es esperable que con una muestra más grande se comporte mejor. Veremos más adelante qué dice Kaggle al respecto.\\
+
+Otra cosa que podemos observar, es que a medida que el \textit{k} aumenta, \textit{en general} Precision y Recall disminuyen. Consideramos que este comportamiento tiene sentido ya que por el problema de la dimensionalidad, nuestros vectores estén muy dispersos, entonces con un \textit{k} mas grande los \textit{k} mas cercanos no necesariamente son los de su misma clase. \\
+
+Algo destacable es lo que sucede con la clase del 1 y la clase del 2. Las curvas de Precision y de Recall son opuestas. Si categorizamos una imagen como un 2, es muy probable que sea un 2 realmente. Es decir, cuando lo categorizamos como un 2, no nos equivocamos. Sin embargo, hay muchas imágenes que realmente son 2 pero que no las categorizamos como tal. Con la clase del 1 nos pasa exactamente lo contrario. \\
+
+El objetivo de el experimento era tratar de estimar el mejor \textit{k} para kNN. Nos concentraremos en la curva de F1, pues lo que nos interesa es tener un balance entre Precision y Recall. Buscamos el $k$ tal que F1 llegue a su máximo. Los siguientes son los valores obtenidos: \\
+
+\begin{center}
+    \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c |}
+    \hline
+    Clase   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9  \\ \hline
+    k       & 1 & 1 & 1 & 3 & 4 & 6 & 1 & 4 & 4 & 4  \\ \hline
+    \end{tabular}
+\end{center}
+
+Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9, concluimos que con los datos tomados, el mejor k es 3. \\
 
 \subsection{TODO:}
 
