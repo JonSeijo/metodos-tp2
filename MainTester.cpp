@@ -89,37 +89,6 @@ int main() {
             TESTOUT.push_back(psa.V.second[autov]);
         }
 
-/*
-        vector<vector<double> > datosConvertidos(cantImagenesEntrenamiento, vector<double>(alpha, 0));
-
-        cout << "Aplicando transformaciones a los datos..\n";
-        for (int i = 0; i < (int)imagenesDato.size(); i++) {
-            psa.Transformar(imagenesDato[i], datosConvertidos[i]);
-        }
-
-        KNN knnador;
-        knnador.train(labelsDato, datosConvertidos);
-
-        // Ahora voy a testear los el foldATestear
-
-        // @TODO: RECOPILAR ESTADISTICAS, DIFERENCIADAS POR CLASE Y TIRARLAS EN UN CSV PARA DESPUES EXPERIMENTAR
-        int errados = 0;
-
-        cout << "Aplicando knn.\n";
-        for (int j = 0; j < (int)folds_imagenes[foldATestear].size(); j++) {
-            imagen convertida = vector<double>(alpha, 0);
-            psa.Transformar(folds_imagenes[foldATestear][j], convertida);
-
-            int labelObtenida = knnador.getGroupOf(convertida, k_knn);
-
-            if (labelObtenida != folds_labels[foldATestear][j]) {
-                errados++;
-            }
-
-        }
-
-        cout << "\n\nFold numero: " << foldATestear << "    errados: " << errados << "\n\n";
-    */
     }
 
     int cantIguales = 0;
