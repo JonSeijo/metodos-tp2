@@ -13,6 +13,17 @@ const int TIPO_NADA = -1;
 const int TIPO_KNN_SOLO = 0;
 const int TIPO_KNN_PSA = 1;
 
+bool isDataLabeled(string filePath) {
+    ifstream file(filePath);
+    bool rta = false;
+    if(file.good()) {
+        string header; file >> header;
+        rta = (header[0] == 'l');
+    }
+    file.close();
+    return rta;
+}
+
 void mostrarHelp() {
     cout << "-m <method>\n";
     cout << "    0 - kNN\n";
@@ -68,11 +79,11 @@ int main(int argc, char **argv) {
         }
     }
 
-
-
     int itersMetodoPotencia = 50;
     int k_knn = 4;
     int alpha = 20;
+
+    int acertadas = 0;
 
     // Carga y handle de imagenes de training
     ImageHandler imageTrainHandler(filepathTrain);
@@ -83,9 +94,10 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    // @TODO: Asumo que el test no tiene labels, input podria tenerlo
     // Carga y handle de imagenes de test.
-    ImageHandler imageTestHandler(filepathTest, false);
+    bool testLabeled = isDataLabeled(filepathTest);
+
+    ImageHandler imageTestHandler(filepathTest, testLabeled);
     int cantImagenesTest = imageTestHandler.cantImagenes;
 
 
@@ -112,6 +124,14 @@ int main(int argc, char **argv) {
         for (int j = 0; j < cantImagenesTest; j++) {
             imagen imagenTest = imageTestHandler.getImagen(j);
             int labelObtenida = knnador.getGroupOf(imagenTest, k_knn);
+
+            if (testLabeled) {
+                int labelReal = imageTestHandler.getLabel(j);
+                if (labelReal == labelObtenida) {
+                    acertadas++;
+                }
+            }
+
             outfile << j+1 << "," << labelObtenida << "\n";
         }
 
@@ -135,12 +155,12 @@ int main(int argc, char **argv) {
         KNN knnador;
         knnador.train(labeles, datosConvertidos);
 
+
        fstream outfile(filepathResultados, fstream::out);
         if (outfile.fail()) {
             cout << "Perdona, pero hubo un problema al querer abrir " << filepathResultados <<  "\n";
             exit (EXIT_FAILURE);
         }
-
 
         outfile << "ImageId,Label\n";
 
@@ -150,10 +170,32 @@ int main(int argc, char **argv) {
             psa.Transformar(imageTestHandler.getImagen(j), convertida);
 
             int labelObtenida = knnador.getGroupOf(convertida, k_knn);
+
+            if (testLabeled) {
+                int labelReal = imageTestHandler.getLabel(j);
+                if (labelReal == labelObtenida) {
+                    acertadas++;
+                }
+            }
+
             outfile << j+1 << "," << labelObtenida << "\n";
         }
     } else {
         cout << "No se especifico ningun tipo de entrenamiento. Ver help con opcion -h.\n";
+        exit(EXIT_FAILURE);
+    }
+
+
+    // Si estaba labeled muestro accuracy
+    if (testLabeled) {
+        cout << "tipo entrenamiento: " << tipo << "\n";
+        cout << "k_knn: " << k_knn << "\n";
+        cout << "alpha: " << alpha << "\n";
+        cout << "procentajeTraining: " << fixed << procentajeTraining << "\n";
+        cout << "cantImagenesTrain: " << cantImagenesTrain << "\n";
+        cout << "cantImagenesTest: " << cantImagenesTest << "\n";
+
+        cout << "\nAccuracy: " << double(acertadas) / double(cantImagenesTest) << "\n";
     }
 
 }
