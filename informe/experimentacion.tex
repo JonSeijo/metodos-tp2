@@ -105,7 +105,47 @@ El objetivo de el experimento era tratar de estimar el mejor \textit{k} para kNN
     \end{tabular}
 \end{center}
 
-Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9, concluimos que con los datos tomados, el mejor k es 3. \\
+Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9 y la mediana es 3, suponemos que el mejor k es 3. \\
+
+Como habíamos mencionado anteriormente, realizar el mismo experimento con el set completo de datos, sumado a las iteraciones por los folds, nos resulta demasiado costoso. Es por esto que para comprobar la eficacia de nuestro método decidimos probarlo directamente con la competencia de Kaggle. Queremos ver si efectivamente con k = 3 conseguimos el mejor resultado. Los siguientes resultados fueron obtenidos con un entrenamiento de las 42000 imágenes. \\
+
+{\centering
+    \includegraphics[scale=0.60]{informe/imagenes/knn/kaggleknn.pdf} \\
+    \captionof{figure}{Scores competencia de Kaggle variando k.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
+}
+$ $\newline
+
+Si bien nuestra predicción no fue perfecta, estuvo bastante cerca. Para una mejor apreciación de las diferencias, mostramos un cuadro comparativo con los 4 mejores resultados obtenidos, ordenados por score. \\
+
+\begin{center}
+    \begin{tabular}{| c | c |}
+    \hline
+    % k   & Score  \\ \hline
+    % 2   & 0.97114  \\ \hline
+    % 4   & 0.96957  \\ \hline
+    % 3   & 0.96942  \\ \hline
+     Score    & k  \\ \hline
+     0.97114  & 1  \\ \hline
+     0.97114  & 2  \\ \hline
+     0.96957  & 4  \\ \hline
+     0.96942  & 3  \\ \hline
+    \end{tabular}
+\end{center}
+
+
+En primer lugar, notar que k=1 y k=2 tienen el mismo puntaje. Esto es razonable, si consideramos que con k=2 las posibilidades sobre las clases del primer y segundo mas cercano son las siguientes: \\
+\begin{itemize}
+\item Si el primero es de clase X y el segundo es de clase X, entonces elegimos clase X
+\item Si el primero es de clase X y el segundo es de clase Z, entonces igual nos quedamos con X pues fue el mas cercano.
+\end{itemize}
+
+Es decir, k=2 se comporta exactamente igual que no considerar ninguna vecindad. \\
+
+Las diferencias de k=3 con k=2 y k=4 son 0.00172 y 0.00015 respectivamente, que es bastante pequeña considerando la reducción de muestras que hicimos. \\
+
+Aunque los números no mienten, no nos parece intuitivo que no considerar ninguna vecindad sea la mejor opción. Imaginamos que este resultado puede asociarse con la maldición de la dimensionalidad, y creemos que con PSA el mejor k será uno mayor. También es posible que los datos de tests de Kaggle tengan un sesgo hacia aquellos cuyos $k$ óptimo es menor, pero como no conocemos las verdaderas etiquetas no podemos saberlo. \\
+
+\todo[inline]{¿QUIZA? -> Concluimos que para unicamente kNN, el mejor parámetro para k es k=EQUIS.}
 
 \subsection{TODO:}
 

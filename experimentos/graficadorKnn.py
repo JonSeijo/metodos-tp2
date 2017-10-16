@@ -74,11 +74,10 @@ dataPlotF1[clasePlot].plot(ax=plot_grafo, fontsize = 13, figsize=(11,8), logy=lo
 
 
 plot_grafo.set_title("Clase: " + str(clasePlot) + "\nValores de Precision, Recall y F1", fontsize = 15)
-axes.set_ylabel("Puntaje", size = 14)
+plot_grafo.set_ylabel("Puntaje", size = 14)
+plot_grafo.legend(["Precision", "Recall", "F1"], fontsize = 14)
+plot_grafo.set_xlabel("k de kNN", size = 14)
 
-axes.legend(["Precision", "Recall", "F1"], fontsize = 14)
-axes.set_xlabel("k de kNN", size = 14)
-
-fig.ylim([0.8,1.1])
+# plt.ylim([0.8,1.1])
 
 plt.show()
