@@ -5,6 +5,11 @@ ImageHandler::ImageHandler(string _filePath, bool training, int pixels) {
     pathToFile = _filePath;
     ifstream file(_filePath);
 
+    if(file.fail()){
+        cout << "El archivo \"" << _filePath << "\" no existe (o estas tratando de hacer algo raro)\n";
+        exit (EXIT_FAILURE);
+    }
+
     // El header no me interesa
     string header;
     getline(file, header);
