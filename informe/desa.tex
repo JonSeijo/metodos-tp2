@@ -25,7 +25,7 @@ La idea fundamental es que grupos de imágenes similares estarán cercanas entre
 
 $ $\newline
 
-Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variabels por copias. Además, para tomar los $k$ de menor norma utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente del tamaño de $n$, mientras que $k$ en general es pequeño.\\
+Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variabels por copias. Además, para tomar los $k$ de menor distancia utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente del tamaño de $n$, mientras que $k$ en general es pequeño.\\
 
 Aquí algunas de las alternativas consideradas para la elección de los $k$ menores, con $n$: cantidad de imágenes.
 
@@ -58,15 +58,27 @@ Tendría mucho sentido explorar algún método que reduzca el costo de las compa
 
 \section{PSA}
 
-\todo[inline]{Que es psa}
+El análisis de componentes principales (en español ACP, en inglés, PCA) es una técnica utilizada para reducir la dimensionalidad de un conjunto de datos.
+En otras palabras se usa para enfatizar variaciones y sacar patrones fuertes en un conjunto de datos. \\
 
-\todo[inline]{Por que usariamos psa en nuestro problema}
+Supongamos que existe una muestra con n individuos para cada uno de los cuales se han medido m variables (aleatorias) $F_{j}$. El PCA permite encontrar un número de factores subyacentes p $<$ m que explican aproximadamente el valor de las m variables para cada individuo. El hecho de que existan estos p factores subyacentes puede interpretarse como una reducción de la dimensionalidad de los datos: donde antes necesitabamos m valores para caracterizar a cada individuo ahora nos bastan p valores. Cada uno de los p encontrados se llama componente principal, de ahí el nombre del método. \\
 
-\todo[inline]{Explicar con detalle el metodo}
+El PCA construye una transformación lineal que escoge un nuevo sistema de coordenadas para el conjunto original de datos en el cual la varianza de mayor tamaño del conjunto de datos es capturada en el primer eje (llamado el Primer Componente Principal), la segunda varianza más grande es el segundo eje, y así sucesivamente. Para construir esta transformación lineal debe construirse primero la matriz de covarianza . Como esta matriz es simetrica (ya que la covarianza entre A y B es igual a la covarianza entre B y A) sabemos que existe una base ortonormal de autovectores . La transformación que lleva de las antiguas coordenadas a las coordenadas de la nueva base es precisamente la transformación lineal necesaria para reducir la dimensionalidad de datos. \\
 
-\todo[inline]{Mencionar que necesitamos los autovec pero explicar como en la seccion siguiente}
+Resumen de pasos a seguir:
+\begin{enumerate}
+\item Tenemos $n$ muestras de $m$ variables
+\item Calculamos el vector $\mu$ que contiene la media de cada una de las variables.
+\item Construimos la matriz $X \epsilon \mathbb{R}^{nxm}$ donde cada muestra corresponde a una fila de X habiendole restado la media de esa componente.
+\item Crear la matriz de covarianza y diagonalizarla.
+\end{enumerate}
 
-\todo[inline]{Posibles problemas? Muy costoso crear la matriz de covarianza si tenemos una muestra muy grande}
+Como mencionamos anteriormente seria de muycha utilidad utilizar un metodo que redusca el costo de las comparaciones entre vectrores. Este metodo logra reducir la dimencion de datos relevantes, por lo que si hacemos nuestras comparaciones unicamente con los componentes principales estariamos reduciendo el tiempo de computo considerablemente sin comprometer el resultado en gran medida. \\
+
+Para poder hacer uso de este metodo tendremos que calcular los autovectores, para esto utilizaremos el método de la potencia y el método de deflación, ambos explicados en la siguiente sección.
+
+Un problema que podriamos encontrar con este metodo es que cuando la matriz de covarianza es muy grande se vuelve costoso crearla y calcular los autovectores.
+
 
 
 
