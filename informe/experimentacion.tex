@@ -85,6 +85,7 @@ Dado que la mayoría de los gráficos son similares, sólo graficaremos a contin
 
 {\centering
     \includegraphics[scale=0.70]{informe/imagenes/knn/precisionClase1257.pdf} \\
+    \label{fig:knnclasesvariacion}
     \captionof{figure}{Clasificación para clases 1, 2, 5 y 7, sólo kNN\\Valores de Precision, Recall y F1, variando k.\\}
 }
 $ $\newline
@@ -105,13 +106,15 @@ El objetivo de el experimento era tratar de estimar el mejor \textit{k} para kNN
     \end{tabular}
 \end{center}
 
-Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9 y la mediana es 3, suponemos que el mejor k es 3. \\
+Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9 y la mediana es 3, suponemos que el mejor k es 3.
 
-Como habíamos mencionado anteriormente, realizar el mismo experimento con el set completo de datos, sumado a las iteraciones por los folds, nos resulta demasiado costoso. Es por esto que para comprobar la eficacia de nuestro método decidimos probarlo directamente con la competencia de Kaggle. Queremos ver si efectivamente con k = 3 conseguimos el mejor resultado. Los siguientes resultados fueron obtenidos con un entrenamiento de las 42000 imágenes. \\
+\subsection{Accuracy kNN - Kaggle}
+
+Como habíamos mencionado anteriormente, realizar el mismo experimento con el set completo de datos, sumado a las iteraciones por los folds, nos resulta demasiado costoso si consideramos una muestra demasiado grande. Es por esto que para comprobar la \textit{accuracy} de nuestro método decidimos probarlo directamente con la competencia de Kaggle. Queremos ver si efectivamente con k = 3 conseguimos el mejor resultado. Los siguientes resultados fueron obtenidos con un entrenamiento de las 42000 imágenes.\\
 
 {\centering
     \includegraphics[scale=0.60]{informe/imagenes/knn/kaggleknn.pdf} \\
-    \captionof{figure}{Scores competencia de Kaggle variando k.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
+    \captionof{figure}{Accuracy de Kaggle variando k.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
 }
 $ $\newline
 
@@ -124,7 +127,7 @@ Si bien nuestra predicción no fue perfecta, estuvo bastante cerca. Para una mej
     % 2   & 0.97114  \\ \hline
     % 4   & 0.96957  \\ \hline
     % 3   & 0.96942  \\ \hline
-     Score    & k  \\ \hline
+     Accuracy    & k  \\ \hline
      0.97114  & 1  \\ \hline
      0.97114  & 2  \\ \hline
      0.96957  & 4  \\ \hline
@@ -143,24 +146,57 @@ Es decir, k=2 se comporta exactamente igual que no considerar ninguna vecindad. 
 
 Las diferencias de k=3 con k=2 y k=4 son 0.00172 y 0.00015 respectivamente, que es bastante pequeña considerando la reducción de muestras que hicimos. \\
 
-Aunque los números no mienten, no nos parece intuitivo que no considerar ninguna vecindad sea la mejor opción. Imaginamos que este resultado puede asociarse con la maldición de la dimensionalidad, y creemos que con PSA el mejor k será uno mayor. También es posible que los datos de tests de Kaggle tengan un sesgo hacia aquellos cuyos $k$ óptimo es menor, pero como no conocemos las verdaderas etiquetas no podemos saberlo. \\
+Aunque los números no mienten, no nos parece intuitivo que no considerar ninguna vecindad sea la mejor opción. Imaginamos que este resultado puede asociarse con la maldición de la dimensionalidad, y creemos que con PCA el mejor k será uno mayor. También es posible que los datos de tests de Kaggle tengan un sesgo hacia aquellos cuyos $k$ óptimo es menor, pero como no conocemos las verdaderas etiquetas no podemos saberlo. \\
 
-\todo[inline]{¿QUIZA? -> Concluimos que para unicamente kNN, el mejor parámetro para k es k=EQUIS.}
+% \todo[inline]{¿QUIZA? -> Concluimos que para unicamente kNN, el mejor parámetro para k es k=EQUIS.}
+
+\subsection{PCA}
+
+En esta sección intentaremos estimar los mejores parámetros para el método de PCA. Debido a que el tiempo de procesamiento es menor que en kNN, pudimos realizar los experimentos con la base completa de 42000 imágenes, por lo que es esperable que obtengamos resultados de mejor calidad. De todas maneras, en Kaggle enviamos resultados tanto de kNN como PCA que utilizaban la misma cantidad de imágenes de entrenamiento, por lo que ambos métodos estarán en igualdad de condiciones en ese caso al determinar cuál resultó mejor. \\
+
+Dado que lo que nos interesará para determinar los mejores parámetros será el balance entre Precision y Recall, consideraremos los valores de F1 para nuestro análisis.  \\
+
+El siguiente es un gráfico de F1 para algun valor de \textit{alpha} a modo de ejemplo, variando el $k$. Elegimos para mostrar las mismas clases que mostramos en la sección de kNN (1, 2, 5, 7) para tener una primer idea cómo se comporta nuestro método. Recordemos que en kNN para esas clases, los resultados eran los que tenían mayor variación. \\
+
+{\centering
+    \includegraphics[scale=0.65]{informe/imagenes/pca/variacionKClases1257PresRecall.pdf} \\
+    \captionof{figure}{Scores de clasificación para clases 1, 2, 5 y 7, con variación de k. Alpha=30 fijo.}
+}
+$ $\newline
+
+Lo que notamos en primer lugar es la similitud entre las clases. Mientras que con sólamente kNN las curvas se veían muy dispares (Ver Figura en~\ref{fig:knnclasesvariacion}) aquí podemos observar que PCA es bastante estable cuando consideramos diferentes clases. Lo segundo a notar es que con $k$ cercano a 4, los scores tienen un \textit{pequeño} salto positivo. Si bien esto es para un \textit{alpha} particular, esto es algo que se repite para diferentes valores de \textit{alpha}. Como adelantamos, nos interesará considerar el balance entre Precision y Recall, así que sólo mostraremos F1 para no sobrecargar los gráficos. \\
+
+{\centering
+    \includegraphics[scale=0.65]{informe/imagenes/pca/variacionKClases1257.pdf} \\
+    \captionof{figure}{Clasificación según F1 para clases 1, 2, 5 y 7, con variación de k.}
+}
+$ $\newline
+
+Vemos que la tendencia del mejor $k$ es cercano a 4 se mantiene. No estamos mostrando el gráfico para las demás clases (que se ven extremadamente similares) pero mas allá del gráfico, tenemos los datos reales. Tomando promedios (para cada clase) variando \textit{alpha}, obtuvimos que el mejor $k$ es $k=4$ en muchas de las clases, y $k=5$ para otras. Si bien por poco margen, $k=4$ tiene mayoría así que será el $k$ elegido. Dependiendo cómo están distribuidos los datos, es posible que esto no siempre sea el mejor, sin embargo creemos que es la mejor aproximación. \\
+
+Ya tenemos fijo $k$, queremos determinar $alpha$. Para esto dejemos fijo $k=4$. Lo que esperamos obtener es una mejora de score a medida que aumentemos el $alpha$, pues cuántas mas componentes consideremos, más precisios deberían ser las clasificaciones. \\
+
+Creemos que no tiene demasiado sentido mostrar los gráficos de las 10 clases pues son muy similares, así que continuemos con las 4 clases tomadas anteriormente. Los resultados obtenidos son los siguientes: \\
+
+{\centering
+    \includegraphics[scale=0.65]{informe/imagenes/pca/variacionAlphaClases1257KFijo.pdf} \\
+    \captionof{figure}{Score de clasificación para clases 1, 2, 5 y 7, con variación de alpha.}
+}
+$ $\newline
+
+Algo que nos sorprendió es la velocidad con la cual se alcanza el máximo valor. Con aproximadamente 15 componentes principales ya se logra una efectividad comparable con kNN simple (728 componentes). \\
+
+Podemos observar que a partir de $alpha=25$ el score se estabiliza y se mantiene casi constante. Es aproximadamente para $alpha=40$ cuando empieza una \textit{muy leve} disminución del score, y las curvas de precision y recall comienzan a separarse. Lo esperable es que cuando $alpha$ sea demasiado grande el score disminuya aún mas, pues caemos nuevamente en la maldición de la dimensionalidad. Si bien sería interesante comprobarlo experimentalmente, no pudimos realizar el experimento. \\
+
+Utilizando los datos reales, calculamos el mejor $alpha$ para cada clase, y promediamos los resultados. Obtuvimos que (tanto con $k=4$ como con $k=5$) el óptimo se alcanza con $alpha=31$. \\
 
 \subsection{TODO:}
-
-\todo[inline]{Experimentacion con knn variando los k-knn y los K-folds, para encontrar el mejor parametro posible}
 
 \todo[inline]{Experimentacion de tiempo variando la cantidad de imagenes, no hace falta mil experimentos, un par de puntos clave, digamos 100, 1000, 2000, 5000, 10000, 20000, 40000}
 
 \todo[inline]{Comparacion tiempos con, digamos, 10000 training entre knn a secas y con psa.}
 
-\todo[inline]{Comparacion accuaracy y cosas con, digamos, 10000 training entre knn a secas y con psa.}
-
 \todo[inline]{Podemos variar los K-kfolds si la base de entrenamiento es 'chica'}
-
-\todo[inline]{Para entrenamientos con TODAS las imagenes y PSA, QUIZA nos convenga fijar los kfold en, nose, 5, y solo variar los demas parametros. Es RE costoso, (horas) calcular los K folds con un training grande (CON PSA).  Esta piola la idea de agustin de guardarnos en un txt la matriz de covarianza. \\
-En limpio, la idea seria: Para 5 folds calcular y guardar las 5 matrices de covarianza, y despues experimentar variando los alphas y los k-knn. Esto seria 'barato' dentro de todo y podrian hacerce un par de graficos. Si hay tiempo variar el k-KFOLD pero lo dejaria para lo ultimo, mejor conseguir resultados concretos antes.}
 
 \todo[inline]{Al final, mostrar resultados de Kaggle con y sin PSA, ir probando con un par de buenos parametros cuando los obtengamos}
 

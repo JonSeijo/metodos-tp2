@@ -56,31 +56,40 @@ Aunque quizá un millón de comparaciones no parece excesivo, es importante acla
 Tendría mucho sentido explorar algún método que reduzca el costo de las comparaciones. En la siguiente sección presentaremos un método que analiza sólo las componentes principales de nuestros vectores en vez de las 728 ya mencionadas. En la sección de experimentación realizaremos comparaciones entre ambos métodos. \\
 
 
-\section{PSA}
+\section{PCA}
 
-El análisis de componentes principales (en español ACP, en inglés, PCA) es una técnica utilizada para reducir la dimensionalidad de un conjunto de datos.
-En otras palabras se usa para enfatizar variaciones y sacar patrones fuertes en un conjunto de datos. \\
+En esta sección hablaremos sobre el método de \textit{Principal Component Analysis} (en español, análisis de componentes principales). El problema que teníamos con el método anterior es la gran cantidad de dimensiones con las que teníamos que lidiar. Este método lo que intenta es reducir la dimensionalidad de un conjunto de datos, quedandose únicamente con aquellas dimensiones más significativas. Podemos considerar que las dimensiones de nuestro espacio son las componentes de la muestra, por lo tanto, estamos buscando justamente las componentes principales. \\
 
-Supongamos que existe una muestra con n individuos para cada uno de los cuales se han medido m variables (aleatorias) $F_{j}$. El PCA permite encontrar un número de factores subyacentes p $<$ m que explican aproximadamente el valor de las m variables para cada individuo. El hecho de que existan estos p factores subyacentes puede interpretarse como una reducción de la dimensionalidad de los datos: donde antes necesitabamos m valores para caracterizar a cada individuo ahora nos bastan p valores. Cada uno de los p encontrados se llama componente principal, de ahí el nombre del método. \\
+% Che alto copypaste de wikipedia
+% Supongamos que existe una muestra con n individuos para cada uno de los cuales se han medido m variables (aleatorias) $F_{j}$. El PCA permite encontrar un número de factores subyacentes p $<$ m que explican aproximadamente el valor de las m variables para cada individuo. El hecho de que existan estos p factores subyacentes puede interpretarse como una reducción de la dimensionalidad de los datos: donde antes necesitabamos m valores para caracterizar a cada individuo ahora nos bastan p valores. Cada uno de los p encontrados se llama componente principal, de ahí el nombre del método. \\
+% El PCA construye una transformación lineal que escoge un nuevo sistema de coordenadas para el conjunto original de datos en el cual la varianza de mayor tamaño del conjunto de datos es capturada en el primer eje (llamado el Primer Componente Principal), la segunda varianza más grande es el segundo eje, y así sucesivamente. Para construir esta transformación lineal debe construirse primero la matriz de covarianza . Como esta matriz es simetrica (ya que la covarianza entre A y B es igual a la covarianza entre B y A) sabemos que existe una base ortonormal de autovectores . La transformación que lleva de las antiguas coordenadas a las coordenadas de la nueva base es precisamente la transformación lineal necesaria para reducir la dimensionalidad de datos. \\
 
-El PCA construye una transformación lineal que escoge un nuevo sistema de coordenadas para el conjunto original de datos en el cual la varianza de mayor tamaño del conjunto de datos es capturada en el primer eje (llamado el Primer Componente Principal), la segunda varianza más grande es el segundo eje, y así sucesivamente. Para construir esta transformación lineal debe construirse primero la matriz de covarianza . Como esta matriz es simetrica (ya que la covarianza entre A y B es igual a la covarianza entre B y A) sabemos que existe una base ortonormal de autovectores . La transformación que lleva de las antiguas coordenadas a las coordenadas de la nueva base es precisamente la transformación lineal necesaria para reducir la dimensionalidad de datos. \\
+Sea $\{ x_i : i = 1 .. n\}$ nuestro conjunto de imágenes.  \\
 
-Resumen de pasos a seguir:
-\begin{enumerate}
-\item Tenemos $n$ muestras de $m$ variables
-\item Calculamos el vector $\mu$ que contiene la media de cada una de las variables.
-\item Construimos la matriz $X \epsilon \mathbb{R}^{nxm}$ donde cada muestra corresponde a una fila de X habiendole restado la media de esa componente.
-\item Crear la matriz de covarianza y diagonalizarla.
-\end{enumerate}
+Lo primero que haremos será normalizar nuestro conjunto de datos. Para esto definimos la media $\mu$:
+$$ \mu = (x_1 + x_2 + .. + x_n) / n $$
 
-Como mencionamos anteriormente seria de muycha utilidad utilizar un metodo que redusca el costo de las comparaciones entre vectrores. Este metodo logra reducir la dimencion de datos relevantes, por lo que si hacemos nuestras comparaciones unicamente con los componentes principales estariamos reduciendo el tiempo de computo considerablemente sin comprometer el resultado en gran medida. \\
+Definimos entonces la matrix $X \in \mathbb{R}^{n x m}$ como la matriz que contiene en la fila $i$ al vector:
 
-Para poder hacer uso de este metodo tendremos que calcular los autovectores, para esto utilizaremos el método de la potencia y el método de deflación, ambos explicados en la siguiente sección.
+$$ (x_i - \mu)^{t} / \sqrt{n-1} \hspace{1cm}(1) $$
 
-Un problema que podriamos encontrar con este metodo es que cuando la matriz de covarianza es muy grande se vuelve costoso crearla y calcular los autovectores.
+La matriz $X$ contiene todos nuestros datos normalizados. Para encontrar componentes principales debemos analizar cómo están relacionadas las diferentes componentes entre sí. Para esto consideraremos la matriz de covarianzas:
 
+$$M_x = X^t X$$
 
+El siguiente paso será diagonalizar $M_x$. Esto es posible ya que la matriz de covarianzas es simpetrica, por lo que sus autovectores forman una base ornotormal. Lo que logramos con esto es que la varianza de cada variable quede expresada en la diagonal, y como en la diagonal encontraremos valores positivos (pues es simétrica) ordenados de mayor a menor, sus autovectores asociados representarán las componentes principales.
 
+$$ M_x = V^t D V$$
+
+Debido a que nos interesan únicamente las componentes principales, podemos tomar de $V^t$ las primeras $alpha$ componentes y utilizarlas como una matriz de cambio de base. \\
+
+Para finalizar, a cada una de nuestras muestras les aplicamos el proceso de normalización expuesto en (1), y luego le aplicamos el cambio de base que acabamos de conseguir. Cuándo querramos clasificar una nueva imagen, también debemos normalizarla y aplicarle la transformación. \\
+
+Este método logra reducir la dimensión de nuestros datos, por lo que cuando elijamos los k vecinos más cercanos en este nuevo espacio, estaremos haciendo comparaciones únicamente con las componentes principales, por lo que estaríamos reduciendo el tiempo de cómputo considerablemente. Veremos más adelante si esta disminución de dimensión empeora los resultados obtenidos. \\
+
+Para poder hacer uso de este método tendremos que hacer un cálculo de autovectores, para esto utilizaremos el método de la potencia y el método de deflación, ambos explicados en la siguiente sección. \\
+
+Un problema que surgió con la implementación es que el cálculo de la matriz de covarianzas y su diagonalización resulta costoso. Si queremos experimentar para diferentes $k$ esto resulta problemático. Por este motivo, en nuestros experimentos, aprovechamos que si sólo variamos el $k$ la matriz de cambio de base se mantiene igual guardando nuestras matrices de cambio de base en como csv para simplemente cargarla si ya fué calculada. \\
 
 \section{Método de la potencia y Deflación}
 
