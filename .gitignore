@@ -15,6 +15,9 @@ main
 main_test
 exp_iters
 exp_knn
+exp_psa1
+exp_psa_clasificar
+exp_psa_creacion
 
 # Tests
 pruebas/
