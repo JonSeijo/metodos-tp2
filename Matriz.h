@@ -24,6 +24,8 @@ class Matriz {
         double elemento(int f, int c);
         void asignar(int f, int c, double valor);
 
+        vector<double> calcularMedia();
+
         int cantFilas();
         int cantCols();
 

@@ -3,6 +3,8 @@ informe/informe.pdf
 informe/informe.aux
 informe/informe.toc
 
+experimentos/psa
+
 # Ejecutables
 cov
 psa_test

@@ -12,6 +12,11 @@ class PSA {
         // alpha: El alpha de PSAs
         // PSA(vector<vector<double> > X, int alpha);
         PSA(Matriz &X, int alpha, int itersMetodoPotencia);
+
+        PSA(){};
+
+        void cargarCambioDeBase(Matriz &_V, vector<double> media, int tam);
+
         // vector<double> Transformar(const vector<double> &x);
         void Transformar(const vector<double> &x, vector<double> &rta);
 

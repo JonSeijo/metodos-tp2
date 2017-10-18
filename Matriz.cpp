@@ -63,6 +63,20 @@ vector<double> Matriz::multiplicarPorVector(const vector<double> &x) {
     return rta;
 }
 
+vector<double> Matriz::calcularMedia(){
+    // vector<double> sumaTemporal(v[0].size(), 0);
+    vector<double> sumaTemporal(this->cantCols(), 0);
+
+    for(int i = 0; i < this->cantFilas(); i++){
+        for(int j = 0; j < this->cantCols(); j++){
+            sumaTemporal[j] += this->elemento(i, j);
+        }
+    }
+    //Divido por cantidad de filas (datos) y devuelvo
+    dividirPorCte(sumaTemporal, (double)this->cantFilas());
+    return sumaTemporal;
+}
+
 void Matriz::multiplicarPorVector(const vector<double> &x, vector<double> &rta) {
     if (columnas != x.size() || filas != rta.size()) {
         cerr << "MALAS DIMENSIONES: PRODUCTO POR VECTOR INDEFINIDO\n";

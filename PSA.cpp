@@ -15,6 +15,12 @@ PSA::PSA(Matriz &X, int alpha, int itersMetodoPotencia) {
     this->V = MX.Diagonalizar(alpha, itersMetodoPotencia);
 }
 
+void PSA::cargarCambioDeBase(Matriz &_V, vector<double> _media, int _tam) {
+    this->V = {_V, {}};
+    this->media = _media;
+    this->tam = _tam;
+}
+
 void PSA::Transformar(const vector<double> &orig, vector<double> &rta) {
 
     vector<double> x(orig);
