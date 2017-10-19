@@ -190,6 +190,67 @@ Podemos observar que a partir de $alpha=25$ el score se estabiliza y se mantiene
 
 Utilizando los datos reales, calculamos el mejor $alpha$ para cada clase, y promediamos los resultados. Obtuvimos que (tanto con $k=4$ como con $k=5$) el óptimo se alcanza con $alpha=31$. \\
 
+\subsection{K-Fold y Knn}
+Al haber estimado el valor k de knn que mejor se comporta con las muestras de imágenes, nos propusimos analizar la cantidad de Folds con la que separamos nuestro espacio de muestra para entrenar.\\
+
+Nuevamente utilizaremos 10000 de las 42000 imágenes, dado que, experimentar con distintos valores de kfolds se vuelve muy costoso mientras más cantidad de elementos haya. Consideramos que 10000 es un número representativo del total.\\
+
+Como kfold es un método de corroborar estadísticamente el entrenamiento realizado, esperamos que los puntajes de cada clase no varíen demasiado conforme se vaya cambiando el K.\\
+
+\begin{figure}
+ \centering
+  \subfloat{
+   
+   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase0.png}}
+   \subfloat{
+   
+    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase1.png}}
+
+\centering
+  \subfloat{
+   
+   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase2.png}}
+   \subfloat{
+   
+    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase5.png}}
+
+\centering
+  \subfloat{
+   
+   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase7.png}}
+   \subfloat{
+   
+    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase9.png}}
+
+\captionof{figure}{Puntuaciones de las clases 0, 1, 2, 5, 7 y 9 a medida que aumenta el valor de K}
+\end{figure}
+
+
+
+
+
+
+
+
+
+Utilizamos K desde 2 hasta 70 porque creemos que abarcamos un rango amplio de valores.\\
+
+Mostramos los gráficos de las clases 5, 7 y 9 porque son las más ``caóticas'' y de 0, 1 y 2 porque son standar, los gráficos de 3, 4, 6 y 8 son similares a estos últimos.\\
+
+Si bien en algunas clases es más caótico que en otras, podemos observar que a medida que aumentamos los valores de K, el puntaje se estabiliza, lo cual no sucede con el tiempo que tarda al ejecutarse.\\
+
+{\centering
+    \includegraphics[scale=0.8]{informe/imagenes/kfold/knn/tiempokfold.png} \\
+    \captionof{figure}{Tiempo de cómputo para cada K de K-Fold.\\}
+}
+$ $\newline
+
+En este gráfico mostramos cuanto tarda en ejecutarse el entrenamiento con knn y utilizando la técnica kfold.\\
+
+Por lo que consideramos que K=15 para kfold con knn es una buena estimación, dado que se mantienen altos los valores de los puntajes y el tiempo de cómputo es menor a lo que serían en caso de tomar un K mayor.\\
+
+
+
 \subsection{TODO:}
 
 \todo[inline]{Resultados Kaggle con pca - @jonno Esto ya los tengo listos, nomas tengo que graficarlos}
