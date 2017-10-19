@@ -303,14 +303,26 @@ Veamos los datos exactos de los 3 máximos puntajes comparados con nuestra predi
 
 La diferencia entre $alpha=31$ con el máximo es 0.00242. Es decir, nuestra predicción estuvo \textit{bastante cercana} pero no fue del todo precisa. Para descartar que sean diferencias producidas por la elección de $k$, se relizaron algunas pruebas con $k=3$ y $k=5$, y en todas se obtuvo un puntaje superio usando $k=4$. Concluimos que en Kaggle los mejores parámetros para PCA son $k=4$ y $alpha=35$.  \\
 
+\section{Experimentación - Tiempo}
+
+Para cerrar con nuestra experimentación, queremos mostrar una comparación entre ambos métodos con respecto al tiempo de ejecución. \\
+
+En kNN, cada vez que comparamos dos vectores debemos analizar 728 componentes, mientras que con PCA nos basta con analizar alrededor de 30 componentes. Esto nos dá la pauta que la clasificación será mucho mas rápida con el segundo método. Sin embargo, en PCA tenemos el costo adicional de crear la matriz de covarianza y diagonalizarla, que no algo manor. Entonces la pregunta que nos hacemos es, ¿esto \textit{compensa} los costos de alguna manera? ¿Cuál sera mas rápido? \\
+
+En las mediciones tomadas, los $k$ y $alpha$ están fijos en ambos métodos. Las diferencias temporales que podrían surgir por la elección de estos parámetros son constantes en el límite, por lo que al ir aumentando la cantidad de imágenes dejan de tener relevancia. Los tiempos no se obtuvieron en una única pasada, sino que ejecutamos los métodos varias veces y lo que graficamos es el promedio obtenido. \\
+
+Como nota del experimento, fuimos aumentando la cantidad de imágenes total y esto implica que lo que aumenta es la cantidad usada como entrenamiento y \textit{también} la cantidad para clasificar. Es decir, lo que se mide es el tiempo tanto de entrenamiento como de clasificación. Los siguientes fueron los resultados. \\
+
+{\centering
+    \includegraphics[scale=0.60]{informe/imagenes/tiemposKnnVsPsa.pdf} \\
+    \captionof{figure}{Tiempos promedio para ambos métodos, variando la cantidad de imágenes.}
+}
+$ $\newline
+
+Aquí vemos el resultado final. Para conjuntos pequeños de imágenes kNN es claramente más rápido. Esta diferencia inicial la explicamos por el tiempo de entrenamiendo de PCA, dónde contruir la matriz de covarianza y diagonalizar tiene un costo asociado. Sin embargo, los resultados con pacas imágenes no son interesantes, pues los entrenamientos con la mayor cantidad de datos posibles son los que logran mejores resultados. \\
+
+A medida que la cantidad de imágenes va aumentando, la curva de tiempo de kNN crece con mayor velocidad, lo cual explica nuestra dificultad para trabajar con conjuntos grándes de imágenes. Con PCA esto no sucede, y de hecho hemos podido realizar nuestros experimentos con el conjunto completo de 42000 muestras sin mayores dificultades. Dado que lo deseable es realizar entrenamientos con cantidades grandes de imágenes, concluimos que PCA es el que tiene el mejor costo computacional. \\
+
 No queremos dejar del lado el hecho de que, más allá de la estimación de los parametros, obtuvimos un accuracy de 0.97542 utilizando PCA. Quedamos muy conformes ya que nos parece un número muy alto, que supera ampliamente las expectativas que teníamos. \\
 
-Recordemos que con kNN obtuvimos un accuracy máximo de 0.97114. Es decir, con PCA obtuvimos \textbf{mejores} resultados (Exactamente una diferencia de 0.00428). La ganancia no fue únicamente en efectividad, sino que tambien en costo computacional. Con estas últimas dos observaciones, estamos en condiciones de asegurar que PCA es el mejor método de ambos. \\
-
-
-\subsection{TODO:}
-
-\todo[inline]{Comparacion TIEMPOS knn y pca+knn, variando cant imagenes (hasta 10000 estaria bien, total se va a notar)}
-
-\todo[inline]{Me parece muy piola de probar con manuscritos hechos por nosotros. Solo si sobra tiempo!}
-
+Recordemos que con kNN obtuvimos un accuracy máximo de 0.97114. Es decir, con PCA obtuvimos \textbf{mejores} resultados (Exactamente una diferencia de 0.00428). La ganancia no fue únicamente en efectividad, sino que tambien en costo computacional. Con estas últimas dos observaciones, estamos en condiciones de asegurar que PCA es el mejor de ambos métodos. \\

@@ -9,8 +9,14 @@ exp_iters: ExperimentadorIters.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp 
 exp_knn: ExperimentadorKnn.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
 	g++ -std=c++11 -O2 ExperimentadorKnn.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o exp_knn
 
+exp_knn_tiempo: ExperimentadorKnnTiempos.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
+	g++ -std=c++11 -O2 ExperimentadorKnnTiempos.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o exp_knn_tiempo
+
 exp_psa_creacion: ExperimentadorPSA_creacion.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
 	g++ -std=c++11 -O2 ExperimentadorPSA_creacion.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o exp_psa_creacion
+
+exp_psa_tiempos: ExperimentadorPSA_tiempos.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
+	g++ -std=c++11 -O2 ExperimentadorPSA_tiempos.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o exp_psa_tiempos
 
 exp_psa_clasificar: ExperimentadorPSA_clasificacion.cpp PSA.cpp PSA.h kNN.cpp kNN.h ImageHandler.cpp ImageHandler.h Covarianza.cpp Covarianza.h MetodoPotencia.cpp MetodoPotencia.h Matriz.cpp Matriz.h Auxiliares.cpp Auxiliares.h
 	g++ -std=c++11 -O2 ExperimentadorPSA_clasificacion.cpp PSA.cpp kNN.cpp ImageHandler.cpp Covarianza.cpp MetodoPotencia.cpp Matriz.cpp Auxiliares.cpp -o exp_psa_clasificar
@@ -38,4 +44,5 @@ test_cov:
 
 clean:
 	rm -f *.o
-	rm -f metodoPotencia cov main test_image_handler knn_test exp_iters exp_knn exp_psa_creacion exp_psa_clasificar exp_knn_kfold
+	rm -f metodoPotencia cov main test_image_handler knn_test exp_iters exp_knn exp_psa_creacion exp_psa_clasificar exp_knn_tiempo exp_psa_tiempos exp_knn_kfold
+
