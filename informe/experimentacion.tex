@@ -113,8 +113,6 @@ Si bien estamos tentados a utilizar 2 o 3 Folds debido al costo temporal total, 
 
 \subsection{kNN}
 
-\todo[inline]{Quiza, graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien. Creo igual que conviene hacerlo en la comparacion con pca y ya, sino es info repetida-}
-
 Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida que vamos variando el \textit{k}. Si bien nuestro espacio posible de muestras es 42000, usar un espacio de ese tamaño se vuelve prohibitivo ya que debemos iterar gran cantidad de veces sobre el espacio. Por este motivo, vamos a considerar un espacio de 10000 muestras. Es esperable que con las 42000 muestras consigamos resultados mejores, y lo verificaremos cuando enviemos los resultados a Kaggle. \\
 
 Dado que nuestros vectores viven en $\mathbb{R}^{784}$, esperamos que los resultados aplicando kNN (sin reducir dimensiones) sean malos por problemas con la \textit{maldición de la dimensión}, y sobre todo porque no estamos considerando el espacio de muestras completo. \\
