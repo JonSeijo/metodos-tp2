@@ -1,4 +1,4 @@
-\section{Experimentación}
+\section{Experimentación inicial}
 
 \subsection{Preliminares}
 
@@ -11,7 +11,7 @@ Dado que el objetivo general será tratar de estimar los mejores parámetros par
 
 \item \textit{K\_kfold}: Cantidad de grupos (\textit{folds}) en el que vamos a dividir nuestro set de datos en los experimentos, para la aplicación de \textit{K-fold cross validation}
 
-\item \textit{alpha ($\alpha$)}: Cantidad de dimensiones consideradas para el análisis de componentes principales (\textit{PSA}).
+\item \textit{alpha ($\alpha$)}: Cantidad de dimensiones consideradas para el análisis de componentes principales (\textit{PCA}).
 
 \end{itemize}
 $ $\newline
@@ -39,6 +39,7 @@ Las métricas que utilizaremos para analizar las clasificaciones son las siguien
 
 Dado que tenemos 10 clases diferentes para la clasificación, cuando calculemos los valores de Precision/Recall lo haremos para cada una de las clases en particular. Nos interesa que nuestro sistema sea bueno en ambas, por lo que a la hora de elegir valores optimos nos centraremos en el F1. \\
 
+\newpage
 \subsection{Método de la potencia}
 
 Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias para el método de la potencia, ya que es algo necesario para todas las mediciones que hagamos. Como adelantamos, para que pasen los tests de la cátedra son necesarias mas de 1000 iteraciones, sin embargo, veremos que con muchas menos iteraciones nuestro accuracy no se modifica. \\
@@ -63,11 +64,56 @@ $ $\newline
 
 La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
 
+\newpage
+\subsection{K-Fold Cross Validation}
+
+Dado que en todos los experimentos que realicemos utilizaremos la técnica de K-Fold Cross Validation, nos interesa ver cuál es la cantidad adecuada de Folds que debemos usar. Para realizar el experimento utilizaremos el método de kNN, dado que es el mas simple. \\
+
+Debido a los costos de kNN, sumado a la cantidad de repeticiones por los folds, utilizaremos 10000 de las 42000 imágenes. Como lo que nos interesa es ver cómo varian los puntajes cuando aumentamos los folds, consideramos que 10000 muestras es lo suficientemente representativo. Esperamos obtener variaciones usando poca cantidad de Folds, pero esperamos que al aumentar la variable K_folds los puntajes de cada clase se estabilicen. \\
+
+\begin{figure}[H]
+\centering
+  \subfloat{
+   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase0.pdf}}
+   \subfloat{
+    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase1.pdf}}
+
+\centering
+  \subfloat{
+   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase2.pdf}}
+   \subfloat{
+    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase5.pdf}}
+
+\centering
+  \subfloat{
+
+   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase7.pdf}}
+   \subfloat{
+
+    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase9.pdf}}
+
+\captionof{figure}{Puntuaciones de las clases 0, 1, 2, 5, 7 y 9 a medida que aumenta el valor de K}
+\end{figure}
+
+En general, las 10 clases son muy similares entre sí, las que elegimos para mostrar son aquellas que más se diferencian. Aunque en algunas clases el comportamiento parece ser un poco menos regular que en otras, podemos observar que a medida que aumentamos los valores de K_folds, el puntaje se estabiliza. Es decir, para todas las clases a partir de cierto punto dá igual cuántos Folds se utilicen. Podemos observar que es sólo utilizando pocos Folds que los puntajes son variables y que con aproximadamente 10 folds las variaciones disminuyen considerablemente.\\
+
+Los tiempos de ejecución para diferentes K_folds fueron los siguientes:
+
+{\centering
+    \includegraphics[scale=0.8]{informe/imagenes/kfold/knn/tiempokfold.png} \\
+    \captionof{figure}{Tiempo de cómputo total utilizando K_folds\\}
+}
+$ $\newline
+
+Si bien estamos tentados a utilizar 2 o 3 Folds debido al costo temporal total, por lo visto en el gráfico de puntajes esto no sería una buena idea pues hay demasiada variación. Consideramos entonces que K_folds=10 es una buena opción ya que es un balance entre puntaje de nuestro clasificador y tiempo de ejecución.
+
+
+\newpage
 \section{Experimentación y resultados - kNN}
 
 \subsection{kNN}
 
-\todo[inline]{Quiza, graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien. Creo igual que conviene hacerlo en la comparacion con psa y ya, sino es info repetida-}
+\todo[inline]{Quiza, graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien. Creo igual que conviene hacerlo en la comparacion con pca y ya, sino es info repetida-}
 
 Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida que vamos variando el \textit{k}. Si bien nuestro espacio posible de muestras es 42000, usar un espacio de ese tamaño se vuelve prohibitivo ya que debemos iterar gran cantidad de veces sobre el espacio. Por este motivo, vamos a considerar un espacio de 10000 muestras. Es esperable que con las 42000 muestras consigamos resultados mejores, y lo verificaremos cuando enviemos los resultados a Kaggle. \\
 
@@ -113,79 +159,6 @@ Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas l
 
 
 \newpage
-
-
-\subsection{K-Fold y Knn}
-
-Al haber estimado el valor k de knn que mejor se comporta con las muestras de imágenes, nos propusimos analizar la cantidad de Folds con la que separamos nuestro espacio de muestra para entrenar.\\
-
-Nuevamente utilizaremos 10000 de las 42000 imágenes, dado que, experimentar con distintos valores de kfolds se vuelve muy costoso mientras más cantidad de elementos haya. Consideramos que 10000 es un número representativo del total.\\
-
-Como kfold es un método de corroborar estadísticamente el entrenamiento realizado, esperamos que los puntajes de cada clase no varíen demasiado conforme se vaya cambiando el K. \\
-
-\begin{figure}[H]
-\centering
-  \subfloat{
-   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase0.pdf}}
-   \subfloat{
-    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase1.pdf}}
-
-\centering
-  \subfloat{
-   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase2.pdf}}
-   \subfloat{
-    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase5.pdf}}
-
-\centering
-  \subfloat{
-
-   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase7.pdf}}
-   \subfloat{
-
-    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase9.pdf}}
-
-\captionof{figure}{Puntuaciones de las clases 0, 1, 2, 5, 7 y 9 a medida que aumenta el valor de K}
-\end{figure}
-
-
-
-Utilizamos K desde 2 hasta 70 porque creemos que abarcamos un rango amplio de valores.\\
-
-Mostramos los gráficos de las clases 5, 7 y 9 porque son las más ``caóticas'' y de 0, 1 y 2 porque son standar, los gráficos de 3, 4, 6 y 8 son similares a estos últimos.\\
-
-Si bien en algunas clases es más caótico que en otras, podemos observar que a medida que aumentamos los valores de K, el puntaje se estabiliza, lo cual no sucede con el tiempo que tarda al ejecutarse.\\
-
-{\centering
-    \includegraphics[scale=0.8]{informe/imagenes/kfold/knn/tiempokfold.png} \\
-    \captionof{figure}{Tiempo de cómputo para cada K de K-Fold.\\}
-}
-$ $\newline
-
-En este gráfico mostramos cuanto tarda en ejecutarse el entrenamiento con knn y utilizando la técnica kfold.\\
-
-Por lo que consideramos que K=15 para kfold con knn es una buena estimación, dado que se mantienen altos los valores de los puntajes y el tiempo de cómputo es menor a lo que serían en caso de tomar un K mayor.\\
-
-
-
-\newpage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \subsection{Accuracy - Kaggle}
 
 Como habíamos mencionado anteriormente, realizar el mismo experimento con el set completo de datos, sumado a las iteraciones por los folds, nos resulta demasiado costoso si consideramos una muestra demasiado grande. Es por esto que para comprobar la \textit{accuracy} de nuestro método decidimos probarlo directamente con la competencia de Kaggle. Queremos ver si efectivamente con k = 3 conseguimos el mejor resultado. Los siguientes resultados fueron obtenidos con un entrenamiento de las 42000 imágenes.\\
@@ -303,6 +276,7 @@ Veamos los datos exactos de los 3 máximos puntajes comparados con nuestra predi
 
 La diferencia entre $alpha=31$ con el máximo es 0.00242. Es decir, nuestra predicción estuvo \textit{bastante cercana} pero no fue del todo precisa. Para descartar que sean diferencias producidas por la elección de $k$, se relizaron algunas pruebas con $k=3$ y $k=5$, y en todas se obtuvo un puntaje superio usando $k=4$. Concluimos que en Kaggle los mejores parámetros para PCA son $k=4$ y $alpha=35$.  \\
 
+\newpage
 \section{Experimentación - Tiempo}
 
 Para cerrar con nuestra experimentación, queremos mostrar una comparación entre ambos métodos con respecto al tiempo de ejecución. \\
