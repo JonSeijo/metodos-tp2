@@ -1,4 +1,4 @@
-\section{Resultados finales y experimentación}
+\section{Experimentación}
 
 \subsection{Preliminares}
 
@@ -63,6 +63,8 @@ $ $\newline
 
 La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
 
+\section{Experimentación y resultados - kNN}
+
 \subsection{kNN}
 
 \todo[inline]{Quiza, graficar tiempos de knn para 10000 muestras, moviendo el k. Los datos ya estan tomados en knnMediciones, solo hay que extraerlos bien. Creo igual que conviene hacerlo en la comparacion con psa y ya, sino es info repetida-}
@@ -108,13 +110,13 @@ El objetivo de el experimento era tratar de estimar el mejor \textit{k} para kNN
 
 Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9 y la mediana es 3, suponemos que el mejor k es 3.
 
-\subsection{Accuracy kNN - Kaggle}
+\subsection{Accuracy - Kaggle}
 
 Como habíamos mencionado anteriormente, realizar el mismo experimento con el set completo de datos, sumado a las iteraciones por los folds, nos resulta demasiado costoso si consideramos una muestra demasiado grande. Es por esto que para comprobar la \textit{accuracy} de nuestro método decidimos probarlo directamente con la competencia de Kaggle. Queremos ver si efectivamente con k = 3 conseguimos el mejor resultado. Los siguientes resultados fueron obtenidos con un entrenamiento de las 42000 imágenes.\\
 
 {\centering
     \includegraphics[scale=0.60]{informe/imagenes/knn/kaggleknn.pdf} \\
-    \captionof{figure}{Accuracy de Kaggle variando k.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
+    \captionof{figure}{Accuracy en Kaggle variando k.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
 }
 $ $\newline
 
@@ -149,6 +151,8 @@ Las diferencias de k=3 con k=2 y k=4 son 0.00172 y 0.00015 respectivamente, que 
 Aunque los números no mienten, no nos parece intuitivo que no considerar ninguna vecindad sea la mejor opción. Imaginamos que este resultado puede asociarse con la maldición de la dimensionalidad, y creemos que con PCA el mejor k será uno mayor. También es posible que los datos de tests de Kaggle tengan un sesgo hacia aquellos cuyos $k$ óptimo es menor, pero como no conocemos las verdaderas etiquetas no podemos saberlo. \\
 
 % \todo[inline]{¿QUIZA? -> Concluimos que para unicamente kNN, el mejor parámetro para k es k=EQUIS.}
+
+\section{Experimentación y resultados - PCA}
 
 \subsection{PCA}
 
@@ -190,12 +194,47 @@ Podemos observar que a partir de $alpha=25$ el score se estabiliza y se mantiene
 
 Utilizando los datos reales, calculamos el mejor $alpha$ para cada clase, y promediamos los resultados. Obtuvimos que (tanto con $k=4$ como con $k=5$) el óptimo se alcanza con $alpha=31$. \\
 
-\subsection{TODO:}
+\subsection{Accuracy - Kaggle}
 
-\todo[inline]{Resultados Kaggle con pca - @jonno Esto ya los tengo listos, nomas tengo que graficarlos}
+Tal como hicimos con el método de kNN, nos gustaría ver cuáles son los resultados de PCA en la competencia de Kaggle. Con esto esperamos obtener el accuracy para nuestro método con un set de datos para el cual no conocemos sus etiquetas, que no fue utilizado como parte del entrenamiento. Nos parece la mejor opción para medir la efectividad pues es lo más cercano que tenemos al ambiente fuera de nuestro entorno de pruebas. \\
+
+Nos gustaría ver, además, si el $alpha$ estimado se corresponde con el $alpha$ máximo en Kaggle. Creemos que en el caso de no ser exacto, estaremos muy cerca ya que nuestra recolección de datos sobre precision y recall fue bastante detallada. En el gráfico a continuación se muestran los resultados para diferentes $alpha$, siempre con $k=4$. \\
+
+{\centering
+    \includegraphics[scale=0.60]{informe/imagenes/pca/clasificacionKaggle.pdf} \\
+    \captionof{figure}{Accuracy en Kaggle variando alpha.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
+}
+$ $\newline
+
+Veamos los datos exactos de los 3 máximos puntajes comparados con nuestra predicción: \\
+
+\begin{center}
+    \begin{tabular}{| c | c |}
+    \hline
+    % k   & Score  \\ \hline
+    % 2   & 0.97114  \\ \hline
+    % 4   & 0.96957  \\ \hline
+    % 3   & 0.96942  \\ \hline
+     Accuracy    & Alpha  \\ \hline
+     0.97542  & 35  \\ \hline
+     0.97500  & 36  \\ \hline
+     0.97485  & 34  \\ \hline
+     % ..  & ..  \\ \hline
+     0.97300  & 31  \\ \hline
+    \end{tabular}
+\end{center}
+
+La diferencia entre $alpha=31$ con el máximo es 0.00242. Es decir, nuestra predicción estuvo \textit{bastante cercana} pero no fue del todo precisa. Para descartar que sean diferencias producidas por la elección de $k$, se relizaron algunas pruebas con $k=3$ y $k=5$, y en todas se obtuvo un puntaje superio usando $k=4$. Concluimos que en Kaggle los mejores parámetros para PCA son $k=4$ y $alpha=35$.  \\
+
+No queremos dejar del lado el hecho de que, más allá de la estimación de los parametros, obtuvimos un accuracy de 0.97542 utilizando PCA. Quedamos muy conformes ya que nos parece un número muy alto, que supera ampliamente las expectativas que teníamos. \\
+
+Recordemos que con kNN obtuvimos un accuracy máximo de 0.97114. Es decir, con PCA obtuvimos \textbf{mejores} resultados (Exactamente una diferencia de 0.00428). La ganancia no fue únicamente en efectividad, sino que tambien en costo computacional. Con estas últimas dos observaciones, estamos en condiciones de asegurar que PCA es el mejor método de ambos. \\
+
+
+\subsection{TODO:}
 
 \todo[inline]{Comparacion TIEMPOS knn y pca+knn, variando cant imagenes (hasta 10000 estaria bien, total se va a notar)}
 
 \todo[inline]{Me parece muy piola de probar con manuscritos hechos por nosotros. Solo si sobra tiempo!}
 
-\todo[inline]{Algo de kfold}
+\todo[inline]{Quiza - Algo de kfold}
