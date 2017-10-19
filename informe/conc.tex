@@ -1,16 +1,12 @@
 \section{Conclusión}
 
-Concluimos que quedó re zarpado en piola.\\
+En este trabajo analizamos e implementamos un sistema de reconocimiento de dígitos manuscritos a partir de imágenes. En primer lugar utilizamos una idea sencilla, kNN, que funcionó de una manera mucho mejor de lo esperada. Lidiando con problemas en los tiempo de ejecución y con la gran cantidad de dimensiones, desarrollamos el método PCA para reducir la cantidad de variables de las muestras. \\
 
+Analizamos, con la técnica de K-fold Cross Validation, los resultados obtenidos y los niveles de Precision, Recall y F1 que se lograron al ir variando los diferentes parámetros de nuestros métodos. Con estos datos, estimamos cuáles eran aquellos parámetros que conseguían los mejores resultados posibles. \\
 
+Medimos la eficiencia de ambos métodos, tanto en efectividad como en costo temporal, y encontramos que PCA es el mejor de ambos. \\
 
-ESTO DE ABAJO ESTÁ COMO COSA PREELIMINAR, PUEDEN CAMBIAR, BORRAR Y AGREGAR LO QUE QUIERAN\\
+Utilizamos nuestro sistema para participar en la competencia de Kaggle, que utiliza una base de datos para la cuál no conocemos sus verdaderos valores, y así poder evaluar la efectividad de nuestros métodos. Dado que obtuvimos un puntaje máximo de 0.97542, concluimos que nuestro desarrollo sobre las técnicas de reconocimiento de dígitos fue satisfactorio. \\
 
-
-En este trabajo analizamos e implementamos una técnica de reonocimiento de dígitos. Utilizamos el método PCA para reducir la cantidad de variables de las muestras y agilizar la ejecución y la técnica kNN en el entrenamiento del programa. Luego corroboramos con K-fold los niveles de precision, recall y f1 obtenidos en dicho entrenamiento.\\
-
-Estimamos parámetros de las técnicas utilizadas (PCA, kNN y Kfold) para buscar los mejores resultados y que consuman menor tiempo de cómputo.\\
-
-Finalmente utilizamos la implementación realizada para participar en la competencia de Kaggle y evaluar la efectividad de nuestro programa.\\
-
-Comprendimos lo fundamental que resulta el estudio de los elementos teóricos vistos en la materia (en particular todo lo relacionado a autovalores, autovectores y diagonalización de matrices, aplicado en PCA) y desarrollamos satisfactoriamente la técnica de reconocimiento de dígitos.
+% Esta lindo pero me suena muy forzado :p - jonno
+% Comprendimos lo fundamental que resulta el estudio de los elementos teóricos vistos en la materia (en particular todo lo relacionado a autovalores, autovectores y diagonalización de matrices, aplicado en PCA) y desarrollamos satisfactoriamente la técnica de reconocimiento de dígitos.

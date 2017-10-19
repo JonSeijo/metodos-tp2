@@ -20,9 +20,12 @@ Dado que nuestras imágenes son en realidad vectores en $\mathbb{R}^{784}$ (pues
 
 La idea fundamental es que grupos de imágenes similares estarán cercanas entre sí, por lo que al querer identificar una imagen desconocida, nos basta con ver cuál es la categoría de las imagenes cercanas. Dado que existe la posibilidad de \textit{outliers}, o que la imagen caiga cerca del límite entre dos grupos, no tomaremos la única imagen mas cercana sino que consideraremos el conjunto de las \textit{k} más cercanas. \\
 
-\todo[inline]{Usar alguna imagen ilustrativa}
+La siguiente figura ejemplifica el caso en el que la muestra se clasificaría incorrectamente si no consideramos una vecindad. Lo que interesa para el método es encontrar el grupo mas cercano, e ignorar si hay un único elemento cercano que sea distinto. \\
 
-
+{\centering
+    \includegraphics[scale=0.60]{informe/imagenes/knn/ejemploCluster.png} \\
+    \captionof{figure}{Ejemplo de una posible distribución donde debemos considerar una vecindad. \\ }
+}
 $ $\newline
 
 Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variabels por copias. Además, para tomar los $k$ de menor distancia utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente del tamaño de $n$, mientras que $k$ en general es pequeño.\\
@@ -50,15 +53,16 @@ Si fijamos por ejemplo $k = 25$ y $n = 42000$ (n maximo), podemos realizar el si
 
 Aunque quizá un millón de comparaciones no parece excesivo, es importante aclarar que cada comparación consiste en ver componente a componente las diferencias entre vectores, dónde cada vector tiene 728 componentes. Además, esto es para el caso de clasificar una única imagen. Si queremos clasificar muchas imágenes deberíamos repetir el procedimiento para cada una de ellas, y si consideramos que la base de Kaggle tiene más de 20000 imágenes para clasificar, optimizar el método no es algo menor. \\
 
-
-\todo[inline]{TODO: Estaria bueno en la experimentacion hacer una medicion de tiempos entre posibles implementaciones de knn.}
+% Pero esto no sucederá
+% \todo[inline]{TODO: Estaria bueno en la experimentacion hacer una medicion de tiempos entre posibles implementaciones de knn.}
 
 Tendría mucho sentido explorar algún método que reduzca el costo de las comparaciones. En la siguiente sección presentaremos un método que analiza sólo las componentes principales de nuestros vectores en vez de las 728 ya mencionadas. En la sección de experimentación realizaremos comparaciones entre ambos métodos. \\
 
 
+\newpage
 \section{Componentes Principales}
 
-En esta sección hablaremos sobre el método de \textit{Principal Component Analysis} (en español, análisis de componentes principales). El problema que teníamos con el método anterior es la gran cantidad de dimensiones con las que teníamos que lidiar. Este método lo que intenta es reducir la dimensionalidad de un conjunto de datos, quedandose únicamente con aquellas dimensiones más significativas. Podemos considerar que las dimensiones de nuestro espacio son las componentes de la muestra, por lo tanto, estamos buscando justamente las componentes principales. \\
+En esta sección hablaremos sobre el método de \textit{Principal Component Analysis} (en español, análisis de componentes principales). En adelante, lo llamaremos simplemente PCA. El problema que teníamos con el método anterior es la gran cantidad de dimensiones con las que teníamos que lidiar. Este método intenta reducir la dimensionalidad de un conjunto de datos, quedandose únicamente con aquellas dimensiones más significativas. Podemos considerar que las dimensiones de nuestro espacio son las componentes de la muestra, por lo tanto, estamos buscando justamente las componentes principales. \\
 
 % Che alto copypaste de wikipedia
 % Supongamos que existe una muestra con n individuos para cada uno de los cuales se han medido m variables (aleatorias) $F_{j}$. El PCA permite encontrar un número de factores subyacentes p $<$ m que explican aproximadamente el valor de las m variables para cada individuo. El hecho de que existan estos p factores subyacentes puede interpretarse como una reducción de la dimensionalidad de los datos: donde antes necesitabamos m valores para caracterizar a cada individuo ahora nos bastan p valores. Cada uno de los p encontrados se llama componente principal, de ahí el nombre del método. \\
@@ -119,6 +123,7 @@ Otro detalle es que el vector inicial $x_0$ es elegido aleatoriamente. Si bien e
 
 El último factor a tener en cuenta es la cantidad de iteraciones para la convergencia. Para que pasen los tests de la cátedra es necesario hacer más de 1000 iteraciones. Sin embargo, como veremos en la sección de experimentación, con una cantidad muchísimo menor de iteraciones el accuaracy obtenido no se modifica, por lo que tomaremos una cantidad mucho menor de iteraciones para optimizar el tiempo de ejecución. \\
 
+\newpage
 \section{K-Fold Cross Validation}
 
 A lo largo de la experimentación, entrenaremos nuestro sistema con un cierto conjunto de datos y luego clasificaremos muestras. Como queremos saber qué tan bien o qué tan mal funciona nuestra sistema, estas muestras estarán etiquetadas para poder comparar el grupo real con el grupo predicho. \\
@@ -135,6 +140,7 @@ El método consiste en particionar nuestro espacio de muestras en $K$ grupos (a 
 $ $\newline
 Dado que nuestra clasificación no es binaria, los datos que obtendremos serán para cada una de las 10 categorías, y la efectividad de los parámetros se analizará por separado. Es posible que nuestro clasificador sea muy bueno para ciertos dígitos pero que sea malo para otros. \\
 
-\todo[inline]{No se si vale la pena mencionar la implementacion, pensar que mas}
+% Evidentemente no
+% \todo[inline]{No se si vale la pena mencionar la implementacion, pensar que mas}
 
 
