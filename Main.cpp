@@ -79,9 +79,9 @@ int main(int argc, char **argv) {
         }
     }
 
-    int itersMetodoPotencia = 50;
+    int itersMetodoPotencia = 300;
     int k_knn = 4;
-    int alpha = 20;
+    int alpha = 50;
 
     int acertadas = 0;
 
@@ -140,7 +140,6 @@ int main(int argc, char **argv) {
 
     } else if (tipo == TIPO_KNN_PSA) {
 
-         // Ya tengo los datos del fold listos para entrenarlos con el metodo elegido
         Matriz matrizDatos(imagenes);
         PSA psa(matrizDatos, alpha, itersMetodoPotencia);
 
@@ -156,7 +155,7 @@ int main(int argc, char **argv) {
         knnador.train(labeles, datosConvertidos);
 
 
-       fstream outfile(filepathResultados, fstream::out);
+        fstream outfile(filepathResultados, fstream::out);
         if (outfile.fail()) {
             cout << "Perdona, pero hubo un problema al querer abrir " << filepathResultados <<  "\n";
             exit (EXIT_FAILURE);
@@ -170,6 +169,10 @@ int main(int argc, char **argv) {
             psa.Transformar(imageTestHandler.getImagen(j), convertida);
 
             int labelObtenida = knnador.getGroupOf(convertida, k_knn);
+
+
+            // QUITAR ESTO LUEGO ES SOLO PARA EXPERIMENTOS
+            cout << labelObtenida << "\n";
 
             if (testLabeled) {
                 int labelReal = imageTestHandler.getLabel(j);

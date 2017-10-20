@@ -298,3 +298,60 @@ A medida que la cantidad de imágenes va aumentando, la curva de tiempo de kNN c
 No queremos dejar del lado el hecho de que, más allá de la estimación de los parametros, obtuvimos un accuracy de 0.97542 utilizando PCA. Quedamos muy conformes ya que nos parece un número muy alto, que supera ampliamente las expectativas que teníamos. \\
 
 Recordemos que con kNN obtuvimos un accuracy máximo de 0.97114. Es decir, con PCA obtuvimos \textbf{mejores} resultados (Exactamente una diferencia de 0.00428). La ganancia no fue únicamente en efectividad, sino que tambien en costo computacional. Con estas últimas dos observaciones, estamos en condiciones de asegurar que PCA es el mejor de ambos métodos. \\
+
+
+
+\newpage
+\section{Bonus Track}
+
+Nos pareció muy interesante poder comprobar qué tan bien funciona nuestro sistema con dígitos escritos por nosotros. Si bien por cuestiones de tiempo no pudimos experimentar de manera exhaustiva, aquí presentamos algunos resultados. \\
+
+{\centering
+    \includegraphics[scale=0.30]{informe/imagenes/realv1.jpg} \\
+    \captionof{figure}{Dígitos en papel que utilizamos para testear.}
+}
+$ $\newline
+
+Para poder adaptar las imágenes a nuestro sistema realizamos los siguientes pasos:
+
+\begin{itemize}
+\item Negativizamos la imagen para tener blanco sobre negro (y usamos la varíta mágica de \textit{GIMP} para obtener la figura sin el fondo).
+\item Recortamos cada dígito para separarlos de los demás.
+\item Escalamos la imagen a 28x28.
+\item Exportamos la imagen con formato ppm.
+\item Utilizamos el conversor del TP anterior para obtener nuestros datos como vector.
+\end{itemize}
+
+Los dígitos que utilizamos intentaron ser lo más naturales posibles, e incluimos unas pequeñas variaciones del 6 y el 9. Utilizamos el método de PCA, entrenando con las 42000 imágenes. Probamos para $alpha=31$ y $alpha=35$, que fueron nuestra estimación y lo mejor que obtuvimos en Kaggle, respectivamente. \\
+
+Algo a tener en cuenta, es que es posible que el escalado a 28x28 que realizamos haya logrado que la imagen original ya no sea tan reconocible. Hubiese sido interesante buscar algún metodo para realizar el proceso que degrade la imagen lo menos posible. \\
+
+A continuación, un cuadro comparativo con los resultados. \\
+
+
+% \setulcolor{blue}
+\begin{center}
+    \begin{tabular}{| c | c | c |}
+    \hline
+     Clase real    & Alpha = 31  & Alpha = 35 \\  \hline
+     0 &     2  & 8 \\ \hline
+     1 & \color{blue}{1} & \color{blue}{1} \\ \hline
+     2 & \color{blue}{2} & 1 \\ \hline
+     3 & \color{blue}{3} & \color{blue}{3} \\ \hline
+     4 & \color{blue}{4} & \color{blue}{4} \\ \hline
+     5 & \color{blue}{5} & \color{blue}{5} \\ \hline
+     6 & 0 & 0 \\ \hline
+     6 & 7 & \color{blue}{6} \\ \hline
+     7 & \color{blue}{7} & \color{blue}{7} \\ \hline
+     8 & \color{blue}{8} & \color{blue}{8} \\ \hline
+     9 & 4 & 4 \\ \hline
+     9 & 2 & \color{blue}{9} \\ \hline
+    \end{tabular}
+\end{center}
+
+\begin{itemize}
+\item Con $alpha=31$ logramos un accuracy de $\frac{7}{12}$
+\item Con $alpha=35$ logramos un accuracy de $\frac{8}{12}$
+\end{itemize}
+
+Parece que Kaggle tenía razón :) \\
