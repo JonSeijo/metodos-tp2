@@ -28,7 +28,7 @@ La siguiente figura ejemplifica el caso en el que la muestra se clasificaría in
 }
 $ $\newline
 
-Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variables por copias. Además, para tomar los $k$ de menor distancia utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente del tamaño de $n$, mientras que $k$ en general es pequeño.\\
+Como detalles de implementación, intentamos siempre minimizar la cantidad de operaciones y evitar el pasaje de variables por copias. Además, para tomar los $k$ de menor distancia utilizamos un \textit{min-heap} que tiene una complejidad menor que las alternativas. Esto es interesante considerar pues la cantidad de iteraciones depende fuertemente la cantidad de muestras, mientras que $k$ en general es pequeño.\\
 
 Aquí algunas de las alternativas consideradas para la elección de los $k$ menores, con $n$: cantidad de imágenes.
 
@@ -56,7 +56,7 @@ Aunque quizá un millón de comparaciones no parece excesivo, es importante acla
 % Pero esto no sucederá
 % \todo[inline]{TODO: Estaria bueno en la experimentacion hacer una medicion de tiempos entre posibles implementaciones de knn.}
 
-Tendría mucho sentido explorar algún método que reduzca el costo de las comparaciones. En la siguiente sección presentaremos un método que analiza sólo las componentes principales de nuestros vectores en vez de las 728 ya mencionadas. En la sección de experimentación realizaremos comparaciones entre ambos métodos. \\
+Tendría mucho sentido explorar algún método que reduzca el costo de las comparaciones. En la siguiente sección presentaremos un método que analiza sólo las componentes principales de nuestros vectores en vez de las 728 ya mencionadas. \\
 
 
 \newpage
@@ -81,20 +81,21 @@ La matriz $X$ contiene todos nuestros datos normalizados. Para encontrar compone
 
 $$M_x = X^t X$$
 
-El siguiente paso será diagonalizar $M_x$. Esto es posible ya que la matriz de covarianzas es simpetrica, por lo que sus autovectores forman una base ornotormal. Lo que logramos con esto es que la varianza de cada variable quede expresada en la diagonal, y como en la diagonal encontraremos valores positivos (pues es simétrica) ordenados de mayor a menor, sus autovectores asociados representarán las componentes principales.
+El siguiente paso será diagonalizar $M_x$. Esto es posible ya que la matriz de covarianzas es simétrica, por lo que sus autovectores forman una base ornotormal. Lo que logramos con esto es que la varianza de cada variable quede expresada en la diagonal, y como en la diagonal encontraremos valores positivos (pues es simétrica) ordenados de mayor a menor, sus autovectores asociados representarán las componentes principales.
 
 $$ M_x = V^t D V$$
 
 Debido a que nos interesan únicamente las componentes principales, podemos tomar de $V^t$ las primeras $alpha$ componentes y utilizarlas como una matriz de cambio de base. \\
 
-Para finalizar, a cada una de nuestras muestras les aplicamos el proceso de normalización expuesto en (1), y luego le aplicamos el cambio de base que acabamos de conseguir. Cuándo querramos clasificar una nueva imagen, también debemos normalizarla y aplicarle la transformación. \\
+Para finalizar, a cada una de nuestras muestras les aplicamos el proceso de normalización expuesto en (1), y luego le aplicamos el cambio de base que acabamos de conseguir. Cuando querramos clasificar una nueva imagen, también debemos normalizarla y aplicarle la transformación. \\
 
 Este método logra reducir la dimensión de nuestros datos, por lo que cuando elijamos los k vecinos más cercanos en este nuevo espacio, estaremos haciendo comparaciones únicamente con las componentes principales, por lo que estaríamos reduciendo el tiempo de cómputo considerablemente. Veremos más adelante si esta disminución de dimensión empeora los resultados obtenidos. \\
 
-Para poder hacer uso de este método tendremos que hacer un cálculo de autovectores, para esto utilizaremos el método de la potencia y el método de deflación, ambos explicados en la siguiente sección. \\
+% Para poder hacer uso de este método tendremos que hacer un cálculo de autovectores, para esto utilizaremos el método de la potencia y el método de deflación, ambos explicados en la siguiente sección. \\
 
 Un problema que surgió con la implementación es que el cálculo de la matriz de covarianzas y su diagonalización resulta costoso. Si queremos experimentar para diferentes $k$ esto resulta problemático. Por este motivo, en nuestros experimentos, aprovechamos que si sólo variamos el $k$ la matriz de cambio de base se mantiene igual guardando nuestras matrices de cambio de base en como csv para simplemente cargarla si ya fué calculada. \\
 
+\newpage
 \section{Método de la potencia y Deflación}
 
 Cómo habíamos mencionado, para poder diagonalizar la matriz de covarianza necesitamos conseguir los autovalores y autovectores. Conseguir los autovalores de la manera tradicional implica encontrar las raíces de un polinomio de grado 784, y no es algo que estemos dispuestos a intentar. Utilizaremos entonces el método iterativo conocido como \textit{Método de la potencia}.
@@ -121,7 +122,7 @@ Por lo tanto, cuando apliquemos el método de la potencia en la matriz resultant
 
 Otro detalle es que el vector inicial $x_0$ es elegido aleatoriamente. Si bien es posible en teoría que con un cierto $x_0$ el método no converja, en la práctica eso no sucede. En primer lugar, hay muy pocas probabilidades de tomarlo, y en segundo lugar, los errores de precisión juegan a nuestro favor, ya que con una mínima desviación el $x_0$ deja de ser problemático. \\
 
-El último factor a tener en cuenta es la cantidad de iteraciones para la convergencia. Para que pasen los tests de la cátedra es necesario hacer más de 1000 iteraciones. Sin embargo, como veremos en la sección de experimentación, con una cantidad muchísimo menor de iteraciones el accuaracy obtenido no se modifica, por lo que tomaremos una cantidad mucho menor de iteraciones para optimizar el tiempo de ejecución. \\
+El último factor a tener en cuenta es la cantidad de iteraciones para la convergencia. Para que pasen los tests de la cátedra es necesario hacer más de 1000 iteraciones. Sin embargo, como veremos en la sección de experimentación, con una cantidad muchísimo menor de iteraciones el accuaracy obtenido no se modifica, por lo que en la práctica tomaremos una cantidad mucho menor de iteraciones para optimizar el tiempo de ejecución. \\
 
 \newpage
 \section{K-Fold Cross Validation}
@@ -130,7 +131,7 @@ A lo largo de la experimentación, entrenaremos nuestro sistema con un cierto co
 
 Dado que nuestra base de información es, si bien extensa, limitada, surge la pregunta de cómo elegir cuáles datos entrenar y cuáles clasificar. Más aún, si tomamos siempre los mismos datos, los mejores parámetros que obtengamos serán para ese set de datos en particular, y esto no es algo deseable (el problema mencionado es conocido como \textit{overfitting}). Para resolver estas problemáticas, utilizaremos la técnica de \textit{K-Fold Cross Validation}. \\
 
-El método consiste en particionar nuestro espacio de muestras en $K$ grupos (a partir de ahora, \textit{folds}) y utilizar $K - 1$ folds como datos de entrenamiendo y el fold restante para testeo. Fijados $K$ y los demás parámetros necesarios para nuestro entrenamiento, ejecutaremos el método $K$ veces, donde en cada iteración se varía cuál es el fold que se utilizará para testear. Al finalizar cada iteración se obtendrá un valor correspondiente a cierta métrica (por ejemplo $accuaracy$) y el resultado final será el promedio de todas las iteraciones. \\
+El método consiste en particionar nuestro espacio de muestras en $K$ grupos (a partir de ahora, \textit{folds}) y utilizar $K - 1$ folds como datos de entrenamiendo y el fold restante para testeo. Fijados $K$ y los demás parámetros necesarios para nuestro entrenamiento, ejecutaremos el método $K$ veces, donde en cada iteración se varía cuál es el fold que se utilizará para testear. Al finalizar cada iteración se obtendrá un valor correspondiente a cierta métrica (por ejemplo $Precision$) y el resultado final será el promedio de todas las iteraciones. \\
 
 {\centering
     \includegraphics[scale=0.30]{informe/imagenes/kfold/kfoldEjemplo2.png} \\
@@ -138,7 +139,7 @@ El método consiste en particionar nuestro espacio de muestras en $K$ grupos (a 
     (Fuente de imagen: Clase de laboratorio) \\ }
 }
 $ $\newline
-Dado que nuestra clasificación no es binaria, los datos que obtendremos serán para cada una de las 10 categorías, y la efectividad de los parámetros se analizará por separado. Es posible que nuestro clasificador sea muy bueno para ciertos dígitos pero que sea malo para otros. \\
+Dado que nuestra clasificación no es binaria, los datos que obtendremos serán para cada una de las 10 categorías, y la efectividad de los parámetros se analizará por separado: es posible que nuestro clasificador sea muy bueno para ciertos dígitos pero que sea malo para otros. \\
 
 % Evidentemente no
 % \todo[inline]{No se si vale la pena mencionar la implementacion, pensar que mas}

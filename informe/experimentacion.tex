@@ -113,7 +113,7 @@ Si bien estamos tentados a utilizar 2 o 3 Folds debido al costo temporal total, 
 
 \subsection{kNN}
 
-Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida que vamos variando el \textit{k}. Si bien nuestro espacio posible de muestras es 42000, usar un espacio de ese tamaño se vuelve prohibitivo ya que debemos iterar gran cantidad de veces sobre el espacio. Por este motivo, vamos a considerar un espacio de 10000 muestras. Es esperable que con las 42000 muestras consigamos resultados mejores, y lo verificaremos cuando enviemos los resultados a Kaggle. \\
+Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida que vamos variando el \textit{k}. Si bien nuestro espacio posible de muestras es 42000, usar un espacio de ese tamaño se vuelve prohibitivo ya que debemos iterar gran cantidad de veces sobre el espacio. Por este motivo, vamos a considerar un espacio de 10000 muestras, aunque es esperable que con las 42000 muestras consigamos resultados mejores. \\
 
 Dado que nuestros vectores viven en $\mathbb{R}^{784}$, esperamos que los resultados aplicando kNN (sin reducir dimensiones) sean malos por problemas con la \textit{maldición de la dimensión}, y sobre todo porque no estamos considerando el espacio de muestras completo. \\
 
@@ -203,7 +203,8 @@ Aunque los números no mienten, no nos parece intuitivo que no considerar ningun
 
 \subsection{PCA}
 
-En esta sección intentaremos estimar los mejores parámetros para el método de PCA. Debido a que el tiempo de procesamiento es menor que en kNN, pudimos realizar los experimentos con la base completa de 42000 imágenes, por lo que es esperable que obtengamos resultados de mejor calidad. De todas maneras, en Kaggle enviamos resultados tanto de kNN como PCA que utilizaban la misma cantidad de imágenes de entrenamiento, por lo que ambos métodos estarán en igualdad de condiciones en ese caso al determinar cuál resultó mejor. \\
+En esta sección intentaremos estimar los mejores parámetros para el método de PCA. Debido a que el tiempo de procesamiento es menor que en kNN, pudimos realizar los experimentos con la base completa de 42000 imágenes, por lo que es esperable que obtengamos resultados de mejor calidad. \\
+%De todas maneras, en Kaggle enviamos resultados tanto de kNN como PCA que utilizaban la misma cantidad de imágenes de entrenamiento, por lo que ambos métodos estarán en igualdad de condiciones en ese caso al determinar cuál resultó mejor. \\
 
 Dado que lo que nos interesará para determinar los mejores parámetros será el balance entre Precision y Recall, consideraremos los valores de F1 para nuestro análisis.  \\
 
