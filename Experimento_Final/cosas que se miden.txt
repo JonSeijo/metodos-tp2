@@ -1,0 +1,18 @@
+Uso los parametros que estimamos en el tp
+
+alpha = 31
+knn = 4
+Kfold = 10
+iteraciones de metodo potencia = 50
+
+
+
+
+cant_entrenamiento -> la cantidad de imagenes que se uso para entrenar
+clase -> el dígito correspondiente
+precision -> promedio de los precisions de cada k fold
+recall -> promedio de los recall de cada k fold
+f1 -> promedio de los f1 de cada k fold
+tiempo_por_fold -> lo que se tarda al hacer 1 fold (esto quedo del script con el que hice experimentos de kfold) (nanosegundos (10^(-9) segundos))
+tiempo_total_knn_pca -> lo que se tarda haciendo knn + pca (nanosegundos (10^(-9) segundos))
+tiempo_total_fold -> suma de tiempos de todos los folds (nanosegundos (10^(-9) segundos))
