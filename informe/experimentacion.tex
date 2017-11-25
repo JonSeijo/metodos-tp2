@@ -71,29 +71,46 @@ Dado que en todos los experimentos que realicemos utilizaremos la técnica de K-
 
 Debido a los costos de kNN, sumado a la cantidad de repeticiones por los folds, utilizaremos 10000 de las 42000 imágenes. Como lo que nos interesa es ver cómo varian los puntajes cuando aumentamos los folds, consideramos que 10000 muestras es lo suficientemente representativo. Esperamos obtener variaciones usando poca cantidad de Folds, pero esperamos que al aumentar la variable K_folds los puntajes de cada clase se estabilicen. \\
 
-\begin{figure}[H]
-\centering
-  \subfloat{
-   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase0.pdf}}
-   \subfloat{
-    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase1.pdf}}
 
-\centering
-  \subfloat{
-   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase2.pdf}}
-   \subfloat{
-    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase5.pdf}}
+{\centering
+\includegraphics[width=0.8\textwidth]{informe/imagenes/kfold/reentrega/precision.pdf}
+\captionof{figure}{Precision a medida que aumenta el valor de K}
+}
+{\centering
+\includegraphics[width=0.8\textwidth]{informe/imagenes/kfold/reentrega/recall.pdf}
+\captionof{figure}{Recall a medida que aumenta el valor de K}
+}
+{\centering
+\includegraphics[width=0.8\textwidth]{informe/imagenes/kfold/reentrega/f1.pdf}
+\captionof{figure}{F1 a medida que aumenta el valor de K}
+}
 
-\centering
-  \subfloat{
 
-   \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase7.pdf}}
-   \subfloat{
+% \begin{figure}[H]
+% \centering
+%   \subfloat{
+%    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase0.pdf}}
+%    \subfloat{
+%     \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase1.pdf}}
 
-    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase9.pdf}}
+% \centering
+%   \subfloat{
+%    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase2.pdf}}
+%    \subfloat{
+%     \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase5.pdf}}
 
-\captionof{figure}{Puntuaciones de las clases 0, 1, 2, 5, 7 y 9 a medida que aumenta el valor de K}
-\end{figure}
+% \centering
+%   \subfloat{
+
+%    \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase7.pdf}}
+%    \subfloat{
+
+%     \includegraphics[width=0.5\textwidth]{informe/imagenes/kfold/knn/clase9.pdf}}
+
+% \captionof{figure}{Puntuaciones de las clases 0, 1, 2, 5, 7 y 9 a medida que aumenta el valor de K}
+% \end{figure}
+
+$ $\newline
 
 En general, las 10 clases son muy similares entre sí, las que elegimos para mostrar son aquellas que más se diferencian. Aunque en algunas clases el comportamiento parece ser un poco menos regular que en otras, podemos observar que a medida que aumentamos los valores de K_folds, el puntaje se estabiliza. Es decir, para todas las clases a partir de cierto punto dá igual cuántos Folds se utilicen. Podemos observar que es sólo utilizando pocos Folds que los puntajes son variables y que con aproximadamente 10 folds las variaciones disminuyen considerablemente.\\
 
