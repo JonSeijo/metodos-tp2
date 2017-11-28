@@ -122,7 +122,9 @@ Los tiempos de ejecución para diferentes K_folds fueron los siguientes:
 }
 $ $\newline
 
-Si bien estamos tentados a utilizar 2 o 3 Folds debido al costo temporal total, por lo visto en el gráfico de puntajes esto no sería una buena idea pues hay demasiada variación. Consideramos entonces que K_folds=10 es una buena opción ya que es un balance entre puntaje de nuestro clasificador y tiempo de ejecución.
+Si bien estamos tentados a utilizar 2 o 3 Folds debido al costo temporal total, por lo visto en el gráfico de puntajes esto no sería una buena idea pues hay demasiada variación. Consideramos entonces que K_folds=10 es una buena opción ya que es un balance entre puntaje de nuestro clasificador y tiempo de ejecución. \\
+
+Dado que ya estimamos valores de K_folds, todos los valores que obtengamos en los experimentos siguientes seran considerando el promedio de los folds.
 
 
 \newpage
@@ -134,12 +136,12 @@ Nos gustaría analizar qué tan bien (o qué tan mal) se comporta kNN a medida q
 
 Dado que nuestros vectores viven en $\mathbb{R}^{784}$, esperamos que los resultados aplicando kNN (sin reducir dimensiones) sean malos por problemas con la \textit{maldición de la dimensión}, y sobre todo porque no estamos considerando el espacio de muestras completo. \\
 
-Sorprendentemente, lo que sucedió es todo lo contrario a lo que esperábamos, y con kNN obtuvimos (en promedio) precisiones de 0.95. \\
+Lo que sucedió es todo lo contrario a lo que esperábamos, y con kNN obtuvimos (en promedio) precisiones de 0.95. \\
 
 La mayoría de las clases se comportan de manera similar, salvo algunas excepciones que veremos más adelante. Veamos por ejemplo la clase del 0, que fue la \textit{mejor} clase.
 
 {\centering
-    \includegraphics[scale=0.55]{informe/imagenes/knn/precisionClase0.pdf} \\
+    \includegraphics[scale=0.55]{informe/imagenes/knn/precisionClase0REENTREGA.pdf} \\
     \captionof{figure}{Clasificación para clase 0, sólo kNN.\\Precision, Recall y F1, variando k.\\}
 }
 $ $\newline
@@ -155,7 +157,7 @@ $ $\newline
 
 Lo primero que observamos es lo que nos sorprendió: todos comienzan con un Precision/Recall de aproximadamente 0.95, lo cual es un valor muy alto. Parece ser que pese a los problemas de dimensionalidad y del tamaño de la muestra, kNN se comporta bastante bien. Es esperable que con una muestra más grande se comporte mejor. Veremos más adelante qué dice Kaggle al respecto.\\
 
-Otra cosa que podemos observar, es que a medida que el \textit{k} aumenta, \textit{en general} Precision y Recall disminuyen. Consideramos que este comportamiento tiene sentido ya que por el problema de la dimensionalidad, nuestros vectores estén muy dispersos, entonces con un \textit{k} mas grande los \textit{k} mas cercanos no necesariamente son los de su misma clase. \\
+Otra cosa que podemos observar, a partir de $k = 10$ Precision y Recall disminuyen a medida que aumentamos el $k$. Consideramos que este comportamiento tiene sentido ya que por el problema de la dimensionalidad, nuestros vectores estén muy dispersos, entonces con un \textit{k} mas grande los \textit{k} mas cercanos no necesariamente son los de su misma clase. \\
 
 Algo destacable es lo que sucede con la clase del 1 y la clase del 2. Las curvas de Precision y de Recall son opuestas. Si categorizamos una imagen como un 2, es muy probable que sea un 2 realmente. Es decir, cuando lo categorizamos como un 2, no nos equivocamos. Sin embargo, hay muchas imágenes que realmente son 2 pero que no las categorizamos como tal. Con la clase del 1 nos pasa exactamente lo contrario. \\
 
@@ -176,10 +178,10 @@ Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas l
 \newpage
 \subsection{Accuracy - Kaggle}
 
-Como habíamos mencionado anteriormente, realizar el mismo experimento con el set completo de datos, sumado a las iteraciones por los folds, nos resulta demasiado costoso si consideramos una muestra demasiado grande. Es por esto que para comprobar la \textit{accuracy} de nuestro método decidimos probarlo directamente con la competencia de Kaggle. Queremos ver si efectivamente con k = 3 conseguimos el mejor resultado. Los siguientes resultados fueron obtenidos con un entrenamiento de las 42000 imágenes.\\
+Si bien realizar experimentos con el set completo de datos nos resultó prohibitivo por su alto costo, nos gustaría averiguar si el mejor $k$ de kNN que obtuvimos con nuestros experimentos con Cross Validation será el mejor $k$ para el set de Kaggle. Para intentar descubrir cuál es mejor $k$ para Kaggle, analizaremos el \textit{accuracy} que fuimos obteniendo con diferentes valores. Recordemos que con $k = 3$ habíamos obtenido los mejores resultados en nuestras experimentaciones. Los siguientes resultados fueron obtenidos con un entrenamiento de 42000 imágenes. \\
 
 {\centering
-    \includegraphics[scale=0.60]{informe/imagenes/knn/kaggleknn.pdf} \\
+    \includegraphics[scale=0.60]{informe/imagenes/knn/kaggleknnREENTREGA.pdf} \\
     \captionof{figure}{Accuracy en Kaggle variando k.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
 }
 $ $\newline
@@ -225,7 +227,7 @@ En esta sección intentaremos estimar los mejores parámetros para el método de
 
 Dado que lo que nos interesará para determinar los mejores parámetros será el balance entre Precision y Recall, consideraremos los valores de F1 para nuestro análisis.  \\
 
-El siguiente es un gráfico de F1 para algun valor de \textit{alpha} a modo de ejemplo, variando el $k$. Elegimos para mostrar las mismas clases que mostramos en la sección de kNN (1, 2, 5, 7) para tener una primer idea cómo se comporta nuestro método. Recordemos que en kNN para esas clases, los resultados eran los que tenían mayor variación. \\
+El siguiente es un gráfico de F1 para \textit{alpha} = 30, a modo de ejemplo, variando el $k$. Elegimos para mostrar las mismas clases que mostramos en la sección de kNN (1, 2, 5, 7) para tener una primer idea cómo se comporta nuestro método. Recordemos que en kNN para esas clases, los resultados eran los que tenían mayor variación. \\
 
 {\centering
     \includegraphics[scale=0.65]{informe/imagenes/pca/variacionKClases1257PresRecall.pdf} \\
