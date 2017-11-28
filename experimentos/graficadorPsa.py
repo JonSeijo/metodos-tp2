@@ -70,37 +70,56 @@ axes_val = [(0,0), (0,1), (1,0), (1,1)]
 
 #"""
 
-fig, axes = plt.subplots(nrows=2, figsize=(13,10), ncols=2, subplot_kw={'ylim': (0.8, 1.1)})
-fig.subplots_adjust(hspace=.6, wspace=.3)
+# fig, axes = plt.subplots(nrows=2, figsize=(13,10), ncols=2, subplot_kw={'ylim': (0.8, 1.1)})
+# fig.subplots_adjust(hspace=.6, wspace=.3)
 
-for i in range(len(clases)):
-    #for j in range(len(alphas)):
-    datas[0][T_PRECISION][clases[i]].plot(ax=axes[ axes_val[i][0] , axes_val[i][1] ], color=colores[1])
-    datas[0][T_RECALL][clases[i]].plot(ax=axes[ axes_val[i][0] , axes_val[i][1] ], color=colores[0])
-    datas[0][T_F1][clases[i]].plot(ax=axes[ axes_val[i][0] , axes_val[i][1] ], color=colores[2])
+# for i in range(len(clases)):
+#     #for j in range(len(alphas)):
+#     datas[0][T_PRECISION][clases[i]].plot(ax=axes[ axes_val[i][0] , axes_val[i][1] ], color=colores[1])
+#     datas[0][T_RECALL][clases[i]].plot(ax=axes[ axes_val[i][0] , axes_val[i][1] ], color=colores[0])
+#     datas[0][T_F1][clases[i]].plot(ax=axes[ axes_val[i][0] , axes_val[i][1] ], color=colores[2])
 
 
-    axes[ axes_val[i][0] , axes_val[i][1] ].set_title("\nClase: " + str(clases[i]))
-    axes[ axes_val[i][0] , axes_val[i][1] ].set_ylabel("Score", size = 14)
-    axes[ axes_val[i][0] , axes_val[i][1] ].legend(["Precision", "Recall", "F1"], fontsize = 11)
-    axes[ axes_val[i][0] , axes_val[i][1] ].set_xlabel("k de kNN", size = 12)
+#     axes[ axes_val[i][0] , axes_val[i][1] ].set_title("\nClase: " + str(clases[i]))
+#     axes[ axes_val[i][0] , axes_val[i][1] ].set_ylabel("Score", size = 14)
+#     axes[ axes_val[i][0] , axes_val[i][1] ].legend(["Precision", "Recall", "F1"], fontsize = 11)
+#     axes[ axes_val[i][0] , axes_val[i][1] ].set_xlabel("k de kNN", size = 12)
 
-"""
-clasePlot = 5
-logy = False
-TIPO = T_F1
 
-plot_grafo = (datas[0][TIPO][clasePlot]).plot(fontsize = 13, figsize=(11,8), logy=logy, color=colores[0])
-for i in range(1, len(alphas)):
-    datas[i][TIPO][clasePlot].plot(ax=plot_grafo, fontsize = 13, figsize=(11,8), logy=logy, color=colores[i])
-#dataPlotF1[clasePlot].plot(ax=plot_grafo, fontsize = 13, figsize=(11,8), logy=logy, color=colores[2])
+# fig, axes = plt.subplots(nrows=2, figsize=(13,10), ncols=2, subplot_kw={'ylim': (0.8, 1.1)})
+# fig.subplots_adjust(hspace=.6, wspace=.3)
 
-plot_grafo.set_title("Clase: " + str(clasePlot) + "\nValores " + TIPO + " para distintos alphas, variando k", fontsize = 15)
-plot_grafo.set_ylabel("F1 Score", size = 14)
-plot_grafo.legend(["Alpha " + str(alpha) for alpha in alphas], fontsize = 14)
-plot_grafo.set_xlabel("k de kNN", size = 14)
 
-plt.ylim([0.8,1.1])
+
+# clasePlot = 5
+# logy = False
+# TIPO = T_F1
+
+# plot_grafo = (datas[0][TIPO][clasePlot]).plot(fontsize = 13, figsize=(11,8), logy=logy, color=colores[0])
+# for i in range(1, len(alphas)):
+#     datas[i][TIPO][clasePlot].plot(ax=plot_grafo, fontsize = 13, figsize=(11,8), logy=logy, color=colores[i])
+# #dataPlotF1[clasePlot].plot(ax=plot_grafo, fontsize = 13, figsize=(11,8), logy=logy, color=colores[2])
+
+# plot_grafo.set_title("Clase: " + str(clasePlot) + "\nValores " + TIPO + " para distintos alphas, variando k", fontsize = 15)
+# plot_grafo.set_ylabel("F1 Score", size = 14)
+# plot_grafo.legend(["Alpha " + str(alpha) for alpha in alphas], fontsize = 14)
+# plot_grafo.set_xlabel("k de kNN", size = 14)
+
+TIPO = "Precision"
+
+ax = datas[0][T_PRECISION][clases[0]].plot(linestyle='--', marker='.')
+for i in range(1, len(clases)):
+    datas[0][T_PRECISION][clases[i]].plot(ax=ax, linestyle='--', marker='.')
+    # datas[0][T_RECALL][clases[i]].plot(ax=ax, color=colores[i])
+    # datas[0][T_F1][clases[i]].plot(ax=ax, color=colores[i])
+
+
+plt.title(TIPO + ' por clase', fontsize=14)
+plt.ylabel(TIPO)
+plt.xlabel('k de kNN')
+plt.legend(["Clase " + str(clase) for clase in clases])
+
+plt.ylim([0.95,1.00])
 # plt.ylim([0.92,1.02])
-"""
+
 plt.show()

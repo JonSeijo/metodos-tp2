@@ -229,13 +229,39 @@ Dado que lo que nos interesará para determinar los mejores parámetros será el
 
 El siguiente es un gráfico de F1 para \textit{alpha} = 30, a modo de ejemplo, variando el $k$. Elegimos para mostrar las mismas clases que mostramos en la sección de kNN (1, 2, 5, 7) para tener una primer idea cómo se comporta nuestro método. Recordemos que en kNN para esas clases, los resultados eran los que tenían mayor variación. \\
 
-{\centering
-    \includegraphics[scale=0.65]{informe/imagenes/pca/variacionKClases1257PresRecall.pdf} \\
-    \captionof{figure}{Scores de clasificación para clases 1, 2, 5 y 7, con variación de k. Alpha=30 fijo.}
-}
+
+
+
+% {\centering
+%     \includegraphics[scale=0.65]{informe/imagenes/pca/variacionKClases1257PresRecall.pdf} \\
+%     \captionof{figure}{Scores de clasificación para clases 1, 2, 5 y 7, con variación de k. Alpha=30 fijo.}
+% }
 $ $\newline
 
-Lo que notamos en primer lugar es la similitud entre las clases. Mientras que con sólamente kNN las curvas se veían muy dispares (Ver Figura en~\ref{fig:knnclasesvariacion}) aquí podemos observar que PCA es bastante estable cuando consideramos diferentes clases. Lo segundo a notar es que con $k$ cercano a 4, los scores tienen un \textit{pequeño} salto positivo. Si bien esto es para un \textit{alpha} particular, esto es algo que se repite para diferentes valores de \textit{alpha}. Como adelantamos, nos interesará considerar el balance entre Precision y Recall, así que sólo mostraremos F1 para no sobrecargar los gráficos. \\
+\begin{figure}[H]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{informe/imagenes/pca/variacionKPrecision1257.pdf}
+  \captionof{figure}{Precision por clase}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+    \includegraphics[width=1.0\linewidth]{informe/imagenes/pca/variacionKRecall1257.pdf}
+    \captionof{figure}{Recall por clase}
+\end{minipage}
+\end{figure}
+
+
+{\centering
+  \includegraphics[width=0.5\linewidth]{informe/imagenes/pca/variacionKF11257.pdf}
+  \captionof{figure}{F1 por clase}
+}
+
+$ $\newline
+
+
+Lo que notamos en primer lugar es la similitud entre las clases. Las diferencias entre clases son menores a 0.05. Mientras que con sólamente kNN las curvas se veían muy dispares (Ver Figura en~\ref{fig:knnclasesvariacion}) aquí podemos observar que PCA es bastante estable cuando consideramos diferentes clases. Lo segundo a notar es que con $k$ cercano a 4, los scores tienen un \textit{pequeño} salto positivo. Si bien esto es para un \textit{alpha} particular, esto es algo que se repite para diferentes valores de \textit{alpha}. Como adelantamos, nos interesará considerar el balance entre Precision y Recall, así que sólo mostraremos F1 para no sobrecargar los gráficos. \\
 
 {\centering
     \includegraphics[scale=0.65]{informe/imagenes/pca/variacionKClases1257.pdf} \\
