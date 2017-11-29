@@ -47,13 +47,13 @@ Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias
 El siguiente experimento fue realizado tomando 10000 muestras de entrenamiento, dejando completamente fijas todas las variables excepto la cantidad de iteraciones. Lo único que intentamos determinar es la cantidad de iteraciones para las cuales la accuracy llega a su máximo. \\
 
 {\centering
-    \includegraphics[scale=0.55]{informe/imagenes/potencia/accuracyPorIters.pdf} \\
+    \includegraphics[scale=0.55]{informe/imagenes/potencia/accuracyPorItersREENTREGA.pdf} \\
     \captionof{figure}{Accuracy por cantidad de iteraciones. \\
     Todas las variables fijas \\ }
 }
 $ $\newline
 
-Como podemos ver, la accuracy se mantiene constante, con la excepción de las cercanías de 10 iteraciones dónde aún son demasiado pocas. Consideramos que no es necesario tomar una cantidad de iteraciones demasiado alta, ya que con aproximadamente 50 parece ser más que suficiente. Es lógico pensar que a mayor cantidad de iteraciones, más tarda nuestro sistema en entrenar. Veamos si el incremento es significativo: \\
+Como podemos ver, la accuracy se mantiene constante, con la excepción de las cercanías de 10 iteraciones dónde aún son demasiado pocas. Consideramos que no es necesario tomar una cantidad de iteraciones demasiado alta, ya que con aproximadamente 50 parece ser suficiente. Es lógico pensar que a mayor cantidad de iteraciones, más tarda nuestro sistema en entrenar. Veamos si el incremento es significativo: \\
 
 {\centering
     \includegraphics[scale=0.55]{informe/imagenes/potencia/tiempoPorIters.pdf} \\
@@ -62,7 +62,9 @@ Como podemos ver, la accuracy se mantiene constante, con la excepción de las ce
 }
 $ $\newline
 
-La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. Dado que no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
+La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. El aumento de tiempo nos parece claro: el tiempo del método de a potencia depende directamente de la cantidad de iteraciones especificada. Si se observa el pseudocódigo en la Sección 4, el ciclo principal se ejecuta exactamente $iters$ veces. \\
+
+Dado que casi no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
 
 \newpage
 \subsection{K-Fold Cross Validation}
