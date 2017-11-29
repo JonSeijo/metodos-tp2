@@ -12,9 +12,11 @@ typedef vector<double> imagen;
 
 int main(){
 
-    remove("result_knnPCA_rango_amplio.csv");
+    string nombreArchivo = "result_pca_rango_amplio_vol2.csv";
+
+    remove("result_pca_rango_amplio_vol2.csv");
     ofstream archivo;
-    archivo.open("result_knnPCA_rango_amplio.csv", ios::app | ios::out);
+    archivo.open(nombreArchivo, ios::app | ios::out);
     archivo << "cant_entrenemiento,clase,precision,recall,f1,tiempo_por_fold,tiempo_total_knn_pca,tiempo_total_fold\n";
     archivo.close();
 
@@ -26,7 +28,8 @@ int main(){
     string filepathTrain = "data/train.csv";
     string filepathTest = "data/test.csv";
 
-    vector<unsigned int> cantImagenesTrain = {50, 75, 100, 125, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000, 20000};
+    // vector<unsigned int> cantImagenesTrain = {50, 75, 100, 125, 150, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000, 20000};
+    vector<unsigned int> cantImagenesTrain = {42000};
     //int cantImagenesTrain = 10000;
     // Carga y handle de imagenes de training
     ImageHandler imageTrainHandler(filepathTrain);
@@ -97,20 +100,20 @@ int main(){
                 // Ya tengo los datos del fold listos para entrenarlos con el metodo elegido
 
                 auto start = ya();
-                
+
                 Matriz matrizDatos(imagenesDato);
                 PSA psa(matrizDatos, alpha, itersMetodoPotencia);
 
                 vector<vector<double> > datosConvertidos(cantImagenesEntrenamiento, vector<double>(alpha, 0));
 
-                // cout << "Aplicando transformaciones a los datos..\n";
+                cout << "Aplicando transformaciones a los datos..\n";
                 for (int i = 0; i < (int)imagenesDato.size(); i++) {
                     psa.Transformar(imagenesDato[i], datosConvertidos[i]);
                 }
-                
+
                 KNN knnador;
-                //knnador.train(labelsDato, datosConvertidos);
-                knnador.train(labelsDato, imagenesDato);
+                knnador.train(labelsDato, datosConvertidos);
+                // knnador.train(labelsDato, imagenesDato);
                 // Ahora voy a testear los el foldATestear
 
                 // @TODO: RECOPILAR ESTADISTICAS, DIFERENCIADAS POR CLASE Y TIRARLAS EN UN CSV PARA DESPUES EXPERIMENTAR
@@ -123,7 +126,11 @@ int main(){
                 // cout << "Aplicando knn.\n";
                 for (int j = 0; j < (int)folds_imagenes[foldATestear].size(); j++) {
 
-                    int labelObtenida = knnador.getGroupOf(folds_imagenes[foldATestear][j], k_knn);
+                    imagen convertida(alpha, 0);
+                    psa.Transformar(folds_imagenes[foldATestear][j], convertida);
+
+                    int labelObtenida = knnador.getGroupOf(convertida, k_knn);
+                    // int labelObtenida = knnador.getGroupOf(folds_imagenes[foldATestear][j], k_knn);
                     int labelReal = folds_labels[foldATestear][j];
 
                     if (labelObtenida == labelReal) {
@@ -156,15 +163,15 @@ int main(){
 
                 cout << "Tamanio entrenamiento: " << cantImagenesTrain[indice] << "\n";
                 ofstream archivo;
-                archivo.open("result_knnPCA_rango_amplio.csv", ios::app | ios::out);
+                archivo.open(nombreArchivo, ios::app | ios::out);
                 //archivo << "\ncant_entrenemiento, clase, precision, recall, f1, tiempo por fold, tiempo total knn, tiempo total fold\n";
-            
+
                 //Promedio entre folds
                 vector<double> precision_posta(10, 0);
                 vector<double> recall_posta(10, 0);
                 vector<double> f1_posta(10, 0);
                 for (int j = 0; j < 10; j++) {
-                    
+
                     double sumaPres = 0;
                     double sumaRec = 0;
                     double sumaF1 = 0;
@@ -173,11 +180,11 @@ int main(){
                         sumaRec += recall[fold][j];
                         sumaF1 += f1[fold][j];
                     }
-                    
+
                     precision_posta[j] = sumaPres / (double)K_kfold;
                     recall_posta[j] = sumaRec / (double)K_kfold;
                     f1_posta[j] = sumaF1 / (double)K_kfold;
-                    
+
                 }
 
                 double tiempo_posta = 0;
@@ -193,7 +200,7 @@ int main(){
                     archivo << recall_posta[j] << "," << f1_posta[j] << "," << setprecision(35) << tiempo_posta << "," << tiempoTotal << "," << tiemFold << "\n";
                 }
 
-                archivo.close();    
+                archivo.close();
 
     }
 
