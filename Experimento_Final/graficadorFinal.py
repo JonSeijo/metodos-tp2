@@ -11,7 +11,7 @@ violeta = '#591463'
 
 colores = [azul, verde, rojo, amarillo, violeta]
 
-CLASE = 9
+CLASE = 7
 
 # data_raw_pca = pd.read_csv('result_knnPCA_rango_amplio.csv')
 data_raw_pca = pd.read_csv('result_pca_rango_amplio_vol2.csv')
@@ -36,21 +36,21 @@ plt.clf()
 plot_grafo = (data_pca['f1'].mean()).plot(fontsize=13, figsize=(11,8), color=colores[0],
                 linestyle='--', marker='o')
 
-(data_knn['f1'].median()).plot(#ax=plot_grafo,
-    fontsize=13, figsize=(11,8), color=colores[1],
-                linestyle='--', marker='o')
+# (data_knn['f1'].median()).plot(#ax=plot_grafo,
+#     fontsize=13, figsize=(11,8), color=colores[1],
+#                 linestyle='--', marker='o')
 
 
 plot_grafo.set_title("Calidad variando la cantidad de imágenes - Clase " + str(CLASE), fontsize = 15)
 plot_grafo.set_ylabel("Score F1", size = 14)
 plot_grafo.set_xlabel("Cantidad de imágenes", size = 14)
-plot_grafo.legend(["F1 - PCA + kNN", "F1 - kNN"], fontsize = 14)
+plot_grafo.legend(["F1 - PCA + kNN", "F1 - kNN"], fontsize = 17)
 
 
 
 # plt.ylim([0.95,0.98])
 # plt.ylim([0.95,0.97])
 # plt.xlim([25,38])
-# plt.xlim([0,21])
+plt.xlim([-500,42600])
 
 plt.show()

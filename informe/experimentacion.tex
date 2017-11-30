@@ -292,9 +292,26 @@ Utilizando los datos reales, calculamos el mejor $alpha$ para cada clase, y prom
 
 \subsection{Calidad según cantidad de imágenes de entrenamiento}
 
+En los experimentos de PCA anteriores utilizamos el set completo de imágenes para el entrenamiento. ¿Era esto necesario? Para el siguiente experimento variaremos la cantidad de imágenes de entrenamiento y observaremos qué sucede con el F1 obtenido. Elegimos F1 ya que nos interesa conseguir un balance entre Precision y Recall. \\
 
-\todo[inline]{TERMINAR SUBSECCION}
+Nos parece intuitivo que se obtengan mejores resultados cuánto mas imágenes se utilizen para entrenar. A continuación los resultados para dos clases diferentes, todas se comportan de manera muy similar.
 
+{\centering
+    \includegraphics[scale=0.65]{informe/imagenes/cantimagenes/F1cantClase2REENTREGA.pdf} \\
+    \captionof{figure}{F1 para clase 2, variación de cantidad de imágenes de entrenamiento}
+}
+$ $\newline
+{\centering
+    \includegraphics[scale=0.65]{informe/imagenes/cantimagenes/F1cantClase5REENTREGA.pdf} \\
+    \captionof{figure}{F1 para clase 5, variación de cantidad de imágenes de entrenamiento}
+}
+$ $\newline
+
+Podemos observar que se cumple lo esperado. Esto es razonable, creemos que a medida que aumenta la cantidad de datos, es más probable que los vecinos de un valor sean de su misma clase. \\
+
+Nos resulta sorprendete la pendiente que observamos con poca cantidad de imágenes. Tiene sentido que con pocas imágenes se obtengan malos resultados, pero no creíamos que iban a mejorar tan bruscamente. Con alrededor de 4000 imágenes, nuestro score se estabiliza en valores superiores a 0.90. Pasadas las 15000 imágenes, las variaciones (si bien positivas) son mínimas. Entre 20000 imágenes y 42000, solo varían a partil del tercer decimal. \\
+
+En conclusión, siempre es mejor entrenar con una base lo más grande posible, pero una vez que ya es lo suficientemente grande (en nuestro caso 20000) las mejoras comienzan a ser casi imperceptibles. \\
 
 \subsection{Accuracy - Kaggle}
 
