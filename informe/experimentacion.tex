@@ -403,6 +403,26 @@ Para poder adaptar las imágenes a nuestro sistema realizamos los siguientes pas
 
 Los dígitos que utilizamos intentaron ser lo más naturales posibles, e incluimos unas pequeñas variaciones del 6 y el 9. Utilizamos el método de PCA, entrenando con las 42000 imágenes. Probamos para $alpha=31$ y $alpha=35$, que fueron nuestra estimación y lo mejor que obtuvimos en Kaggle, respectivamente. \\
 
+\begin{figure}[H]
+\centering
+\begin{minipage}{.33\textwidth}
+  \centering
+    \includegraphics[width=0.4\linewidth]{informe/imagenes/digit1v1.png}
+    \captionof{figure}{Resultado - 1}
+\end{minipage}%
+\begin{minipage}{.33\textwidth}
+  \centering
+  \includegraphics[width=0.4\linewidth]{informe/imagenes/digit4v1.png}
+  \captionof{figure}{Resultado - 4}
+\end{minipage}
+\begin{minipage}{.33\textwidth}
+  \centering
+    \includegraphics[width=0.4\linewidth]{informe/imagenes/digit8v1.png}
+    \captionof{figure}{Resultado - 8}
+\end{minipage}
+\end{figure}
+
+$ $\newline
 Algo a tener en cuenta, es que es posible que el escalado a 28x28 que realizamos haya logrado que la imagen original ya no sea tan reconocible. Hubiese sido interesante buscar algún metodo para realizar el proceso que degrade la imagen lo menos posible. \\
 
 A continuación, un cuadro comparativo con los resultados. \\
@@ -432,5 +452,3 @@ A continuación, un cuadro comparativo con los resultados. \\
 \item Con $alpha=31$ logramos un accuracy de $\frac{7}{12}$
 \item Con $alpha=35$ logramos un accuracy de $\frac{8}{12}$
 \end{itemize}
-
-Parece que Kaggle tenía razón :) \\
