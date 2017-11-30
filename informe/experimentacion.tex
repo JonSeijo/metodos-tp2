@@ -175,6 +175,14 @@ El objetivo de el experimento era tratar de estimar el mejor \textit{k} para kNN
 
 Sólo podemos quedarnos con un único k, y queremos \textit{favorecer} a todas las clases. Dado que el promedio es 2.9 y la mediana es 3, suponemos que el mejor k es 3.
 
+% \todo[inline]{Relacion entre k de kNN y el tamaño de la base de entrenamiento}
+Acabamos de concluir que $k=3$ es nuestro mejor parámetro, pero pensemos si tiene relación con la cantidad de imágenes que usamos para entrenar. \\
+
+Pensemos un poco en el extremo, ¿Qué pasaría si tuviesemos solo 20 imágenes de entrenamiento? Al haber tan pocos datos de cada clase, no tendría sentido considerar vecindades grandes, pues estaríamos considerando más vecinos que los existentes. \\
+
+Si tuviésemos 1000 imágenes de entrenamiento, ya tiene mas sentido pensar en vecindades pues hay mas datos de cada clase. Sin embargo, nuestro vectores viven en $\mathbb{R}^{784}$, así que por la maldición de la dimensionalidad, se encontrarán muy separados entre sí. Tomar una vecindad grande no implica que se consigan mejores resultados. De hecho, al estar tan dispersos no hay sectores bien marcados, por lo que la mayoria de los vecinos pueden no ser los de su propia clase. \\
+
+Nos parecía intuitivo que con una base mucho mas grande, como de 20000 imágenes, tomar una vecindad grande daría mas seguridad en la clasificación. Sin embargo, como vimos en el experimento anterior, en general son $k=3$ y $k=4$ con los que se obtienen los mejores resultados. Creemos entonces, que sin importar el tamaño de entrenamiento, los mejores resultados se obtienen con $k$ pequeños. \\
 
 
 \newpage
@@ -362,7 +370,7 @@ Como nota del experimento, fuimos aumentando la cantidad de imágenes total y es
 }
 $ $\newline
 
-Aquí vemos el resultado final. Para conjuntos pequeños de imágenes kNN es claramente más rápido. Esta diferencia inicial la explicamos por el tiempo de entrenamiendo de PCA, dónde contruir la matriz de covarianza y diagonalizar tiene un costo asociado. Sin embargo, los resultados con pacas imágenes no son interesantes, pues los entrenamientos con la mayor cantidad de datos posibles son los que logran mejores resultados. \\
+Aquí vemos el resultado final. Para conjuntos pequeños de imágenes kNN es claramente más rápido. Esta diferencia inicial la explicamos por el tiempo de entrenamiendo de PCA, dónde contruir la matriz de covarianza y diagonalizar tiene un costo asociado. Sin embargo, los resultados con pocas imágenes no son interesantes, pues los entrenamientos con la mayor cantidad de datos posibles son los que logran mejores resultados. \\
 
 A medida que la cantidad de imágenes va aumentando, la curva de tiempo de kNN crece con mayor velocidad, lo cual explica nuestra dificultad para trabajar con conjuntos grándes de imágenes. Con PCA esto no sucede, y de hecho hemos podido realizar nuestros experimentos con el conjunto completo de 42000 muestras sin mayores dificultades. Dado que lo deseable es realizar entrenamientos con cantidades grandes de imágenes, concluimos que PCA es el que tiene el mejor costo computacional. \\
 
