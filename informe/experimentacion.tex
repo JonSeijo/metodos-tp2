@@ -323,12 +323,12 @@ En conclusión, siempre es mejor entrenar con una base lo más grande posible, p
 
 \subsection{Accuracy - Kaggle}
 
-Tal como hicimos con el método de kNN, nos gustaría ver cuáles son los resultados de PCA en la competencia de Kaggle. Con esto esperamos obtener el accuracy para nuestro método con un set de datos para el cual no conocemos sus etiquetas, que no fue utilizado como parte del entrenamiento. Nos parece la mejor opción para medir la efectividad pues es lo más cercano que tenemos al ambiente fuera de nuestro entorno de pruebas. \\
+Tal como hicimos con el método de kNN, nos gustaría ver cuáles son los resultados de PCA en la competencia de Kaggle. Con esto esperamos obtener los parámetros adecuados viendo cuál es el accuracy obtenido para el set de datos de Kaggle. \\
 
-Nos gustaría ver, además, si el $alpha$ estimado se corresponde con el $alpha$ máximo en Kaggle. Creemos que en el caso de no ser exacto, estaremos muy cerca ya que nuestra recolección de datos sobre precision y recall fue bastante detallada. En el gráfico a continuación se muestran los resultados para diferentes $alpha$, siempre con $k=4$. \\
+Nos gustaría ver, además, si el $alpha$ estimado en la sección anterior se corresponde con el $alpha$ máximo en Kaggle. Creemos que en el caso de no ser exacto, estaremos muy cerca ya que nuestra recolección de datos sobre precision y recall fue bastante detallada. En el gráfico a continuación se muestran los resultados para diferentes $alpha$, siempre con $k=4$. \\
 
 {\centering
-    \includegraphics[scale=0.60]{informe/imagenes/pca/clasificacionKaggle.pdf} \\
+    \includegraphics[scale=0.55]{informe/imagenes/pca/clasificacionKaggleREENTREGA.pdf} \\
     \captionof{figure}{Accuracy en Kaggle variando alpha.\\Perfil del usuario utilizado: kaggle.com/jonnojs}
 }
 $ $\newline
@@ -351,7 +351,7 @@ Veamos los datos exactos de los 3 máximos puntajes comparados con nuestra predi
     \end{tabular}
 \end{center}
 
-La diferencia entre $alpha=31$ con el máximo es 0.00242. Es decir, nuestra predicción estuvo \textit{bastante cercana} pero no fue del todo precisa. Para descartar que sean diferencias producidas por la elección de $k$, se relizaron algunas pruebas con $k=3$ y $k=5$, y en todas se obtuvo un puntaje superio usando $k=4$. Concluimos que en Kaggle los mejores parámetros para PCA son $k=4$ y $alpha=35$.  \\
+La diferencia entre $alpha=31$ con el máximo es 0.00242. Es decir, nuestra predicción estuvo \textit{bastante cercana} pero no fue del todo precisa. Para descartar que sean diferencias producidas por la elección de $k$, se relizaron algunas pruebas con $k=3$ y $k=5$, y en todas se obtuvo un puntaje superio usando $k=4$. Concluimos que \textit{para Kaggle} los mejores parámetros para PCA son $k=4$ y $alpha=35$.  \\
 
 \newpage
 \section{Experimentación - Tiempo}
