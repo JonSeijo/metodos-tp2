@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def getFilename(cantImgs, alpha):
-    return "psa/psa_" + str(cantImgs) + "_alpha_" + str(alpha) + "result.txt"
+    return "psaPOSTA/psa/psa_" + str(cantImgs) + "_alpha_" + str(alpha) + "result.txt"
 
 verde = '#55A868'
 rojo = '#C44E52'
@@ -33,14 +33,18 @@ dataPostaPres = [[[] for _ in range(10)] for __ in range(len(KAES))]
 dataPostaRec = [[[] for _ in range(10)] for __ in range(len(KAES))]
 
 
-for alpha in range(1,41):
-    data_iters = pd.read_csv(getFilename(42000, alpha))
+# losalphas = [a for a in range(1,41)]
+losalphas = [40,50,60,75,100,150,200,400,600]
+cantidadImagenes = 20000
+
+
+for alpha in losalphas:
+    data_iters = pd.read_csv(getFilename(cantidadImagenes, alpha))
     data_iters['tiempo'] = data_iters['tiempo'] / 1000000000
     dataPorClase = data_iters.groupby('clase')
     dataPorKClase = data_iters.groupby(['k', 'clase'])
 
-    tipo = T_PRECISION
-    maxk = 7
+    maxk = 1
 
     for ki in range(len(KAES)):
 
@@ -56,9 +60,9 @@ for alpha in range(1,41):
             dataPlotF1[i] = dataPorClase[T_F1].get_group(i)[:maxk]
             dataPlotF1[i].index = [str(x) for x in range(1, maxk+1)]
 
-            dataPosta[ki][i].append(dataPlotF1[i][KAES[ki] - 1])
-            dataPostaPres[ki][i].append(dataPlotPrecision[i][KAES[ki] - 1])
-            dataPostaRec[ki][i].append(dataPlotRecall[i][KAES[ki] - 1])
+            dataPosta[ki][i].append(dataPlotF1[i][0])
+            dataPostaPres[ki][i].append(dataPlotPrecision[i][0])
+            dataPostaRec[ki][i].append(dataPlotRecall[i][0])
 
 
         #datas.append({T_PRECISION: dataPlotPrecision, T_RECALL: dataPlotRecall, T_F1: dataPlotF1})
@@ -92,32 +96,38 @@ axes_val = [(0,0), (0,1), (1,0), (1,1)]
 
 #"""
 
-fig, axes = plt.subplots(nrows=2, figsize=(13,10), ncols=2, subplot_kw={'ylim': (0.8, 1.1)})
+fig, axes = plt.subplots(nrows=2, figsize=(13,10), ncols=2
+    , subplot_kw={'ylim': (0.93, 1.0)}
+)
 fig.subplots_adjust(hspace=.6, wspace=.3)
 
 
 for i in range(0,len(clases)):
     #for ki in range(len(KAES)):
 
+    # axes[ axes_val[i][0] , axes_val[i][1] ].plot(
+    #     np.array(losalphas),
+    #     np.array(dataPostaPres[0][clases[i]]),
+    #     linestyle='--', marker='o'
+    # )
 
-    axes[ axes_val[i][0] , axes_val[i][1] ].plot(
-        np.array([j for j in range(1,41)]),
-        np.array(dataPostaPres[0][clases[i]])
-    )
+    # axes[ axes_val[i][0] , axes_val[i][1] ].plot(
+    #     np.array(losalphas),
+    #     np.array(dataPostaRec[0][clases[i]]),
+    #     linestyle='--', marker='o'
+    # )
 
+    # F1
     axes[ axes_val[i][0] , axes_val[i][1] ].plot(
-        np.array([j for j in range(1,41)]),
-        np.array(dataPostaRec[0][clases[i]])
-    )
-
-    axes[ axes_val[i][0] , axes_val[i][1] ].plot(
-        np.array([j for j in range(1,41)]),
-        np.array(dataPosta[0][clases[i]])
+        np.array(losalphas),
+        np.array(dataPosta[0][clases[i]]),
+        linestyle='--', marker='o', color=rojo
     )
 
     axes[ axes_val[i][0] , axes_val[i][1] ].set_title("\nClase: " + str(clases[i]))
-    axes[ axes_val[i][0] , axes_val[i][1] ].set_ylabel("Score F1", size = 14)
-    axes[ axes_val[i][0] , axes_val[i][1] ].legend(["Precision", "Recall", "F1"], fontsize = 11)
+    axes[ axes_val[i][0] , axes_val[i][1] ].set_ylabel("Score", size = 14)
+    # axes[ axes_val[i][0] , axes_val[i][1] ].legend(["Precision", "Recall", "F1"], fontsize = 11)
+    axes[ axes_val[i][0] , axes_val[i][1] ].legend(["F1"], fontsize = 11)
     axes[ axes_val[i][0] , axes_val[i][1] ].set_xlabel("Alpha", size = 12)
 
 """

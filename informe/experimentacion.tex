@@ -293,7 +293,13 @@ $ $\newline
 
 Algo que nos sorprendió es la velocidad con la cual se alcanza el máximo valor. Con aproximadamente 15 componentes principales ya se logra una efectividad comparable con kNN simple (728 componentes). \\
 
-Podemos observar que a partir de $alpha=25$ el score se estabiliza y se mantiene casi constante. Es aproximadamente para $alpha=40$ cuando empieza una \textit{muy leve} disminución del score, y las curvas de precision y recall comienzan a separarse. Lo esperable es que cuando $alpha$ sea demasiado grande el score disminuya aún mas, pues caemos nuevamente en la maldición de la dimensionalidad. Si bien sería interesante comprobarlo experimentalmente, no pudimos realizar el experimento. \\
+Podemos observar que a partir de $alpha=25$ el score se estabiliza y se mantiene casi constante. Es aproximadamente para $alpha=40$ cuando empieza una \textit{muy leve} disminución del score. Realizamos un segundo experimento, con $alphas$ mayores a 40 para observar que efectivamente se produce una disminución de calidad. \\
+
+{\centering
+    \includegraphics[scale=0.65]{informe/imagenes/pca/variacionAlphaClases1257KFijoCONTINUACION.pdf} \\
+    \captionof{figure}{Score de clasificación para clases 1, 2, 5 y 7, con variación de alpha.}
+}
+$ $\newline
 
 Utilizando los datos reales, calculamos el mejor $alpha$ para cada clase, y promediamos los resultados. Obtuvimos que (tanto con $k=4$ como con $k=5$) el óptimo se alcanza con $alpha=31$. \\
 
