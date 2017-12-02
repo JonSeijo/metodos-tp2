@@ -42,7 +42,7 @@ Dado que tenemos 10 clases diferentes para la clasificación, cuando calculemos 
 \newpage
 \subsection{Método de la potencia}
 
-Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias para el método de la potencia, ya que es algo necesario para todas las mediciones que hagamos. Como adelantamos, para que pasen los tests de la cátedra son necesarias mas de 1000 iteraciones, sin embargo, veremos que con muchas menos iteraciones nuestro accuracy no se modifica. \\
+Lo primero que nos gustaría ajustar será la cantidad de iteraciones necesarias para el método de la potencia, ya que es algo necesario para todas las mediciones que hagamos. Como adelantamos, para que pasen los tests de la cátedra son necesarias más de 1000 iteraciones, sin embargo, veremos que con muchas menos iteraciones nuestro accuracy no se modifica. \\
 
 El siguiente experimento fue realizado tomando 10000 muestras de entrenamiento, dejando completamente fijas todas las variables excepto la cantidad de iteraciones. Lo único que intentamos determinar es la cantidad de iteraciones para las cuales la accuracy llega a su máximo. \\
 
@@ -62,14 +62,14 @@ Como podemos ver, la accuracy se mantiene constante, con la excepción de las ce
 }
 $ $\newline
 
-La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. El aumento de tiempo nos parece claro: el tiempo del método de a potencia depende directamente de la cantidad de iteraciones especificada. Si se observa el pseudocódigo en la Sección 4, el ciclo principal se ejecuta exactamente $iters$ veces. \\
+La diferencia de tiempo es bastante notoria, sobre todo sabiendo que no estamos considerando la cantidad total de datos de entrenamiento. El aumento de tiempo nos parece claro: el tiempo del método de la potencia depende directamente de la cantidad de iteraciones especificada. Si se observa el pseudocódigo en la Sección 4, el ciclo principal se ejecuta exactamente $iters$ veces. \\
 
 Dado que casi no encontramos diferencias de accuracy pero sí de tiempo, a partir de ahora fijaremos el parámetro de iteraciones en 50. \\
 
 \newpage
 \subsection{K-Fold Cross Validation}
 
-Dado que en todos los experimentos que realicemos utilizaremos la técnica de K-Fold Cross Validation, nos interesa ver cuál es la cantidad adecuada de Folds que debemos usar. Para realizar el experimento utilizaremos el método de kNN, dado que es el mas simple. \\
+Dado que en todos los experimentos que realicemos utilizaremos la técnica de K-Fold Cross Validation, nos interesa ver cuál es la cantidad adecuada de Folds que debemos usar. Para realizar el experimento utilizaremos el método de kNN, dado que es el más simple. \\
 
 Debido a los costos de kNN, sumado a la cantidad de repeticiones por los folds, utilizaremos 10000 de las 42000 imágenes. Como lo que nos interesa es ver cómo varian los puntajes cuando aumentamos los folds, consideramos que 10000 muestras es lo suficientemente representativo. Esperamos obtener variaciones usando poca cantidad de Folds, pero esperamos que al aumentar la variable K_folds los puntajes de cada clase se estabilicen. \\
 
@@ -159,7 +159,7 @@ $ $\newline
 
 Lo primero que observamos es lo que nos sorprendió: todos comienzan con un Precision/Recall de aproximadamente 0.95, lo cual es un valor muy alto. Parece ser que pese a los problemas de dimensionalidad y del tamaño de la muestra, kNN se comporta bastante bien. Es esperable que con una muestra más grande se comporte mejor. Veremos más adelante qué dice Kaggle al respecto.\\
 
-Otra cosa que podemos observar, a partir de $k = 10$ Precision y Recall disminuyen a medida que aumentamos el $k$. Consideramos que este comportamiento tiene sentido ya que por el problema de la dimensionalidad, nuestros vectores estén muy dispersos, entonces con un \textit{k} mas grande los \textit{k} mas cercanos no necesariamente son los de su misma clase. \\
+Otra cosa que podemos observar, a partir de $k = 10$ Precision y Recall disminuyen a medida que aumentamos el $k$. Consideramos que este comportamiento tiene sentido ya que por el problema de la dimensionalidad, nuestros vectores estén muy dispersos, entonces con un \textit{k} más grande los \textit{k} más cercanos no necesariamente son los de su misma clase. \\
 
 Algo destacable es lo que sucede con la clase del 1 y la clase del 2. Las curvas de Precision y de Recall son opuestas. Si categorizamos una imagen como un 2, es muy probable que sea un 2 realmente. Es decir, cuando lo categorizamos como un 2, no nos equivocamos. Sin embargo, hay muchas imágenes que realmente son 2 pero que no las categorizamos como tal. Con la clase del 1 nos pasa exactamente lo contrario. \\
 
@@ -180,9 +180,9 @@ Acabamos de concluir que $k=3$ es nuestro mejor parámetro, pero pensemos si tie
 
 Pensemos un poco en el extremo, ¿Qué pasaría si tuviesemos solo 20 imágenes de entrenamiento? Al haber tan pocos datos de cada clase, no tendría sentido considerar vecindades grandes, pues estaríamos considerando más vecinos que los existentes. \\
 
-Si tuviésemos 1000 imágenes de entrenamiento, ya tiene mas sentido pensar en vecindades pues hay mas datos de cada clase. Sin embargo, nuestro vectores viven en $\mathbb{R}^{784}$, así que por la maldición de la dimensionalidad, se encontrarán muy separados entre sí. Tomar una vecindad grande no implica que se consigan mejores resultados. De hecho, al estar tan dispersos no hay sectores bien marcados, por lo que la mayoria de los vecinos pueden no ser los de su propia clase. \\
+Si tuviésemos 1000 imágenes de entrenamiento, ya tiene más sentido pensar en vecindades pues hay más datos de cada clase. Sin embargo, nuestro vectores viven en $\mathbb{R}^{784}$, así que por la maldición de la dimensionalidad, se encontrarán muy separados entre sí. Tomar una vecindad grande no implica que se consigan mejores resultados. De hecho, al estar tan dispersos no hay sectores bien marcados, por lo que la mayoria de los vecinos pueden no ser los de su propia clase. \\
 
-Nos parecía intuitivo que con una base mucho mas grande, como de 20000 imágenes, tomar una vecindad grande daría mas seguridad en la clasificación. Sin embargo, como vimos en el experimento anterior, en general son $k=3$ y $k=4$ con los que se obtienen los mejores resultados. Creemos entonces, que sin importar el tamaño de entrenamiento, los mejores resultados se obtienen con $k$ pequeños. \\
+Nos parecía intuitivo que con una base mucho más grande, como de 20000 imágenes, tomar una vecindad grande daría más seguridad en la clasificación. Sin embargo, como vimos en el experimento anterior, en general son $k=3$ y $k=4$ con los que se obtienen los mejores resultados. Creemos entonces, que sin importar el tamaño de entrenamiento, los mejores resultados se obtienen con $k$ pequeños. \\
 
 
 \newpage
@@ -214,10 +214,10 @@ Si bien nuestra predicción no fue perfecta, estuvo bastante cerca. Para una mej
 \end{center}
 
 
-En primer lugar, notar que k=1 y k=2 tienen el mismo puntaje. Esto es razonable, si consideramos que con k=2 las posibilidades sobre las clases del primer y segundo mas cercano son las siguientes: \\
+En primer lugar, notar que k=1 y k=2 tienen el mismo puntaje. Esto es razonable, si consideramos que con k=2 las posibilidades sobre las clases del primer y segundo más cercano son las siguientes: \\
 \begin{itemize}
 \item Si el primero es de clase X y el segundo es de clase X, entonces elegimos clase X
-\item Si el primero es de clase X y el segundo es de clase Z, entonces igual nos quedamos con X pues fue el mas cercano.
+\item Si el primero es de clase X y el segundo es de clase Z, entonces igual nos quedamos con X pues fue el más cercano.
 \end{itemize}
 
 Es decir, k=2 se comporta exactamente igual que no considerar ninguna vecindad. \\
@@ -279,9 +279,9 @@ Lo que notamos en primer lugar es la similitud entre las clases. Las diferencias
 }
 $ $\newline
 
-Vemos que la tendencia del mejor $k$ es cercano a 4 se mantiene. No estamos mostrando el gráfico para las demás clases (que se ven extremadamente similares) pero mas allá del gráfico, tenemos los datos reales. Tomando promedios (para cada clase) variando \textit{alpha}, obtuvimos que el mejor $k$ es $k=4$ en muchas de las clases, y $k=5$ para otras. Si bien por poco margen, $k=4$ tiene mayoría así que será el $k$ elegido. Dependiendo cómo están distribuidos los datos, es posible que esto no siempre sea el mejor, sin embargo creemos que es la mejor aproximación. \\
+Vemos que la tendencia del mejor $k$ es cercano a 4 se mantiene. No estamos mostrando el gráfico para las demás clases (que se ven extremadamente similares) pero más allá del gráfico, tenemos los datos reales. Tomando promedios (para cada clase) variando \textit{alpha}, obtuvimos que el mejor $k$ es $k=4$ en muchas de las clases, y $k=5$ para otras. Si bien por poco margen, $k=4$ tiene mayoría así que será el $k$ elegido. Dependiendo cómo están distribuidos los datos, es posible que esto no siempre sea el mejor, sin embargo creemos que es la mejor aproximación. \\
 
-Ya tenemos fijo $k$, queremos determinar $alpha$. Para esto dejemos fijo $k=4$. Lo que esperamos obtener es una mejora de score a medida que aumentemos el $alpha$, pues cuántas mas componentes consideremos, más precisios deberían ser las clasificaciones. \\
+Ya tenemos fijo $k$, queremos determinar $alpha$. Para esto dejemos fijo $k=4$. Lo que esperamos obtener es una mejora de score a medida que aumentemos el $alpha$, pues cuántas más componentes consideremos, más precisios deberían ser las clasificaciones. \\
 
 Creemos que no tiene demasiado sentido mostrar los gráficos de las 10 clases pues son muy similares, así que continuemos con las 4 clases tomadas anteriormente. Los resultados obtenidos son los siguientes: \\
 
@@ -308,7 +308,7 @@ Utilizando los datos reales, calculamos el mejor $alpha$ para cada clase, y prom
 
 En los experimentos de PCA anteriores utilizamos el set completo de imágenes para el entrenamiento. ¿Era esto necesario? Para el siguiente experimento variaremos la cantidad de imágenes de entrenamiento y observaremos qué sucede con el F1 obtenido. Elegimos F1 ya que nos interesa conseguir un balance entre Precision y Recall. \\
 
-Nos parece intuitivo que se obtengan mejores resultados cuánto mas imágenes se utilizen para entrenar. A continuación los resultados para dos clases diferentes, todas se comportan de manera muy similar.
+Nos parece intuitivo que se obtengan mejores resultados cuánto más imágenes se utilizen para entrenar. A continuación los resultados para dos clases diferentes, todas se comportan de manera muy similar.
 
 {\centering
     \includegraphics[scale=0.65]{informe/imagenes/cantimagenes/F1cantClase2REENTREGA.pdf} \\
@@ -364,7 +364,7 @@ La diferencia entre $alpha=31$ con el máximo es 0.00242. Es decir, nuestra pred
 
 Para cerrar con nuestra experimentación, queremos mostrar una comparación entre ambos métodos con respecto al tiempo de ejecución. \\
 
-En kNN, cada vez que comparamos dos vectores debemos analizar 728 componentes, mientras que con PCA nos basta con analizar alrededor de 30 componentes. Esto nos dá la pauta que la clasificación será mucho mas rápida con el segundo método. Sin embargo, en PCA tenemos el costo adicional de crear la matriz de covarianza y diagonalizarla, que no algo manor. Entonces la pregunta que nos hacemos es, ¿esto \textit{compensa} los costos de alguna manera? ¿Cuál sera mas rápido? \\
+En kNN, cada vez que comparamos dos vectores debemos analizar 728 componentes, mientras que con PCA nos basta con analizar alrededor de 30 componentes. Esto nos dá la pauta que la clasificación será mucho más rápida con el segundo método. Sin embargo, en PCA tenemos el costo adicional de crear la matriz de covarianza y diagonalizarla, que no algo manor. Entonces la pregunta que nos hacemos es, ¿esto \textit{compensa} los costos de alguna manera? ¿Cuál sera más rápido? \\
 
 En las mediciones tomadas, los $k$ y $alpha$ están fijos en ambos métodos. Las diferencias temporales que podrían surgir por la elección de estos parámetros son constantes en el límite, por lo que al ir aumentando la cantidad de imágenes dejan de tener relevancia. Los tiempos no se obtuvieron en una única pasada, sino que ejecutamos los métodos varias veces y lo que graficamos es el promedio obtenido. \\
 
